@@ -1,0 +1,3 @@
+The event handlers of routes are commonly referred to as controllers, and for this reason 
+we have created a new controllers directory. All of the routes related to models are 
+now in the [models].js module under the controllers directory

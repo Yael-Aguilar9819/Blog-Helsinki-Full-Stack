@@ -1,0 +1,3 @@
+Here should be the files that represent each of the models in the Database
+in this case, MONGODB Atlas remote DB
+Only the models should be here, the connection to the DB is going to be made in app.js 

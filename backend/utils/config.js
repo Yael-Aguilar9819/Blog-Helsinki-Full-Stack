@@ -1,4 +1,4 @@
-//this file contains all the enviroment variables used in the app
+// This file contains all the enviroment variables used in the app
 require('dotenv').config();
 
 const { PORT } = process.env;
