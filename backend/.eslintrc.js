@@ -19,6 +19,7 @@ module.exports = {
     'react',
   ],
   rules: {
+    'no-underscore-dangle': 'off',
     'no-use-before-define': [
       'error', { functions: false, classes: false, variables: false },
     ],
