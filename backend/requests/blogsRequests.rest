@@ -1,13 +1,14 @@
-###This is the entry-point 
+// This is the entry-point 
+###
 GET http://localhost:3003/api/blogs
 
-### To create a new blog POST 
-POST http://localhost:3003/api/blogs 
+### To create a new note
+POST http://localhost:3003/api/blogs
 content-type: application/json
 
 {
   "title": "first blog",
   "author": "tester",
   "url": "www.test.com",
-  "likes": 4231,
+  "likes": 42
 }
