@@ -8,7 +8,7 @@ const blogSchema = new mongoose.Schema({
   likes: Number,
 });
 
-// It's necessary to reassign params in this case, because otherwise it would return a 
+// It's necessary to reassign params in this case, because otherwise it would return a
 /* eslint-disable no-param-reassign */
 blogSchema.set('toJSON', {
   transform: (document, returnedObject) => {
