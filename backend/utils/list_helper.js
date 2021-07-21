@@ -1,8 +1,7 @@
-const dummy = (blogs) => {
-    // ...
-    return 1;
-  }
-  
-  module.exports = {
-    dummy
-  }
+const dummy = blogs =>
+// ...
+  1;
+
+module.exports = {
+  dummy,
+};
