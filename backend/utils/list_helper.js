@@ -9,9 +9,11 @@ const totalLikes = arrayOfBlogs => {
 }
 
 const favoriteBlog = arrayOfBlogs => {
-  const mostNumberOfLikes = (biggestSeen, currBlog) => biggestSeen.likes > currBlog.likes ? null : biggestSeen = currBlog;
-  return arrayOfBlogs.reduce(mostNumberOfLikes) // The starting value is 0 so it works corcectly
-}
+  const mostNumberOfLikes = (biggestSeen, currBlog) => {
+    if (biggestSeen.likes < currBlog.likes) {biggestSeen = currBlog}
+  };
+  return arrayOfBlogs.reduce(mostNumberOfLikes, {likes:-1}) // The starting value is 0 so it works corcectly
+} 
 
 module.exports = {
   dummy,

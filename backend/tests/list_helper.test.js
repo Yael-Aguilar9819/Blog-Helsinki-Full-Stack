@@ -36,11 +36,11 @@ describe('Max number of likes', () => {
 
   test('when list has only one blog, equals the likes of that', () => {
     const result = listHelper.favoriteBlog(mockBlogs.listWithOneBlog)
-    expect(result).toBe(5)
+    expect(result).toBe(mockBlogs.listWithOneBlog[0])
   })
 
   test('A big list is correctly calculated with the blog with the max number of likes returned', () => {
     const result = listHelper.favoriteBlog(mockBlogs.listOfBlogs)
-    expect(result).toBe(36)
+    expect(result).toBe(12)
   })
 })
