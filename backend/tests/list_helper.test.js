@@ -1,4 +1,5 @@
 const listHelper = require('../utils/list_helper');
+const mockBlogs = require('./mockBlogs');
 
 // The dummy first test
 test('dummy returns one', () => {
@@ -8,6 +9,7 @@ test('dummy returns one', () => {
   expect(result).toBe(1);
 });
 
+
 // This is a series of test with common possible cases, may be expanded in the future
 describe('total likes', () => {
 
@@ -16,75 +18,29 @@ describe('total likes', () => {
     expect(result).toBe(0)
   });
 
-  const listWithOneBlog = [
-    {
-      _id: '5a422aa71b54a676234d17f8',
-      title: 'Go To Statement Considered Harmful',
-      author: 'Edsger W. Dijkstra',
-      url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
-      likes: 5,
-      __v: 0
-    }
-  ]
-
   test('when list has only one blog, equals the likes of that', () => {
-    const result = listHelper.totalLikes(listWithOneBlog)
+    const result = listHelper.totalLikes(mockBlogs.listWithOneBlog)
     expect(result).toBe(5)
   })
 
-  const listOfBlogs = [
-    {
-    _id: "5a422a851b54a676234d17f7",
-    title: "React patterns",
-    author: "Michael Chan",
-    url: "https://reactpatterns.com/",
-    likes: 7,
-    __v: 0
-  },
-  {
-    _id: "5a422aa71b54a676234d17f8",
-    title: "Go To Statement Considered Harmful",
-    author: "Edsger W. Dijkstra",
-    url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
-    likes: 5,
-    __v: 0
-  },
-  {
-    _id: "5a422b3a1b54a676234d17f9",
-    title: "Canonical string reduction",
-    author: "Edsger W. Dijkstra",
-    url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
-    likes: 12,
-    __v: 0
-  },
-  {
-    _id: "5a422b891b54a676234d17fa",
-    title: "First class tests",
-    author: "Robert C. Martin",
-    url: "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
-    likes: 10,
-    __v: 0
-  },
-  {
-    _id: "5a422ba71b54a676234d17fb",
-    title: "TDD harms architecture",
-    author: "Robert C. Martin",
-    url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
-    likes: 0,
-    __v: 0
-  },
-  {
-    _id: "5a422bc61b54a676234d17fc",
-    title: "Type wars",
-    author: "Robert C. Martin",
-    url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
-    likes: 2,
-    __v: 0
-  }  
-  ]
-
   test('A big list is correctly calculated', () => {
-    const result = listHelper.totalLikes(listOfBlogs)
+    const result = listHelper.totalLikes(mockBlogs.listOfBlogs)
+    expect(result).toBe(36)
+  })
+})
+
+describe('Max number of likes', () => {
+  test("empty list returns 0", () => {
+    const result = listHelper.favoriteBlog([])
+  })
+
+  test('when list has only one blog, equals the likes of that', () => {
+    const result = listHelper.favoriteBlog(mockBlogs.listWithOneBlog)
+    expect(result).toBe(5)
+  })
+
+  test('A big list is correctly calculated with the blog with the max number of likes returned', () => {
+    const result = listHelper.favoriteBlog(mockBlogs.listOfBlogs)
     expect(result).toBe(36)
   })
 })
