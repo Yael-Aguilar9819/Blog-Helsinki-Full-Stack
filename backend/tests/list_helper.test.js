@@ -41,6 +41,6 @@ describe('Max number of likes', () => {
 
   test('A big list is correctly calculated with the blog with the max number of likes returned', () => {
     const result = listHelper.favoriteBlog(mockBlogs.listOfBlogs)
-    expect(result).toBe(12)
+    expect(result).toBe(mockBlogs.listOfBlogs[2])
   })
 })
