@@ -28,12 +28,19 @@ const mostBlogs = arrayOfBlogs => {
   // [0] gets the name
   // [1].length gets the array length of blogs
     .map(author => ({ author: author[0], blogs: author[1].length }))
-    .reduce((mostProlificSeen, currAuthor) => {
-      if (!mostProlificSeen.blogs) return currAuthor; // This exploits that undefined is always false
-      return (mostProlificSeen.blogs < currAuthor.blogs ? currAuthor : mostProlificSeen);
-    }, {});
+    .reduce(toSumToACharacteristic(mostProlificSeen, currAuthor, "blog"), {});
+    // .reduce((mostProlificSeen, currAuthor) => {
+    //   if (!mostProlificSeen.blogs) return currAuthor; // This exploits that undefined is always false
+    //   return (mostProlificSeen.blogs < currAuthor.blogs ? currAuthor : mostProlificSeen);
+    // }, {});
   return authorWithMostBlogs;
 };
+
+
+const toSumToACharacteristic = (baseObject, currentObject, charaToCount) => {
+  if (!baseObject.charaToCount) return currentObject;
+  return (baseObject.charaToCount < currentObject.charaToCount ? currentObject : baseObject);
+}
 
 module.exports = {
   dummy,
