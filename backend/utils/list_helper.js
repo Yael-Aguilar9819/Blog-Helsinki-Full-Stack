@@ -11,30 +11,29 @@ const totalLikes = arrayOfBlogs => {
 const favoriteBlog = arrayOfBlogs => { // Using reduce it's not very efficient but its immutable
   // Now it's a single line, and much clearer
   const mostNumberOfLikes = (biggestSeen, currBlog) => {
-    if (!biggestSeen.likes) return currBlog // This exploits that undefined is always false
+    if (!biggestSeen.likes) return currBlog; // This exploits that undefined is always false
     return (biggestSeen.likes < currBlog.likes ? currBlog : biggestSeen);
   };
   // The starting value is -1 so it can compare correctly
   return arrayOfBlogs.reduce(mostNumberOfLikes, {});
 };
 
-//Returns an object with the author name that has the most blogs
+// Returns an object with the author name that has the most blogs
 const mostBlogs = arrayOfBlogs => {
-  //This groups by each of the authors
+  // This groups by each of the authors
   const groupedByNumberOfBlogsByAuthor = _
-    .groupBy(arrayOfBlogs, "author")
+    .groupBy(arrayOfBlogs, 'author');
 
-  const authorWithMostBlogs = 
-    Object.entries(groupedByNumberOfBlogsByAuthor)
-      // [0] gets the name
-      // [1].length gets the array length of blogs 
-    .map(author => {return {author: author[0], blogs: author[1].length}})
+  const authorWithMostBlogs = Object.entries(groupedByNumberOfBlogsByAuthor)
+  // [0] gets the name
+  // [1].length gets the array length of blogs
+    .map(author => ({ author: author[0], blogs: author[1].length }))
     .reduce((mostProlificSeen, currAuthor) => {
-      if (!mostProlificSeen.blogs) return currAuthor //This exploits that undefined is always false
+      if (!mostProlificSeen.blogs) return currAuthor; // This exploits that undefined is always false
       return (mostProlificSeen.blogs < currAuthor.blogs ? currAuthor : mostProlificSeen);
-    }, {})
+    }, {});
   return authorWithMostBlogs;
-}
+};
 
 module.exports = {
   dummy,
