@@ -30,7 +30,7 @@ describe('total likes', () => {
 describe('Max number of likes', () => {
   test('empty list returns empty object', () => {
     const result = listHelper.favoriteBlog([]);
-    expect(result).toEqual({likes: -1});
+    expect(result).toEqual({});
   });
 
   test('when list has only one blog, equals the likes of that', () => {
@@ -47,7 +47,7 @@ describe('Max number of likes', () => {
 
 
 describe("Authors with the most number of blogs", () => {
-  test('empty list returns 0', () => {
+  test('empty list returns empty object', () => {
     const result = listHelper.mostBlogs([]);
     expect(result).toEqual({})
   });
@@ -58,7 +58,7 @@ describe("Authors with the most number of blogs", () => {
   });
 
   test('A big list is correctly calculated with the blog with the max number of likes returned', () => {
-    const result = listHelper.favoriteBlog(mockBlogs.listOfBlogs);
+    const result = listHelper.mostBlogs(mockBlogs.listOfBlogs);
     expect(result).toEqual({author: "Robert C. Martin", blogs: 3});
   });
 });
