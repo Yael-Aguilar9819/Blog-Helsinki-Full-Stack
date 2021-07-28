@@ -55,7 +55,7 @@ describe('Authors with the most number of blogs', () => {
     expect(result).toEqual({ author: 'Edsger W. Dijkstra', blogs: 1 });
   });
 
-  test('A big list is correctly calculated with the blog with the max number of likes returned', () => {
+  test('A big list is correctly calculated with the author with the most blogs returned alongside its number', () => {
     const result = listHelper.mostBlogs(mockBlogs.listOfBlogs);
     expect(result).toEqual({ author: 'Robert C. Martin', blogs: 3 });
   });
