@@ -61,21 +61,19 @@ describe('Authors with the most number of blogs', () => {
   });
 });
 
-
 describe('Authors with the most number of likes', () => {
   test('empty list returns empty object', () => {
     const result = listHelper.mostLikes([]);
     expect(result).toEqual({});
   });
 
-  test('when list has only one blog, equals the author of that', () => {
+  test('when list has only one blog, equals the likes and author of that', () => {
     const result = listHelper.mostLikes(mockBlogs.listWithOneBlog);
     expect(result).toEqual({ author: 'Edsger W. Dijkstra', likes: 5 });
   });
 
-  test('A big list is correctly calculated with the author with the most blogs returned alongside its number', () => {
+  test('A big list is correctly calculated with the author with the most likes returned alongside its number', () => {
     const result = listHelper.mostLikes(mockBlogs.listOfBlogs);
     expect(result).toEqual({ author: 'Edsger W. Dijkstra', likes: 17 });
   });
 });
-

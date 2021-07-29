@@ -26,7 +26,6 @@ const mostBlogs = arrayOfBlogs => {
   return authorWithMostBlogs;
 };
 
-
 const mostLikes = arrayOfBlogs => {
   const groupedByNumberOfBlogsByLikes = _
     .groupBy(arrayOfBlogs, 'author');
@@ -34,14 +33,15 @@ const mostLikes = arrayOfBlogs => {
   const authorWithMostBlogs = Object.entries(groupedByNumberOfBlogsByLikes)
   // [0] gets the name
   // [1] gets the array length of blogs
-  .map(author => ({ author: author[0], likes: sumLikesFromBlogs(author[1]) }))
-  .reduce(toSumToACharacteristic('likes'), {});
-  return authorWithMostBlogs
-}
+    .map(author => ({ author: author[0], likes: sumLikesFromBlogs(author[1]) }))
+    .reduce(toSumToACharacteristic('likes'), {});
+  return authorWithMostBlogs;
+};
 
 // This function is a HOF that return a function suitable for reduce
 const toSumToACharacteristic = charaToCount => {
-  const functionToReduce = (baseObject, currentObject) => { // Returns a funcition suitable for reduce
+  // Returns a function suitable for reduce
+  const functionToReduce = (baseObject, currentObject) => {
     // This exploits that the undefined it's always false
     if (!baseObject[charaToCount]) return currentObject;
     return (baseObject[charaToCount] < currentObject[charaToCount] ? currentObject : baseObject);
@@ -49,13 +49,15 @@ const toSumToACharacteristic = charaToCount => {
   return functionToReduce;
 };
 
+// This function processes the array of blogs to extract the likes
+// in a way that could be usable by toSumToACharacteristic
 const sumLikesFromBlogs = arrayOfBlogs => {
   const totalOfLikes = arrayOfBlogs.reduce((sumofLikes, currentBlog) => {
-    sumofLikes += currentBlog.likes
-    return sumofLikes
-  }, 0)
+    sumofLikes += currentBlog.likes;
+    return sumofLikes;
+  }, 0);
   return totalOfLikes;
-}
+};
 
 module.exports = {
   dummy,
