@@ -1,5 +1,5 @@
 const listHelper = require('../utils/list_helper');
-const mockBlogs = require('./mockBlogs');
+const mockBlogs = require('./mock_blogs');
 
 // The dummy first test
 test('dummy returns one', () => {
