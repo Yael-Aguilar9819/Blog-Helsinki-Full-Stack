@@ -2,12 +2,10 @@ const blogRouter = require('express').Router();
 const Blog = require('../models/blog'); // With '..' go back 1 dir
 
 // This are the main routes of the blog file
-blogRouter.get('/', (request, response) => {
-  Blog
-    .find({})
-    .then(blogs => {
-      response.json(blogs);
-    });
+// Now it's refactored into an async/await function
+blogRouter.get('/', async (request, response) => {
+  const allBlogs = await Blog.find({});
+  response.json(allBlogs);
 });
 
 blogRouter.post('/', (request, response) => {

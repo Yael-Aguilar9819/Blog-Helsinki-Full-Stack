@@ -1,5 +1,3 @@
-const dummy = blogs => 1;
-
 const _ = require('lodash');
 
 const totalLikes = arrayOfBlogs => {
@@ -60,7 +58,6 @@ const sumLikesFromBlogs = arrayOfBlogs => {
 };
 
 module.exports = {
-  dummy,
   totalLikes,
   favoriteBlog,
   mostBlogs,

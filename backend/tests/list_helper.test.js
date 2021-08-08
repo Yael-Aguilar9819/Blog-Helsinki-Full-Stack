@@ -1,14 +1,6 @@
 const listHelper = require('../utils/list_helper');
 const mockBlogs = require('./mock_blogs');
 
-// The dummy first test
-test('dummy returns one', () => {
-  const blogs = [];
-
-  const result = listHelper.dummy(blogs);
-  expect(result).toBe(1);
-});
-
 // This is a series of test with common possible cases, may be expanded in the future
 describe('total likes', () => {
   test('empty list returns 0', () => {
