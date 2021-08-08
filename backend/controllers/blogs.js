@@ -1,6 +1,5 @@
 const blogRouter = require('express').Router();
 const Blog = require('../models/blog'); // With '..' go back 1 dir
-const logger = require('../utils/logger');
 
 // This are the main routes of the blog file
 blogRouter.get('/', (request, response) => {
