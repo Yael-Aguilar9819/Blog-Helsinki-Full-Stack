@@ -17,13 +17,11 @@ mongoose.connect(mongoUrl, {
 app.use(cors());
 app.use(express.json());
 
-// This middleware prints every incoming request, no matter the method
-app.use(middleware.requestLogger);
-
 // Being a router means that every endpoint + the post URL will be redirected here
 app.use('/api/blogs', blogRouter);
 
-const PORT = 3003;
-app.listen(PORT, () => {
-  logger.info(`Server running on port ${PORT}`);
-});
+// This middleware prints every incoming request, no matter the method
+app.use(middleware.requestLogger);
+app.use(middleware.unknownEndpoint);
+
+module.exports = app;

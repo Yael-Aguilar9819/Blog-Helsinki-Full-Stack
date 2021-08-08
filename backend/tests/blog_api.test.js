@@ -4,11 +4,11 @@ const app = require('../app');
 
 const api = supertest(app);
 
-test('notes are returned as json', async () => {
+test('blogs are returned as json', async () => {
   await api
     .get('/api/blogs')
-    .expect(200);
-  //   .expect('Content-Type', /application\/json/)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
 });
 
 afterAll(() => {
