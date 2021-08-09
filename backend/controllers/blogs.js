@@ -2,7 +2,7 @@ const blogRouter = require('express').Router();
 const Blog = require('../models/blog'); // With '..' go back 1 dir
 
 // This are the main routes of the blog file
-// Now it's refactored into an async/await function
+// Now it's refactored into an async/await functions
 blogRouter.get('/', async (request, response) => {
   const allBlogs = await Blog.find({});
   response.json(allBlogs);

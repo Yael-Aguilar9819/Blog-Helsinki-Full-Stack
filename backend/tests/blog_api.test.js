@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const supertest = require('supertest');
 const helperToDB = require('./helper_to_db');
 const Blog = require('../models/blog'); // With '..' go back 1 dir
-
 const app = require('../app');
 
 const api = supertest(app);
@@ -38,7 +37,7 @@ test('Blogs have the id parameter defined', async () => {
   expect(blogs[0].id).toBeDefined();
 });
 
-test('A new blog is added to the remoteDB', async () => {
+describe('Post request works according to spec', () => {
   const newBlog = {
     title: 'New Blog 232',
     author: 'Josh cracker',
@@ -46,15 +45,27 @@ test('A new blog is added to the remoteDB', async () => {
     likes: 13,
   };
 
-  // This line sends the new blog, but doesn't care for it's response
-  await api.post('/api/blogs').send(newBlog);
+  test('The remoteDB adds 1 to the length after adding a new blog post', async () => {
+    // This line sends the new blog, but doesn't care for it's response
+    await api.post('/api/blogs').send(newBlog);
 
-  // Then we get the blogs in the DB
-  const response = await api.get('/api/blogs');
-  const blogs = response.body;
+    // Then we get the blogs in the DB
+    const response = await api.get('/api/blogs');
+    const blogs = response.body;
 
-  // 1 is added to signify that the array is now 1 item larger
-  expect(blogs).toHaveLength(helperToDB.listOfBlogsToDB.length + 1);
+    // 1 is added to signify that the array is now 1 item larger
+    expect(blogs).toHaveLength(helperToDB.listOfBlogsToDB.length + 1);
+  });
+
+  test('The object returned from the RemoteDB its the same as the one sent', async () => {
+    const response = await api.post('/api/blogs').send(newBlog);
+    const blogFromServer = response.body;
+
+    // Then each of the relevant categories it's checked for equality
+    const results = Object.keys(newBlog).map(property => {
+      expect(blogFromServer[property]).toEqual(newBlog[property])}
+      );
+  });
 });
 
 afterAll(() => {
