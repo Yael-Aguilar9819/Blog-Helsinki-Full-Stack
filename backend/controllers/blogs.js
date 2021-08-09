@@ -8,13 +8,12 @@ blogRouter.get('/', async (request, response) => {
   response.json(allBlogs);
 });
 
-blogRouter.post('/', (request, response) => {
+blogRouter.post('/', async (request, response) => {
   const blog = new Blog(request.body);
-  blog
-    .save()
-    .then(result => {
-      response.status(201).json(result);
-    });
+  // The server response it's the same blog with the id
+  const responseFromServer = await blog.save();
+  // Then it's converted to json and returned to whatever method called POST
+  response.status(201).json(responseFromServer);
 });
 
 module.exports = blogRouter;

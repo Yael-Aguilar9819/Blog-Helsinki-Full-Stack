@@ -28,7 +28,7 @@ test('blogs are returned as json', async () => {
 test('Blogs returned are the correct number', async () => {
   const response = await api.get('/api/blogs');
   const blogs = response.body; // the .body call should be done in another line
-  expect(blogs).toHaveLength(4);
+  expect(blogs).toHaveLength(helperToDB.listOfBlogsToDB.length);
 });
 
 // Now we can verify that the id parameter is changed to "id" from "_id"
@@ -36,6 +36,25 @@ test('Blogs have the id parameter defined', async () => {
   const response = await api.get('/api/blogs');
   const blogs = response.body;
   expect(blogs[0].id).toBeDefined();
+});
+
+test('A new blog is added to the remoteDB', async () => {
+  const newBlog = {
+    title: 'New Blog 232',
+    author: 'Josh cracker',
+    url: 'www.idontknow.com',
+    likes: 13,
+  };
+
+  // This line sends the new blog, but doesn't care for it's response
+  await api.post('/api/blogs').send(newBlog);
+
+  // Then we get the blogs in the DB
+  const response = await api.get('/api/blogs');
+  const blogs = response.body;
+
+  // 1 is added to signify that the array is now 1 item larger
+  expect(blogs).toHaveLength(helperToDB.listOfBlogsToDB.length + 1);
 });
 
 afterAll(() => {
