@@ -31,6 +31,13 @@ test('Blogs returned are the correct number', async () => {
   expect(blogs).toHaveLength(4);
 });
 
+// Now we can verify that the id parameter is changed to "id" from "_id"
+test('Blogs have the id parameter defined', async () => {
+  const response = await api.get('/api/blogs');
+  const blogs = response.body;
+  expect(blogs[0].id).toBeDefined();
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });
