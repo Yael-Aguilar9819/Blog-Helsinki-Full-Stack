@@ -38,12 +38,8 @@ test('Blogs have the id parameter defined', async () => {
 });
 
 describe('Post request works according to spec', () => {
-  const newBlog = {
-    title: 'New Blog 232',
-    author: 'Josh cracker',
-    url: 'www.idontknow.com',
-    likes: 13,
-  };
+  // It's reference it's given to an object with a shorter name
+  const newBlog = helperToDB.blogWithAllProperties; 
 
   test('The remoteDB adds 1 to the length after adding a new blog post', async () => {
     // This line sends the new blog, but doesn't care for it's response
@@ -68,17 +64,15 @@ describe('Post request works according to spec', () => {
   });
 
   test('if the likes property is missing from the request, it will default to 0', async () => {
-    const blogWithoutLikes = { // The new blog is created without likes
-      title: 'New Article',
-      author: 'Nyan-kun',
-      url: 'www.TopCat2001.com',
-    };
+    // The new blog is created without likes, the reference is copied from the helper file
+    const blogWithoutLikes = helperToDB.blogWithoutLikes;
 
     const response = await api.post('/api/blogs').send(blogWithoutLikes);
     const blogResponseNoLikes = response.body;
     // The default if likes are not given, should be 0
     expect(blogResponseNoLikes.likes).toEqual(0);
   });
+  
 });
 
 afterAll(() => {
