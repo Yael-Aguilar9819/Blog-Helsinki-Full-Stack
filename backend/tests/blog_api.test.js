@@ -62,9 +62,9 @@ describe('Post request works according to spec', () => {
     const blogFromServer = response.body;
 
     // Then each of the original properties it's checked for equality
-    const results = Object.keys(newBlog).map(property => {
-      expect(blogFromServer[property]).toEqual(newBlog[property])}
-      );
+    Object.keys(newBlog).forEach(property => {
+      expect(blogFromServer[property]).toEqual(newBlog[property]);
+    });
   });
 
   test('if the likes property is missing from the request, it will default to 0', async () => {
@@ -78,8 +78,7 @@ describe('Post request works according to spec', () => {
     const blogResponseNoLikes = response.body;
     // The default if likes are not given, should be 0
     expect(blogResponseNoLikes.likes).toEqual(0);
-  
-  })
+  });
 });
 
 afterAll(() => {
