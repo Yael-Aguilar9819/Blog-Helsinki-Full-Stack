@@ -21,6 +21,11 @@ app.use('/api/blogs', blogRouter);
 
 // This middleware prints every incoming request, no matter the method
 app.use(middleware.requestLogger);
+
+// If url is unknown, this dispatches
 app.use(middleware.unknownEndpoint);
+
+// If there's an error, it goes through here
+app.use(middleware.errorHandler);
 
 module.exports = app;

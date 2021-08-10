@@ -32,7 +32,7 @@ const blogWithAllProperties = {
   likes: 13,
 };
 
-const blogWithoutLikes = { 
+const blogWithoutLikes = {
   title: 'New Article',
   author: 'Nyan-kun',
   url: 'www.TopCat2001.com',
@@ -48,8 +48,7 @@ const blogWithoutTitle = {
   author: 'Super blogger',
   url: 'www.blogsnainai.com',
   likes: 1,
-}
-
+};
 
 module.exports = {
   listOfBlogsToDB,
