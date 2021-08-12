@@ -91,10 +91,20 @@ describe('Post request works according to spec', () => {
 });
 
 describe('Delete/:id endpoint works properly', () => {
+
   test('Succeeds at deleting with status code 204 if blog id is valid', async () => {
-    // this helper method retrieves all of the methods in the remotDB
-    const blogsCurrentlyInDB = await helperToDB.blogsInRemoteDB();
-    const blogToDelete = blogsCurrentlyInDB[1];
+      // this helper method retrieves all of the blogs in the remotDB
+    const blogsInRemoteDB = await helperToDB.blogsInRemoteDB();
+    const blogToDelete = blogsInRemoteDB[1];
+
+    await api.delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204); // 204 means that the operation went through
+  })
+
+  test('The Deleted blog is no longer present in the DB, and its ID disappeared', async () => {
+    const blogsInRemoteDB = await helperToDB.blogsInRemoteDB();
+    const blogToDelete = blogsInRemoteDB[1];
+
 
     await api.delete(`/api/blogs/${blogToDelete.id}`)
       .expect(204); // 204 means that the operation went through
@@ -102,13 +112,26 @@ describe('Delete/:id endpoint works properly', () => {
     const afterDeletedBlog = await helperToDB.blogsInRemoteDB();
     // One was deleted, so it should be one less that the origin array
     expect(afterDeletedBlog.length).toEqual(helperToDB.listOfBlogsToDB.length - 1);
+
+    const appearedInRemoteDB = afterDeletedBlog.reduce((IDAppeared, currentBlog) => {
+      if (IDAppeared) { // Means that it's true
+        return true;
+      } else if (currentBlog.id === blogToDelete.id) {
+        return true;
+      } else {
+        return false;
+      }
+    }, false)
+
+    expect(appearedInRemoteDB).toEqual(false);
   });
 
   test('Fails at deleting a non-existing blog', async () => {
     const nonExistingblogID = '29j239182j';
     await api.delete(`/api/blogs/${nonExistingblogID}`)
-      .expect(400); // this means that the middleware catched it
+      .expect(400); // this means that the middleware catched the exception
   });
+
 });
 
 afterAll(() => {
