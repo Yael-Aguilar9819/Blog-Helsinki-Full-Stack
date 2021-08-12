@@ -1,3 +1,5 @@
+const Blog = require('../models/blog');
+
 const listOfBlogsToDB = [
   {
     title: 'Typescript patterns',
@@ -50,10 +52,18 @@ const blogWithoutTitle = {
   likes: 1,
 };
 
+// So it's less cumebrsome to access all of the blogs currently in the remote DB
+const blogsInRemoteDB = async () => {
+  const blogs = await Blog.find({});
+  // Returns an array of blogs
+  return blogs.map(blog => blog.toJSON());
+};
+
 module.exports = {
   listOfBlogsToDB,
   blogWithAllProperties,
   blogWithoutLikes,
   blogwithoutUrl,
   blogWithoutTitle,
+  blogsInRemoteDB,
 };

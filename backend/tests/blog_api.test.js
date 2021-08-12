@@ -79,6 +79,7 @@ describe('Post request works according to spec', () => {
     const blogNoURL = helperToDB.blogwithoutUrl;
     const blogNoTitle = helperToDB.blogWithoutTitle;
 
+    // Checks both characteristis, one after the other
     await api.post('/api/blogs')
       .send(blogNoURL)
       .expect(400);
@@ -91,11 +92,16 @@ describe('Post request works according to spec', () => {
 
 describe('Delete/:id endpoint works properly', () => {
   test('Succeeds at deleting with status code 204 if blog id is valid', async () => {
-    const resp = await api.get('/api/notes/')
-    const blogToDelete = resp.body[0];
-    
-    await api.delete(`/api/notes/${blogToDelete.id}`)
+    // this helper method retrieves all of the methods in the remotDB
+    const blogsCurrentlyInDB = await helperToDB.blogsInRemoteDB();
+    const blogToDelete = blogsCurrentlyInDB[1];
+
+    await api.delete(`/api/blogs/${blogToDelete.id}`)
       .expect(204);
+  });
+
+  test('Fails at deleting a non-existing blog', async () => {
+
   });
 });
 
