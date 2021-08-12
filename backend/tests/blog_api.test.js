@@ -15,7 +15,7 @@ beforeEach(async () => {
   await Promise.all(promiseArrayOfBlogs);
 });
 
-describe('The simple GET works properly', () => {
+describe('The basic GET endpoint works properly', () => {
   // This is a test that just returns checks if the server repsonse is application/json
   test('blogs are returned as json', async () => {
     await api
@@ -37,9 +37,7 @@ describe('The simple GET works properly', () => {
     const blogs = response.body;
     expect(blogs[0].id).toBeDefined();
   });
-
-})
-
+});
 
 describe('Post request works according to spec', () => {
   // It's reference it's given to an object with a shorter name
@@ -88,6 +86,16 @@ describe('Post request works according to spec', () => {
     await api.post('/api/blogs')
       .send(blogNoTitle)
       .expect(400);
+  });
+});
+
+describe('Delete/:id endpoint works properly', () => {
+  test('Succeeds at deleting with status code 204 if blog id is valid', async () => {
+    const resp = await api.get('/api/notes/')
+    const blogToDelete = resp.body[0];
+    
+    await api.delete(`/api/notes/${blogToDelete.id}`)
+      .expect(204);
   });
 });
 
