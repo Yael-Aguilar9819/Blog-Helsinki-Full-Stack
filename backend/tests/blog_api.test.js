@@ -97,11 +97,17 @@ describe('Delete/:id endpoint works properly', () => {
     const blogToDelete = blogsCurrentlyInDB[1];
 
     await api.delete(`/api/blogs/${blogToDelete.id}`)
-      .expect(204);
+      .expect(204); // 204 means that the operation went through
+
+    const afterDeletedBlog = await helperToDB.blogsInRemoteDB();
+    // One was deleted, so it should be one less that the origin array
+    expect(afterDeletedBlog.length).toEqual(helperToDB.listOfBlogsToDB.length - 1);
   });
 
   test('Fails at deleting a non-existing blog', async () => {
-
+    const nonExistingblogID = '29j239182j';
+    await api.delete(`/api/blogs/${nonExistingblogID}`)
+      .expect(400); // this means that the middleware catched it
   });
 });
 
