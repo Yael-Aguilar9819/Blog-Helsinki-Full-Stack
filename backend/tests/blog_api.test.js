@@ -15,27 +15,31 @@ beforeEach(async () => {
   await Promise.all(promiseArrayOfBlogs);
 });
 
-// This is a test that just returns checks if the server repsonse is application/json
-test('blogs are returned as json', async () => {
-  await api
-    .get('/api/blogs')
-    .expect(200)
-    .expect('Content-Type', /application\/json/);
-});
+describe('The simple GET works properly', () => {
+  // This is a test that just returns checks if the server repsonse is application/json
+  test('blogs are returned as json', async () => {
+    await api
+      .get('/api/blogs')
+      .expect(200)
+      .expect('Content-Type', /application\/json/);
+  });
 
-// So we can check if the blogs given through beforeEach are returned correctly
-test('Blogs returned are the correct number', async () => {
-  const response = await api.get('/api/blogs');
-  const blogs = response.body; // the .body call should be done in another line
-  expect(blogs).toHaveLength(helperToDB.listOfBlogsToDB.length);
-});
+  // So we can check if the blogs given through beforeEach are returned correctly
+  test('Blogs returned are the correct number', async () => {
+    const response = await api.get('/api/blogs');
+    const blogs = response.body; // the .body call should be done in another line
+    expect(blogs).toHaveLength(helperToDB.listOfBlogsToDB.length);
+  });
 
-// Now we can verify that the id parameter is changed to "id" from "_id"
-test('Blogs have the id parameter defined', async () => {
-  const response = await api.get('/api/blogs');
-  const blogs = response.body;
-  expect(blogs[0].id).toBeDefined();
-});
+  // Now we can verify that the id parameter is changed to "id" from "_id"
+  test('Blogs have the id parameter defined', async () => {
+    const response = await api.get('/api/blogs');
+    const blogs = response.body;
+    expect(blogs[0].id).toBeDefined();
+  });
+
+})
+
 
 describe('Post request works according to spec', () => {
   // It's reference it's given to an object with a shorter name
