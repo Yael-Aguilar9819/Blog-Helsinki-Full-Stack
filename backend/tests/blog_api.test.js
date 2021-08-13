@@ -117,7 +117,7 @@ describe('Delete/:id endpoint works properly', () => {
       if (IDAppeared) { // Means that it's true
         return true;
       } else if (currentBlog.id === blogToDelete.id) {
-        return true;
+        return true; // This would mean that one of the remote blogs has 
       } else {
         return false;
       }
