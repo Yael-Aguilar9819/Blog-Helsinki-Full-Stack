@@ -91,20 +91,18 @@ describe('Post request works according to spec', () => {
 });
 
 describe('Delete/:id endpoint works properly', () => {
-
   test('Succeeds at deleting with status code 204 if blog id is valid', async () => {
-      // this helper method retrieves all of the blogs in the remotDB
+    // this helper method retrieves all of the blogs in the remotDB
     const blogsInRemoteDB = await helperToDB.blogsInRemoteDB();
     const blogToDelete = blogsInRemoteDB[1];
 
     await api.delete(`/api/blogs/${blogToDelete.id}`)
       .expect(204); // 204 means that the operation went through
-  })
+  });
 
   test('The Deleted blog is no longer present in the DB, and its ID disappeared', async () => {
     const blogsInRemoteDB = await helperToDB.blogsInRemoteDB();
     const blogToDelete = blogsInRemoteDB[1];
-
 
     await api.delete(`/api/blogs/${blogToDelete.id}`)
       .expect(204); // 204 means that the operation went through
@@ -116,12 +114,11 @@ describe('Delete/:id endpoint works properly', () => {
     const appearedInRemoteDB = afterDeletedBlog.reduce((IDAppeared, currentBlog) => {
       if (IDAppeared) { // Means that it's true
         return true;
-      } else if (currentBlog.id === blogToDelete.id) {
-        return true; // This would mean that one of the remote blogs has 
-      } else {
-        return false;
+      } if (currentBlog.id === blogToDelete.id) {
+        return true; // This would mean that one of the remote blogs has
       }
-    }, false)
+      return false;
+    }, false);
 
     expect(appearedInRemoteDB).toEqual(false);
   });
@@ -131,7 +128,6 @@ describe('Delete/:id endpoint works properly', () => {
     await api.delete(`/api/blogs/${nonExistingblogID}`)
       .expect(400); // this means that the middleware catched the exception
   });
-
 });
 
 afterAll(() => {
