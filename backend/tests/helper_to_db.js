@@ -66,6 +66,16 @@ const getRandomBlog = async () => {
   return arrayOfBlogs[randomBlogIndex];
 };
 
+const ObjectsHasEqualCategories = (baseObject, objectToCompare) => {
+  let isThereADifference = false;
+  Object.keys(baseObject).forEach(property => { // 
+    if (objectToCompare[property] !== baseObject[property]) {
+      isThereADifference = true;
+    }
+  });
+  return isThereADifference;
+};
+
 module.exports = {
   listOfBlogsToDB,
   blogWithAllProperties,
@@ -74,4 +84,5 @@ module.exports = {
   blogWithoutTitle,
   blogsInRemoteDB,
   getRandomBlog,
+  ObjectsHasEqualCategories,
 };

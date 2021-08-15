@@ -60,9 +60,8 @@ describe('Post request works according to spec', () => {
     const blogFromServer = response.body;
 
     // Then each of the original properties it's checked for equality
-    Object.keys(newBlog).forEach(property => {
-      expect(blogFromServer[property]).toEqual(newBlog[property]);
-    });
+    const hasSameCatAsBaseObj = helperToDB.ObjectsHasEqualCategories(newBlog, blogFromServer);
+    expect(hasSameCatAsBaseObj).toEqual(false);
   });
 
   test('if the likes property is missing from the request, it will default to 0', async () => {
@@ -130,7 +129,7 @@ describe('Delete/:id endpoint works properly', () => {
   describe('The update endpont works', () => {
     test('It returns a correct response status from a known blog', async () => {
       const blogToUpdate = await helperToDB.getRandomBlog();
-      blogToUpdate.title = "Welp"
+      blogToUpdate.title = "Welp" // This is justa  simple variation
       
       await api
         .put(`/api/blogs/${blogToUpdate.id}`)
@@ -138,7 +137,7 @@ describe('Delete/:id endpoint works properly', () => {
         .expect(200);
     });
 
-    test('Returns the blog now modified', () => {
+    test('Returns the blog now modified', async () => {
       const blogToUpdate = await helperToDB.getRandomBlog();
       blogToUpdate.title = "New title pls";
 
@@ -146,8 +145,9 @@ describe('Delete/:id endpoint works properly', () => {
         await api
           .put(`/api/blogs/${blogToUpdate.id}`)
           .send(blogToUpdate);
-      
 
+      const differentCharacteristics = helperToDB.ObjectsHasEqualCategories(blogToUpdate, updatedRemoteBlog)       
+      expect(differentCharacteristics).toEqual(true)
     })
 
 
