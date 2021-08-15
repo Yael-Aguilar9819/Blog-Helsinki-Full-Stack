@@ -128,6 +128,20 @@ describe('Delete/:id endpoint works properly', () => {
     await api.delete(`/api/blogs/${nonExistingblogID}`)
       .expect(400); // this means that the middleware catched the exception
   });
+
+  describe('The update endpont works', () => {
+
+    test('', () => {
+      const blogsInRemoteDB = await helperToDB.blogsInRemoteDB();
+      const blogToModify = blogsInRemoteDB[1];
+  
+      await api
+        .put(`/api/blogs/${blogToModify}`)
+        .send()
+        .expect(200)
+
+    })
+  })
 });
 
 afterAll(() => {
