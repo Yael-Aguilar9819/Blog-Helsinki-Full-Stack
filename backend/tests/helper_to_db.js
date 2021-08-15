@@ -59,6 +59,12 @@ const blogsInRemoteDB = async () => {
   return blogs.map(blog => blog.toJSON());
 };
 
+const getRandomBlog = async () => {
+  const arrayOfBlogs = await blogsInRemoteDB();
+  const randomBlog = Math.floor(Math.random() * arrayOfBlogs.length);
+  return randomBlog;
+};
+
 module.exports = {
   listOfBlogsToDB,
   blogWithAllProperties,
@@ -66,4 +72,5 @@ module.exports = {
   blogwithoutUrl,
   blogWithoutTitle,
   blogsInRemoteDB,
+  getRandomBlog,
 };

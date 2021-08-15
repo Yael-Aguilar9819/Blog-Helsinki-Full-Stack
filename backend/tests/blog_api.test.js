@@ -93,16 +93,19 @@ describe('Post request works according to spec', () => {
 describe('Delete/:id endpoint works properly', () => {
   test('Succeeds at deleting with status code 204 if blog id is valid', async () => {
     // this helper method retrieves all of the blogs in the remotDB
-    const blogsInRemoteDB = await helperToDB.blogsInRemoteDB();
-    const blogToDelete = blogsInRemoteDB[1];
+    // const blogsInRemoteDB = await helperToDB.blogsInRemoteDB();
+    // const blogToDelete = blogsInRemoteDB[1];
+    const blogToDelete = await helperToDB.getRandomBlog();
 
     await api.delete(`/api/blogs/${blogToDelete.id}`)
       .expect(204); // 204 means that the operation went through
   });
 
   test('The Deleted blog is no longer present in the DB, and its ID disappeared', async () => {
-    const blogsInRemoteDB = await helperToDB.blogsInRemoteDB();
-    const blogToDelete = blogsInRemoteDB[1];
+    // const blogsInRemoteDB = await helperToDB.blogsInRemoteDB();
+    // const blogToDelete = blogsInRemoteDB[1];
+    const blogToDelete = await helperToDB.getRandomBlog();
+    console.log(blogToDelete)
 
     await api.delete(`/api/blogs/${blogToDelete.id}`)
       .expect(204); // 204 means that the operation went through
@@ -130,18 +133,16 @@ describe('Delete/:id endpoint works properly', () => {
   });
 
   describe('The update endpont works', () => {
-
-    test('', () => {
+    test('', async () => {
       const blogsInRemoteDB = await helperToDB.blogsInRemoteDB();
       const blogToModify = blogsInRemoteDB[1];
-  
+
       await api
         .put(`/api/blogs/${blogToModify}`)
         .send()
-        .expect(200)
-
-    })
-  })
+        .expect(200);
+    });
+  });
 });
 
 afterAll(() => {
