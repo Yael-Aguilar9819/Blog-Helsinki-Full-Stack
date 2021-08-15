@@ -92,9 +92,7 @@ describe('Post request works according to spec', () => {
 
 describe('Delete/:id endpoint works properly', () => {
   test('Succeeds at deleting with status code 204 if blog id is valid', async () => {
-    // this helper method retrieves all of the blogs in the remotDB
-    // const blogsInRemoteDB = await helperToDB.blogsInRemoteDB();
-    // const blogToDelete = blogsInRemoteDB[1];
+    // this helper method retrieves a random blog of the remotDB
     const blogToDelete = await helperToDB.getRandomBlog();
 
     await api.delete(`/api/blogs/${blogToDelete.id}`)
@@ -102,10 +100,7 @@ describe('Delete/:id endpoint works properly', () => {
   });
 
   test('The Deleted blog is no longer present in the DB, and its ID disappeared', async () => {
-    // const blogsInRemoteDB = await helperToDB.blogsInRemoteDB();
-    // const blogToDelete = blogsInRemoteDB[1];
     const blogToDelete = await helperToDB.getRandomBlog();
-    console.log(blogToDelete)
 
     await api.delete(`/api/blogs/${blogToDelete.id}`)
       .expect(204); // 204 means that the operation went through
@@ -133,13 +128,13 @@ describe('Delete/:id endpoint works properly', () => {
   });
 
   describe('The update endpont works', () => {
-    test('', async () => {
-      const blogsInRemoteDB = await helperToDB.blogsInRemoteDB();
-      const blogToModify = blogsInRemoteDB[1];
-
+    test('It returns a correct response from a known blog', async () => {
+      const blogToUpdate = await helperToDB.getRandomBlog();
+      blogToUpdate.title = "Welp"
+      
       await api
-        .put(`/api/blogs/${blogToModify}`)
-        .send()
+        .put(`/api/blogs/${blogToUpdate.id}`)
+        .send(blogToUpdate)
         .expect(200);
     });
   });

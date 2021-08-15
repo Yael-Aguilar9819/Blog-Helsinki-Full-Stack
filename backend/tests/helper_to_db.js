@@ -61,8 +61,9 @@ const blogsInRemoteDB = async () => {
 
 const getRandomBlog = async () => {
   const arrayOfBlogs = await blogsInRemoteDB();
-  const randomBlog = Math.floor(Math.random() * arrayOfBlogs.length);
-  return randomBlog;
+  const randomBlogIndex = Math.floor(Math.random() * arrayOfBlogs.length);
+
+  return arrayOfBlogs[randomBlogIndex];
 };
 
 module.exports = {
