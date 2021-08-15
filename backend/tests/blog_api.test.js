@@ -128,7 +128,7 @@ describe('Delete/:id endpoint works properly', () => {
   });
 
   describe('The update endpont works', () => {
-    test('It returns a correct response from a known blog', async () => {
+    test('It returns a correct response status from a known blog', async () => {
       const blogToUpdate = await helperToDB.getRandomBlog();
       blogToUpdate.title = "Welp"
       
@@ -137,6 +137,20 @@ describe('Delete/:id endpoint works properly', () => {
         .send(blogToUpdate)
         .expect(200);
     });
+
+    test('Returns the blog now modified', () => {
+      const blogToUpdate = await helperToDB.getRandomBlog();
+      blogToUpdate.title = "New title pls";
+
+      const updatedRemoteBlog = 
+        await api
+          .put(`/api/blogs/${blogToUpdate.id}`)
+          .send(blogToUpdate);
+      
+
+    })
+
+
   });
 });
 
