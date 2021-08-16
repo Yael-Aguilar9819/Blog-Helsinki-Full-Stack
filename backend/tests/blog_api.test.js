@@ -151,7 +151,7 @@ describe('Delete/:id endpoint works properly', () => {
 
     test('After the update, the remoteDB has the same number of blogs', async () => {
       const blogToUpdate = await helperToDB.getRandomBlog();
-      blogToUpdate.title = 'Welp'; // This is justa  simple variation
+      blogToUpdate.title = 'Welp'; // This is just a simple variation
 
       await api
         .put(`/api/blogs/${blogToUpdate.id}`)
@@ -160,7 +160,8 @@ describe('Delete/:id endpoint works properly', () => {
       const blogs = await api
         .get('/api/blogs');
 
-      expect(blogs.length).toHaveLength(helperToDB.listOfBlogsToDB.length);
+        //So its confirmed that it has the same number of blogs in the remoteDB
+      expect(blogs.body).toHaveLength(helperToDB.listOfBlogsToDB.length);
     });
   });
 });
