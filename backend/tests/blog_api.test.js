@@ -129,8 +129,8 @@ describe('Delete/:id endpoint works properly', () => {
   describe('The update endpont works', () => {
     test('It returns a correct response status from a known blog', async () => {
       const blogToUpdate = await helperToDB.getRandomBlog();
-      blogToUpdate.title = "Welp" // This is justa  simple variation
-      
+      blogToUpdate.title = 'Welp'; // This is justa  simple variation
+
       await api
         .put(`/api/blogs/${blogToUpdate.id}`)
         .send(blogToUpdate)
@@ -139,18 +139,29 @@ describe('Delete/:id endpoint works properly', () => {
 
     test('Returns the blog now modified', async () => {
       const blogToUpdate = await helperToDB.getRandomBlog();
-      blogToUpdate.title = "New title pls";
+      blogToUpdate.title = 'New title pls'; // It gets slighly modified
 
-      const updatedRemoteBlog = 
-        await api
-          .put(`/api/blogs/${blogToUpdate.id}`)
-          .send(blogToUpdate);
+      const updatedRemoteBlog = await api
+        .put(`/api/blogs/${blogToUpdate.id}`)
+        .send(blogToUpdate)
+        .expect(200);
 
-      const differentCharacteristics = helperToDB.ObjectsHasEqualCategories(blogToUpdate, updatedRemoteBlog)       
-      expect(differentCharacteristics).toEqual(true)
-    })
+      expect(updatedRemoteBlog.body).toEqual(blogToUpdate);
+    });
 
+    test('After the update, the remoteDB has the same number of blogs', async () => {
+      const blogToUpdate = await helperToDB.getRandomBlog();
+      blogToUpdate.title = 'Welp'; // This is justa  simple variation
 
+      await api
+        .put(`/api/blogs/${blogToUpdate.id}`)
+        .send(blogToUpdate);
+
+      const blogs = await api
+        .get('/api/blogs');
+
+      expect(blogs.length).toHaveLength(helperToDB.listOfBlogsToDB.length);
+    });
   });
 });
 

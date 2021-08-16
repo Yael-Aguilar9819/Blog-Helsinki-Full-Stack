@@ -23,8 +23,21 @@ blogRouter.post('/', async (request, response, next) => {
 
 blogRouter.delete('/:id', async (request, response, next) => {
   try {
+    // With this function, it goes, removes it, and returns back that deleted object
     await Blog.findByIdAndRemove(request.params.id);
     response.status(204).end();
+  } catch (exception) {
+    next(exception);
+  }
+});
+
+blogRouter.put('/:id', async (request, response, next) => {
+  try {
+    // With request.body is what is given in the body
+    // and request.params is an object made of the arguments in the URL
+    // With new : true, it returns the updated object, the default will return the old object
+    const resp = await Blog.findByIdAndUpdate(request.params.id, request.body, { new: true });
+    response.status(200).json(resp);
   } catch (exception) {
     next(exception);
   }

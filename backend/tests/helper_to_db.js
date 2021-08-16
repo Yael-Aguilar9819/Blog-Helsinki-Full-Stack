@@ -68,7 +68,7 @@ const getRandomBlog = async () => {
 
 const ObjectsHasEqualCategories = (baseObject, objectToCompare) => {
   let isThereADifference = false;
-  Object.keys(baseObject).forEach(property => { // 
+  Object.keys(baseObject).forEach(property => { //
     if (objectToCompare[property] !== baseObject[property]) {
       isThereADifference = true;
     }
