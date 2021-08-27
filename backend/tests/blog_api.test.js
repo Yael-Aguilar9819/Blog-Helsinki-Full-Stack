@@ -160,7 +160,7 @@ describe('Delete/:id endpoint works properly', () => {
       const blogs = await api
         .get('/api/blogs');
 
-        //So its confirmed that it has the same number of blogs in the remoteDB
+      // So its confirmed that it has the same number of blogs in the remoteDB
       expect(blogs.body).toHaveLength(helperToDB.listOfBlogsToDB.length);
     });
   });
