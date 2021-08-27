@@ -12,6 +12,8 @@ const userSchema = new mongoose.Schema({
   ],
 });
 
+// It's necessary to reassign params in this case, because otherwise it would return a lint error
+/* eslint-disable no-param-reassign */
 userSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
@@ -21,6 +23,7 @@ userSchema.set('toJSON', {
     delete returnedObject.passwordHash;
   },
 });
+/* eslint-enable no-param-reassign */
 
 const User = mongoose.model('User', userSchema);
 
