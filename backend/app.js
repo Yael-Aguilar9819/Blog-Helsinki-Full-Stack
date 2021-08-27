@@ -5,6 +5,7 @@ const app = express();
 const cors = require('cors');
 const mongoose = require('mongoose');
 const blogRouter = require('./controllers/blogs');
+const usersRouter = require('./controllers/users');
 const config = require('./utils/config');
 const middleware = require('./utils/middleware');
 
@@ -16,8 +17,11 @@ mongoose.connect(mongoUrl, {
 app.use(cors());
 app.use(express.json());
 
-// Being a router means that every endpoint + the post URL will be redirected here
+// Being a router means that every endpoint + the blogs URL will be redirected here
 app.use('/api/blogs', blogRouter);
+
+// This router redirects to the user endpoint
+app.use('/api/users', usersRouter);
 
 // This middleware prints every incoming request, no matter the method
 app.use(middleware.requestLogger);
