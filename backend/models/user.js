@@ -4,6 +4,7 @@ const userSchema = new mongoose.Schema({
   username: String,
   name: String,
   passwordHash: String,
+  // This is a reference to the Blog model in another file
   blogs: [
     {
       type: mongoose.Schema.Types.ObjectId,
