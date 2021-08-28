@@ -1,4 +1,5 @@
 const Blog = require('../models/blog');
+const User = require('../models/user');
 
 const listOfBlogsToDB = [
   {
@@ -76,6 +77,33 @@ const ObjectsHasEqualCategories = (baseObject, objectToCompare) => {
   return isThereADifference;
 };
 
+const usersInRemoteDB = async () => {
+  const users = await User.find({});
+  // Returns an array of users with all it's characteristics
+  return users.map(user => user.toJSON());
+};
+
+const userWithAllProperties = {
+  username: 'user-root-test',
+  name: 'Well made test user',
+  password: 'pass not so safe',
+};
+
+const userWithoutUsername = {
+  name: 'not so well made test user',
+  password: 'pass necessary',
+};
+
+const userWithoutNameParameter = {
+  username: 'original username',
+  password: 'pass not so safe',
+};
+
+const userWithoutPasswordParameter = {
+  username: 'pass without username',
+  name: 'name without pass',
+};
+
 module.exports = {
   listOfBlogsToDB,
   blogWithAllProperties,
@@ -85,4 +113,9 @@ module.exports = {
   blogsInRemoteDB,
   getRandomBlog,
   ObjectsHasEqualCategories,
+  usersInRemoteDB,
+  userWithAllProperties,
+  userWithoutUsername,
+  userWithoutNameParameter,
+  userWithoutPasswordParameter,
 };
