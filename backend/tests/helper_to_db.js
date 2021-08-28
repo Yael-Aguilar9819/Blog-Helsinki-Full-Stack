@@ -83,6 +83,25 @@ const usersInRemoteDB = async () => {
   return users.map(user => user.toJSON());
 };
 
+const listOfUsersToDB = [
+  {
+    username: 'The typescriper',
+    name: 'No one has this name',
+    password: 'welp i dont have an idea',
+  },
+  {
+    username: 'the javaGod',
+    name: 'Many names here',
+    password: 'some well done pass',
+  },
+  {
+    username: 'Patterns of conquest',
+    name: 'may be unique',
+    password: 'well thought pass',
+  },
+];
+
+// This shows the different users to be used in various parts of the test
 const userWithAllProperties = {
   username: 'user-root-test',
   name: 'Well made test user',
@@ -114,6 +133,7 @@ module.exports = {
   getRandomBlog,
   ObjectsHasEqualCategories,
   usersInRemoteDB,
+  listOfUsersToDB,
   userWithAllProperties,
   userWithoutUsername,
   userWithoutNameParameter,
