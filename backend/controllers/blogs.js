@@ -1,6 +1,5 @@
 const blogRouter = require('express').Router();
 const Blog = require('../models/blog'); // With '..' go back 1 dir
-const middleware = require('../utils/middleware');
 
 // This are the main routes of the blog file
 // Now it's refactored into an async/await functions

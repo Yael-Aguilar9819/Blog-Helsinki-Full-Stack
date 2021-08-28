@@ -1,8 +1,13 @@
 const bcrypt = require('bcrypt');
-const usersRouter = require('express').Router();
+const userRouter = require('express').Router();
 const User = require('../models/user');
 
-usersRouter.post('/', async (request, response) => {
+userRouter.get('/', async (request, response) => {
+  const allUsers = await User.find({});
+  response.json(allUsers);
+});
+
+userRouter.post('/', async (request, response) => {
   const { body } = request;
 
   const saltRounds = 10;
@@ -24,4 +29,4 @@ usersRouter.post('/', async (request, response) => {
 });
 
 // This exposes the module to the main app
-module.exports = usersRouter;
+module.exports = userRouter;
