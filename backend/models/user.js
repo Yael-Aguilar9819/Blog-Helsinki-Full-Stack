@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+// Installed with 'npm install mongoose-unique-validator'
+const uniqueValidator = require('mongoose-unique-validator');
 
 const userSchema = new mongoose.Schema({
   username: String,
@@ -26,6 +28,10 @@ userSchema.set('toJSON', {
 });
 /* eslint-enable no-param-reassign */
 
+// This is what 'unifies' the unique-validator with the userSchema
+userSchema.plugin(uniqueValidator);
+
+// This is what makes it a valid model to mongoose
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
