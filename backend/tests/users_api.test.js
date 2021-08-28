@@ -10,6 +10,9 @@ const api = supertest(app);
 // This will run before every single test
 beforeEach(async () => {
   await User.deleteMany({});
+  const usersToAdd = helperToDB.listOfUsersToDB.map(user => new User(user));
+  const promiseArrayOfUsers = usersToAdd.map(user => user.save());
+  await Promise.all(promiseArrayOfUsers); // This will wait for all the users to be saved to the DB
 });
 
 describe('GET endpoint for users works correctly', () => {
@@ -20,7 +23,7 @@ describe('GET endpoint for users works correctly', () => {
       .expect('Content-Type', /application\/json/); // Should return this type specifically
 
     const users = response.body;
-    expect(users).toHaveLength(0);
+    expect(users).toHaveLength(3);
   });
 });
 
@@ -42,7 +45,7 @@ describe('POST endpoint works correctly', () => {
       .get('/api/users');
 
     const users = response.body;
-    expect(users).toHaveLength(1);
+    expect(users).toHaveLength(4);
   });
 });
 
