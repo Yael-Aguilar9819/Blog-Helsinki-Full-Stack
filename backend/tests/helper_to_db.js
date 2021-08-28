@@ -83,6 +83,14 @@ const usersInRemoteDB = async () => {
   return users.map(user => user.toJSON());
 };
 
+const getRandomUser = async () => {
+  const arrayOfUsers = await usersInRemoteDB();
+  const randomUserIndex = Math.floor(Math.random() * arrayOfUsers.length);
+
+  return arrayOfUsers[randomUserIndex];
+};
+
+
 const listOfUsersToDB = [
   {
     username: 'The typescriper',
@@ -133,6 +141,7 @@ module.exports = {
   getRandomBlog,
   ObjectsHasEqualCategories,
   usersInRemoteDB,
+  getRandomUser,
   listOfUsersToDB,
   userWithAllProperties,
   userWithoutUsername,

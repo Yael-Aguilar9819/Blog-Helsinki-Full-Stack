@@ -30,23 +30,34 @@ describe('GET endpoint for users works correctly', () => {
 describe('POST endpoint works correctly', () => {
   test('a properly made user adds 1 to the length of the userDB', async () => {
     // This is the user object that will be send t the post endpoint
-    const userWithAllProperties = {
-      username: 'user-root-test',
-      name: 'Well made test user',
-      password: 'pass not so safe',
-    };
+    const userWithAllProperties = helperToDB.userWithAllProperties;
 
-    // we dont' really care for the responde this time
+    // the response it's a no care this time
     await api
       .post('/api/users')
       .send(userWithAllProperties);
 
-    const response = await api
+    const response = 
+      await api
       .get('/api/users');
 
     const users = response.body;
     expect(users).toHaveLength(4);
   });
+
+  test('If the username is not unique, the creation of new user returns a 400 bad request', async () => {
+    //The function brings a random
+    // user of the ones given at first to the remoteDB
+    const usernameToCopy = helperToDB.getRandomUser(); 
+    const modifiedUser = helperToDB.userWithAllProperties;
+    modifiedUser.username = usernameToCopy; // This will make both usernames the same
+
+    console.log(usernameToCopy)
+    await api
+      .post('/api/users')
+      .send(modifiedUser)
+      .expect(400)
+  })
 });
 
 afterAll(async () => {
