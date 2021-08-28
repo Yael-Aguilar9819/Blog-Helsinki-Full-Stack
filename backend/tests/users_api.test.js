@@ -48,16 +48,18 @@ describe('POST endpoint works correctly', () => {
   test('If the username is not unique, the creation of new user returns a 400 bad request', async () => {
     //The function brings a random
     // user of the ones given at first to the remoteDB
-    const usernameToCopy = helperToDB.getRandomUser(); 
+    const usernameToCopy = await helperToDB.getRandomUser(); 
     const modifiedUser = helperToDB.userWithAllProperties;
     modifiedUser.username = usernameToCopy; // This will make both usernames the same
 
-    console.log(usernameToCopy)
     await api
       .post('/api/users')
       .send(modifiedUser)
-      .expect(400)
-  })
+      .expect(400) // Bad request,
+
+      // the response.body will be in the format of:
+      // 'User validation failed: username: Cast to string failed for value "{ ...'
+    })
 });
 
 afterAll(async () => {
