@@ -30,15 +30,14 @@ describe('GET endpoint for users works correctly', () => {
 describe('POST endpoint works correctly', () => {
   test('a properly made user adds 1 to the length of the userDB', async () => {
     // This is the user object that will be send t the post endpoint
-    const userWithAllProperties = helperToDB.userWithAllProperties;
+    const { userWithAllProperties } = helperToDB;
 
     // the response it's a no care this time
     await api
       .post('/api/users')
       .send(userWithAllProperties);
 
-    const response = 
-      await api
+    const response = await api
       .get('/api/users');
 
     const users = response.body;
@@ -46,20 +45,28 @@ describe('POST endpoint works correctly', () => {
   });
 
   test('If the username is not unique, the creation of new user returns a 400 bad request', async () => {
-    //The function brings a random
+    // The function brings a random
     // user of the ones given at first to the remoteDB
-    const usernameToCopy = await helperToDB.getRandomUser(); 
+    const usernameToCopy = await helperToDB.getRandomUser();
     const modifiedUser = helperToDB.userWithAllProperties;
     modifiedUser.username = usernameToCopy; // This will make both usernames the same
 
     await api
       .post('/api/users')
       .send(modifiedUser)
-      .expect(400) // Bad request,
+      .expect(400); // Bad request,
 
-      // the response.body will be in the format of:
-      // 'User validation failed: username: Cast to string failed for value "{ ...'
-    })
+    // the response.body will be in the format of:
+    // 'User validation failed: username: Cast to string failed for value "{ ...'
+  });
+
+  test('If username and/or password are not given, the creation should return a 400 bad request', async () => {
+
+  });
+
+  test('If username and/or password given are less than 3 characters longs, it should return 400 bad request', async () => {
+
+  });
 });
 
 afterAll(async () => {

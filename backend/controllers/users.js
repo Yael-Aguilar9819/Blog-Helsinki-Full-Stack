@@ -20,14 +20,13 @@ userRouter.post('/', async (request, response, next) => {
   try {
     // This what creates a new user
     const user = new User({
-    username: body.username,
-    name: body.name,
-    passwordHash,
+      username: body.username,
+      name: body.name,
+      passwordHash,
     });
 
     const savedUser = await user.save();
     response.json(savedUser);
-
   } catch (exception) {
     next(exception);
   }

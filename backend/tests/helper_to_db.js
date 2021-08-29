@@ -90,7 +90,6 @@ const getRandomUser = async () => {
   return arrayOfUsers[randomUserIndex];
 };
 
-
 const listOfUsersToDB = [
   {
     username: 'The typescriper',
