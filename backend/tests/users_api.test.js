@@ -60,8 +60,23 @@ describe('POST endpoint works correctly', () => {
     // 'User validation failed: username: Cast to string failed for value "{ ...'
   });
 
-  test('If username and/or password are not given, the creation should return a 400 bad request', async () => {
+  test('If username and/or password are not given, the reponse should be 400 bad request', async () => {
+    // There is a preformed user without the username parameter
+    const userWithoutusername = helperToDB.userWithoutUsername;
 
+    await api
+      .post('/api/users')
+      .send(userWithoutusername)
+      .expect(400); // Bad request,
+    
+    const userWithoutPassword = helperToDB.userWithoutPasswordParameter;
+
+    const resp = await api
+      .post('/api/users')
+      .send(userWithoutPassword)
+      .expect(400); // Bad request,
+  
+    console.log(resp.body)
   });
 
   test('If username and/or password given are less than 3 characters longs, it should return 400 bad request', async () => {
