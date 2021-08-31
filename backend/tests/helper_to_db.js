@@ -126,8 +126,8 @@ const userWithoutNameParameter = {
 };
 
 const userWithoutPasswordParameter = {
-  username: 'pass without username',
-  name: 'name without pass',
+  username: 'pass without username nor name',
+  name: 'name given totally correct',
 };
 
 module.exports = {
