@@ -1,4 +1,5 @@
 const Blog = require('../models/blog');
+const bcrypt = require('bcrypt');
 const User = require('../models/user');
 
 const listOfBlogsToDB = [
@@ -90,6 +91,23 @@ const getRandomUser = async () => {
   return arrayOfUsers[randomUserIndex];
 };
 
+const hashListOfUsers = async (listOfUsers) => {
+  // This hash the password with the number of salt rounds
+  // How it works: https://github.com/kelektiv/node.bcrypt.js#readme
+  const saltRounds = 10;
+
+  // the .map gets resolved in parallel
+  const hashedUsers = await Promise.all(
+    listOfUsers.map(async user => {
+      const passwordHash = await bcrypt.hash(user.password, saltRounds);
+      user.passwordHash = passwordHash 
+      delete user.password
+      return user
+    })
+  )
+  return hashedUsers
+}
+
 const listOfUsersToDB = [
   {
     username: 'The typescriper',
@@ -141,6 +159,7 @@ module.exports = {
   ObjectsHasEqualCategories,
   usersInRemoteDB,
   getRandomUser,
+  hashListOfUsers,
   listOfUsersToDB,
   userWithAllProperties,
   userWithoutUsername,

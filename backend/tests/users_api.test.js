@@ -10,13 +10,13 @@ const api = supertest(app);
 // This will run before every single test
 beforeEach(async () => {
   await User.deleteMany({});
-  const saltRounds = 10;
 
-  const usersWithPassHashed = helperToDB.listOfUsersToDB.map(user => {
-    const passwordHash = await bcrypt.hash(user.password, saltRounds);
-    user.password
-  }) 
-  const usersToAdd = helperToDB.listOfUsersToDB.map(user => new User(user));
+  const usersWithoutHash = helperToDB.listOfUsersToDB
+
+  const preparedUsers = await helperToDB.hashListOfUsers(usersWithoutHash);
+
+  const usersToAdd = preparedUsers.map(user => new User(user));
+
   const promiseArrayOfUsers = usersToAdd.map(user => user.save());
   await Promise.all(promiseArrayOfUsers); // This will wait for all the users to be saved to the DB
 });

@@ -15,7 +15,7 @@ userRouter.post('/', async (request, response, next) => {
   if (!body.password) {
     body.password = "dsdad"
   }
-  // This hash the password with the number of salt round
+  // This hash the password with the number of salt rounds
   // How it works: https://github.com/kelektiv/node.bcrypt.js#readme
   const passwordHash = await bcrypt.hash(body.password, saltRounds);
 
