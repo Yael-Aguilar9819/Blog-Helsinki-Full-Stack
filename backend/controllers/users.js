@@ -10,18 +10,16 @@ userRouter.get('/', async (request, response) => {
 userRouter.post('/', async (request, response, next) => {
   const { body } = request;
 
-  const saltRounds = 10;
-
-  if (!body.password) {
-    body.password = "dsdad"
-  }
-
   // This hash the password with the number of salt rounds
   // How it works: https://github.com/kelektiv/node.bcrypt.js#readme
-  const passwordHash = await bcrypt.hash(body.password, saltRounds);
+  // If body.password exists, then it's salted and hashed
+  // otherwise, it stays undefined, so the mongoose validators can catch it
+  const saltRounds = 10;
+  const passwordHash = body.password ? 
+    await bcrypt.hash(body.password, saltRounds) 
+    : undefined
 
-
-  // This could fail due to how the model is implemented
+  // This could fail due to how the model is implemented, so try/except is used
   try {
     // This what creates a new user
     const user = new User({
@@ -29,7 +27,7 @@ userRouter.post('/', async (request, response, next) => {
       name: body.name,
       passwordHash,
     });
-    
+
     const savedUser = await user.save();
     response.json(savedUser);
     

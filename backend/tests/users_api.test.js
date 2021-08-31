@@ -12,6 +12,7 @@ beforeEach(async () => {
   await User.deleteMany({});
 
   const usersWithoutHash = helperToDB.listOfUsersToDB
+  console.log()
   const preparedUsers = await helperToDB.hashListOfUsers(usersWithoutHash);
   const usersToAdd = preparedUsers.map(user => new User(user));
 
@@ -76,13 +77,13 @@ describe('POST endpoint works correctly', () => {
   });
 
   test('If the password is not given, the response should be 400 bad request detailing the error', async () => {
-    // const userWithoutPassword = helperToDB.userWithoutPasswordParameter;
+    const userWithoutPassword = helperToDB.userWithoutPasswordParameter;
 
-    // await api
-    //   .post('/api/users')
-    //   .send(userWithoutPassword)
-    // .expect(400); // Bad request,
-
+    await api
+      .post('/api/users')
+      .send(userWithoutPassword)
+      .expect(400); // Bad request,
+    // The response it's in the format of: 'error: 'User validation failed: passwordHash: Path `passwordHash` is required.'
   })
 
   test('If username and/or password given are less than 3 characters longs, it should return 400 bad request', async () => {
