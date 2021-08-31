@@ -68,10 +68,12 @@ describe('POST endpoint works correctly', () => {
     // There is a preformed user without the username parameter
     const userWithoutusername = helperToDB.userWithoutUsername;
 
-    // await api
-    //   .post('/api/users')
-    //   .send(userWithoutusername)
-    //   .expect(400); // Bad request,    
+    const resp = 
+      await api
+        .post('/api/users')
+        .send(userWithoutusername)
+        .expect(400); // Bad request,    
+    console.log(resp.body) // The response it's in the format of error: 'User validation failed: username: Path `username` is required.' 
   });
 
   test('If the password is not given, the response should be 400 bad request detailing the error', async () => {
