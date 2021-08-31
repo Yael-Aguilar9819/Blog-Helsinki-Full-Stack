@@ -12,9 +12,7 @@ beforeEach(async () => {
   await User.deleteMany({});
 
   const usersWithoutHash = helperToDB.listOfUsersToDB
-
   const preparedUsers = await helperToDB.hashListOfUsers(usersWithoutHash);
-
   const usersToAdd = preparedUsers.map(user => new User(user));
 
   const promiseArrayOfUsers = usersToAdd.map(user => user.save());
@@ -66,25 +64,25 @@ describe('POST endpoint works correctly', () => {
     // 'User validation failed: username: Cast to string failed for value "{ ...'
   });
 
-  test('If username and/or password are not given, the response should be 400 bad request', async () => {
+  test('If username is not given, the response should be 400 bad request detailing the error', async () => {
     // There is a preformed user without the username parameter
     const userWithoutusername = helperToDB.userWithoutUsername;
 
     // await api
     //   .post('/api/users')
     //   .send(userWithoutusername)
-      // .expect(400); // Bad request,
-    
+    //   .expect(400); // Bad request,    
+  });
+
+  test('If the password is not given, the response should be 400 bad request detailing the error', async () => {
     // const userWithoutPassword = helperToDB.userWithoutPasswordParameter;
 
     // await api
     //   .post('/api/users')
     //   .send(userWithoutPassword)
-      // .expect(400); // Bad request,
-  
-    // const resp = await api.get('/api/users')
-    // console.log("resp ", resp.body)
-  });
+    // .expect(400); // Bad request,
+
+  })
 
   test('If username and/or password given are less than 3 characters longs, it should return 400 bad request', async () => {
 
