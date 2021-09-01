@@ -96,15 +96,18 @@ const hashListOfUsers = async (listOfUsers) => {
   // How it works: https://github.com/kelektiv/node.bcrypt.js#readme
   const saltRounds = 10;
 
-  // the .map gets resolved in parallel
+  // the .map gets resolved in parallel through Promise.all
   const hashedUsers = await Promise.all(
     listOfUsers.map(async user => {
       const passwordHash = await bcrypt.hash(user.password, saltRounds);
-      user.passwordHash = passwordHash 
-      delete user.password
-      return user
+      // This will deep copy the object so now it's a separated one
+      const userToModify = JSON.parse(JSON.stringify(user))
+      userToModify.passwordHash = passwordHash 
+      delete userToModify.password
+      return userToModify
     })
   )
+  // The new array of modified objects it's returned after all the objects are processed
   return hashedUsers
 }
 

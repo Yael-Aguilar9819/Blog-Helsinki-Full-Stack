@@ -12,7 +12,6 @@ beforeEach(async () => {
   await User.deleteMany({});
 
   const usersWithoutHash = helperToDB.listOfUsersToDB
-  console.log()
   const preparedUsers = await helperToDB.hashListOfUsers(usersWithoutHash);
   const usersToAdd = preparedUsers.map(user => new User(user));
 
