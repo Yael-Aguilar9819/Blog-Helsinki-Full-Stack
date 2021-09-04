@@ -21,7 +21,8 @@ userRouter.post('/', async (request, response, next) => {
     await bcrypt.hash(body.password, saltRounds) 
     : undefined
 
-  if (!checkPasswordLength(request.password, minimumPasswordLength)) {
+  // If it's false, it going to terminate the route early 
+  if (!checkPasswordLength(body.password, minimumPasswordLength)) {
     return response.status(400).json({ error: `password too short, must be at least ${minimumPasswordLength}` });
   }
 

@@ -37,14 +37,15 @@ describe('POST endpoint works correctly', () => {
     const { userWithAllProperties } = helperToDB;
 
     // the response it's a no care this time
-    await api
+    const resp = await api
       .post('/api/users')
-      .send(userWithAllProperties);
-
+      .send(userWithAllProperties)
+      .expect(200)
     const response = await api
       .get('/api/users');
 
     const users = response.body;
+    // console.log(users)
     expect(users).toHaveLength(4);
   });
 
