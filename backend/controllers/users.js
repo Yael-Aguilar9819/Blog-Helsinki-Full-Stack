@@ -36,5 +36,16 @@ userRouter.post('/', async (request, response, next) => {
   }
 });
 
+const checkPasswordLength = (possiblePass, minimumLength) => {
+  try {
+    // Using the ternary operator, we check if it's the minimum length
+    const result = possiblePass.length >= minimumLength ? true : false;
+    return result;
+  } catch (error) { 
+    // If it doesn't exist, or it's another type, it going to return this
+    return false;
+  }
+}
+
 // This exposes the module to the main app
 module.exports = userRouter;
