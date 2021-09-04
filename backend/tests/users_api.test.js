@@ -106,6 +106,22 @@ describe('POST endpoint works correctly', () => {
     // This would mean that it didn't add anything
     expect(resp.body).toHaveLength(helperToDB.listOfUsersToDB.length);
   });
+
+  test('The password is just big enough to be handled by the POST router', async () => {
+    const userWithoutPassword = helperToDB.userWithoutPasswordParameter;
+    userWithoutPassword.password = '2s0';
+
+    await api
+      .post('/api/users')
+      .send(userWithoutPassword)
+      .expect(200); // it shouldn't be rejected
+
+    const resp = await api
+      .get('/api/users');
+
+    // Should be added
+    expect(resp.body).toHaveLength(helperToDB.listOfUsersToDB.length + 1);
+  })
 });
 
 afterAll(async () => {
