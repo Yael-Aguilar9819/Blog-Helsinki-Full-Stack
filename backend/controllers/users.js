@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 const userRouter = require('express').Router();
 const User = require('../models/user');
 
+const minimumPasswordLength = 3;
+
 userRouter.get('/', async (request, response) => {
   const allUsers = await User.find({});
   response.json(allUsers);
@@ -18,6 +20,10 @@ userRouter.post('/', async (request, response, next) => {
   const passwordHash = body.password ? 
     await bcrypt.hash(body.password, saltRounds) 
     : undefined
+
+  if (!checkPasswordLength(request.password, minimumPasswordLength)) {
+    return response.status(400).json({ error: `password too short, must be at least ${minimumPasswordLength}` });
+  }
 
   // This could fail due to how the model is implemented, so try/except is used
   try {
