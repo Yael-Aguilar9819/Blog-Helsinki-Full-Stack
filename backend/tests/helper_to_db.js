@@ -1,5 +1,5 @@
-const Blog = require('../models/blog');
 const bcrypt = require('bcrypt');
+const Blog = require('../models/blog');
 const User = require('../models/user');
 
 const listOfBlogsToDB = [
@@ -91,7 +91,7 @@ const getRandomUser = async () => {
   return arrayOfUsers[randomUserIndex];
 };
 
-const hashListOfUsers = async (listOfUsers) => {
+const hashListOfUsers = async listOfUsers => {
   // This hash the password with the number of salt rounds
   // How it works: https://github.com/kelektiv/node.bcrypt.js#readme
   const saltRounds = 10;
@@ -101,15 +101,15 @@ const hashListOfUsers = async (listOfUsers) => {
     listOfUsers.map(async user => {
       const passwordHash = await bcrypt.hash(user.password, saltRounds);
       // This will deep copy the object so now it's a separated one
-      const userToModify = JSON.parse(JSON.stringify(user))
-      userToModify.passwordHash = passwordHash 
-      delete userToModify.password
-      return userToModify
-    })
-  )
+      const userToModify = JSON.parse(JSON.stringify(user));
+      userToModify.passwordHash = passwordHash;
+      delete userToModify.password;
+      return userToModify;
+    }),
+  );
   // The new array of modified objects it's returned after all the objects are processed
-  return hashedUsers
-}
+  return hashedUsers;
+};
 
 const listOfUsersToDB = [
   {

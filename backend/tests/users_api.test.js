@@ -11,7 +11,7 @@ const api = supertest(app);
 beforeEach(async () => {
   await User.deleteMany({});
 
-  const usersWithoutHash = helperToDB.listOfUsersToDB
+  const usersWithoutHash = helperToDB.listOfUsersToDB;
   const preparedUsers = await helperToDB.hashListOfUsers(usersWithoutHash);
   const usersToAdd = preparedUsers.map(user => new User(user));
 
@@ -37,10 +37,11 @@ describe('POST endpoint works correctly', () => {
     const { userWithAllProperties } = helperToDB;
 
     // the response it's a no care this time
-    const resp = await api
+    await api
       .post('/api/users')
       .send(userWithAllProperties)
-      .expect(200)
+      .expect(200);
+
     const response = await api
       .get('/api/users');
 
@@ -72,8 +73,9 @@ describe('POST endpoint works correctly', () => {
     await api
       .post('/api/users')
       .send(userWithoutusername)
-      .expect(400); // Bad request,    
-    // The response it's in the format of error: 'User validation failed: username: Path `username` is required.' 
+      .expect(400); // Bad request,
+    // The response it's in the format of error:
+    // 'User validation failed: username: Path `username` is required.'
   });
 
   test('If the password is not given, the response should be 400 bad request detailing the error', async () => {
@@ -83,8 +85,9 @@ describe('POST endpoint works correctly', () => {
       .post('/api/users')
       .send(userWithoutPassword)
       .expect(400); // Bad request,
-    // The response it's in the format of: 'error: 'User validation failed: passwordHash: Path `passwordHash` is required.'
-  })
+    // The response it's in the format of:
+    // 'error: 'User validation failed: passwordHash: Path `passwordHash` is required.'
+  });
 
   test('If username and/or password given are less than 3 characters long, it should return 400 bad request', async () => {
     const userWithoutPassword = helperToDB.userWithoutPasswordParameter;
@@ -94,12 +97,14 @@ describe('POST endpoint works correctly', () => {
       .post('/api/users')
       .send(userWithoutPassword)
       .expect(400); // Bad request,
-    // The response it's in the format of: 'error: 'User validation failed: passwordHash: Path `passwordHash` is required.'
+    // The response it's in the format of:
+    // 'error: 'User validation failed: passwordHash: Path `passwordHash` is required.'
 
-    const resp = 
-      await api
-      .get('/api/users')
-    expect(resp.body).toHaveLength(helperToDB.listOfUsersToDB.length); // This would mean that it didn't add anything
+    const resp = await api
+      .get('/api/users');
+
+    // This would mean that it didn't add anything
+    expect(resp.body).toHaveLength(helperToDB.listOfUsersToDB.length);
   });
 });
 

@@ -17,11 +17,11 @@ userRouter.post('/', async (request, response, next) => {
   // If body.password exists, then it's salted and hashed
   // otherwise, it stays undefined, so the mongoose validators can catch it
   const saltRounds = 10;
-  const passwordHash = body.password ? 
-    await bcrypt.hash(body.password, saltRounds) 
-    : undefined
+  const passwordHash = body.password
+    ? await bcrypt.hash(body.password, saltRounds)
+    : undefined;
 
-  // If it's false, it going to terminate the route early 
+  // If it's false, it going to terminate the route early
   if (!checkPasswordLength(body.password, minimumPasswordLength)) {
     return response.status(400).json({ error: `password too short, must be at least ${minimumPasswordLength}` });
   }
@@ -37,7 +37,6 @@ userRouter.post('/', async (request, response, next) => {
 
     const savedUser = await user.save();
     response.json(savedUser);
-    
   } catch (exception) {
     next(exception);
   }
@@ -46,13 +45,13 @@ userRouter.post('/', async (request, response, next) => {
 const checkPasswordLength = (possiblePass, minimumLength) => {
   try {
     // Using the ternary operator, we check if it's the minimum length
-    const result = possiblePass.length >= minimumLength ? true : false;
+    const result = possiblePass.length >= minimumLength;
     return result;
-  } catch (error) { 
+  } catch (error) {
     // If it doesn't exist, or it's another type, it going to return this
     return false;
   }
-}
+};
 
 // This exposes the module to the main app
 module.exports = userRouter;
