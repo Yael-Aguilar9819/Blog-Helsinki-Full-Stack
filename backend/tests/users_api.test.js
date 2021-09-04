@@ -27,7 +27,7 @@ describe('GET endpoint for users works correctly', () => {
       .expect('Content-Type', /application\/json/); // Should return this type specifically
 
     const users = response.body;
-    expect(users).toHaveLength(3);
+    expect(users).toHaveLength(helperToDB.listOfUsersToDB.length);
   });
 });
 
@@ -85,8 +85,20 @@ describe('POST endpoint works correctly', () => {
     // The response it's in the format of: 'error: 'User validation failed: passwordHash: Path `passwordHash` is required.'
   })
 
-  test('If username and/or password given are less than 3 characters longs, it should return 400 bad request', async () => {
+  test('If username and/or password given are less than 3 characters long, it should return 400 bad request', async () => {
+    const userWithoutPassword = helperToDB.userWithoutPasswordParameter;
+    userWithoutPassword.password = '2s';
 
+    await api
+      .post('/api/users')
+      .send(userWithoutPassword)
+      .expect(400); // Bad request,
+    // The response it's in the format of: 'error: 'User validation failed: passwordHash: Path `passwordHash` is required.'
+
+    const resp = 
+      await api
+      .get('/api/users')
+    expect(resp.body).toHaveLength(helperToDB.listOfUsersToDB.length); // This would mean that it didn't add anything
   });
 });
 
