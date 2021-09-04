@@ -119,9 +119,9 @@ describe('POST endpoint works correctly', () => {
     const resp = await api
       .get('/api/users');
 
-    // Should be added
+    // Should be added, that means the + 1
     expect(resp.body).toHaveLength(helperToDB.listOfUsersToDB.length + 1);
-  })
+  });
 });
 
 afterAll(async () => {
