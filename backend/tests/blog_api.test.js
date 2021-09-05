@@ -2,16 +2,34 @@ const mongoose = require('mongoose');
 const supertest = require('supertest');
 const helperToDB = require('./helper_to_db');
 const Blog = require('../models/blog'); // With '..' go back 1 dir
+const User = require('../models/user');
+
+
 const app = require('../app');
 
 const api = supertest(app);
+
+let userForTests = {}
+
+// This creates a new user, that will be used for all of the future tests
+beforeAll(async () => {
+  await User.deleteMany({});
+  
+  const userWithAllProperties = helperToDB.userWithAllProperties;
+  const resp = 
+    await api
+      .post('/api/users')
+      .send(userWithAllProperties)
+    // The only thing that really matters it's the ID
+  userForTests.id = resp.body.id
+})
 
 // Gets the blogs array from helper_to_db.js to create an array of blogs
 // then an array of promises, an finally with Promise.all it's run in parallel
 beforeEach(async () => {
   await Blog.deleteMany({});
   const blogsToAdd = helperToDB.listOfBlogsToDB.map(blog => new Blog(blog));
-  const promiseArrayOfBlogs = blogsToAdd.map(blog => blog.save());
+  const promiseArrayOfBlogs = blogsToAdd.map(blog => blog.save());  
   await Promise.all(promiseArrayOfBlogs);
 });
 
