@@ -184,6 +184,26 @@ describe('Delete/:id endpoint works properly', () => {
   });
 });
 
+describe('user portion in Blogs works appropriately', () => {
+  test('After creating a new blog, a valid blog with a valid userID is returned', async () => {
+    let newBlogWithUserID = helperToDB.blogWithAllProperties;
+    newBlogWithUserID.id = userForTests.id; // Add the user id to the blog properties
+
+    // This line sends the new blog,
+    const resp = 
+      await api
+      .post('/api/blogs')
+      .send(newBlogWithUserID)
+      .expect(201);
+
+    const blogFromServ = resp.body
+    // This will get the user ID returned 
+    const userIdReturnedObject = await User.findById(blogFromServ.user)
+    // Just asking for a true value, instead of a null if it doesn't exist
+    expect(userIdReturnedObject).toEqual(true)
+  })
+})
+
 afterAll(() => {
   mongoose.connection.close();
 });
