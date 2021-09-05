@@ -185,6 +185,18 @@ describe('Delete/:id endpoint works properly', () => {
 });
 
 describe('user portion in Blogs works appropriately', () => {
+
+  test('GET endpoint returns a section with user data', async () => {
+    const resp =
+      await api
+      .get('/api/blogs')
+      .expect(200)
+      .expect('Content-Type', /application\/json/);
+
+    // The double !! makes it act as a boolean, so if it's not a falsy value, will be true
+    expect(!!resp.body[0].user).toEqual(true)
+  })
+
   test('After creating a new blog, a valid blog with a valid userID is returned', async () => {
     let newBlogWithUserID = helperToDB.blogWithAllProperties;
     newBlogWithUserID.id = userForTests.id; // Add the user id to the blog properties
