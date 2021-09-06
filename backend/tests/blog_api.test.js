@@ -12,17 +12,17 @@ const api = supertest(app);
 let userForTests = {}
 
 // This creates a new user, that will be used for all of the future tests
-beforeAll(async () => {
-  await User.deleteMany({});
+// beforeAll(async () => {
+//   await User.deleteMany({});
   
-  const userWithAllProperties = helperToDB.userWithAllProperties;
-  const resp = 
-    await api
-      .post('/api/users')
-      .send(userWithAllProperties)
-    // The only thing that really matters it's the ID
-  userForTests.id = resp.body.id
-})
+//   const userWithAllProperties = helperToDB.userWithAllProperties;
+//   const resp = 
+//     await api
+//       .post('/api/users')
+//       .send(userWithAllProperties)
+//     // The only thing that really matters it's the ID
+//   userForTests.id = resp.body.id
+// })
 
 // Gets the blogs array from helper_to_db.js to create an array of blogs
 // then an array of promises, an finally with Promise.all it's run in parallel
@@ -216,6 +216,6 @@ describe('user portion in Blogs works appropriately', () => {
   })
 })
 
-afterAll(() => {
-  mongoose.connection.close();
+afterAll(async () => {
+  await mongoose.connection.close();
 });
