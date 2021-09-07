@@ -3,26 +3,27 @@ const supertest = require('supertest');
 const helperToDB = require('./helper_to_db');
 const Blog = require('../models/blog'); // With '..' go back 1 dir
 const User = require('../models/user');
+const helper_instances = require('./helper_instances_test');
 
+const api = helper_instances.api_instance;
 
-const app = require('../app');
-
-const api = supertest(app);
+// const api = supertest(app);
 
 let userForTests = {}
 
 // This creates a new user, that will be used for all of the future tests
-// beforeAll(async () => {
-//   await User.deleteMany({});
+beforeAll(async () => {
+  await User.deleteMany({});
   
-//   const userWithAllProperties = helperToDB.userWithAllProperties;
-//   const resp = 
-//     await api
-//       .post('/api/users')
-//       .send(userWithAllProperties)
-//     // The only thing that really matters it's the ID
-//   userForTests.id = resp.body.id
-// })
+  const userWithAllProperties = helperToDB.userWithAllProperties;
+  const resp = 
+    await api
+      .post('/api/users')
+      .send(userWithAllProperties)
+    // The only thing that really matters it's the ID
+  userForTests.id = resp.body.id
+})
+
 
 // Gets the blogs array from helper_to_db.js to create an array of blogs
 // then an array of promises, an finally with Promise.all it's run in parallel
@@ -84,9 +85,13 @@ describe('Post request works according to spec', () => {
 
   test('if the likes property is missing from the request, it will default to 0', async () => {
     // The new blog is created without likes, the reference is copied from the helper file
-    const { blogWithoutLikes } = helperToDB;
+    const blogWithoutLikes = helperToDB.blogWithoutLikes;
 
-    const response = await api.post('/api/blogs').send(blogWithoutLikes);
+    const response = 
+      await api
+      .post('/api/blogs')
+      .send(blogWithoutLikes);
+
     const blogResponseNoLikes = response.body;
     // The default if likes are not given, should be 0
     expect(blogResponseNoLikes.likes).toEqual(0);
@@ -185,7 +190,6 @@ describe('Delete/:id endpoint works properly', () => {
 });
 
 describe('user portion in Blogs works appropriately', () => {
-
   test('GET endpoint returns a section with user data', async () => {
     const resp =
       await api

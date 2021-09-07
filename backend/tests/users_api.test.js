@@ -2,10 +2,12 @@ const mongoose = require('mongoose');
 const supertest = require('supertest');
 const User = require('../models/user'); // With '..' go back 1 dir
 const helperToDB = require('./helper_to_db');
-
 const app = require('../app');
-
 const api = supertest(app);
+
+
+let userForTests = {}
+
 
 // This will run before every single test
 beforeEach(async () => {
@@ -17,6 +19,25 @@ beforeEach(async () => {
 
   const promiseArrayOfUsers = usersToAdd.map(user => user.save());
   await Promise.all(promiseArrayOfUsers); // This will wait for all the users to be saved to the DB
+
+  // This creates a new user, that will be used for all of the future tests
+  // const userWithAllProperties = helperToDB.userWithAllProperties;
+  // const resp = 
+  //   await api
+  //     .post('/api/users')
+  //     .send(userWithAllProperties)
+  //   // The only thing that really matters it's the ID
+  // userForTests.id = resp.body.id // this will retrieve the ID for the use of the tests
+
+
+  // Gets the blogs array from helper_to_db.js to create an array of blogs
+  // then an array of promises, an finally with Promise.all it's run in parallel
+
+  await Blog.deleteMany({});
+  const blogsToAdd = helperToDB.listOfBlogsToDB.map(blog => new Blog(blog));
+  const promiseArrayOfBlogs = blogsToAdd.map(blog => blog.save());  
+  await Promise.all(promiseArrayOfBlogs);
+
 });
 
 describe('GET endpoint for users works correctly', () => {
@@ -33,27 +54,23 @@ describe('GET endpoint for users works correctly', () => {
 
 describe('POST endpoint works correctly', () => {
   test('a properly made user adds 1 to the length of the userDB', async () => {
-    // This is the user object that will be send t the post endpoint
-    // const { userWithAllProperties } = helperToDB;
+    // This is the user object that will be send to the post endpoint
+    const { userWithAllProperties } = helperToDB;
 
-    // const well = helperToDB.userWithAllProperties
-    // console.log(userWithAllProperties)
-    // console.log(well)
-    console.log("wel")
-    
+    const well = helperToDB.userWithAllProperties
+    console.log(userWithAllProperties)
 
     // the response it's a no care this time
-    // await api
-    //   .post('/api/users')
-    //   .send(userWithAllProperties)
-    //   .expect(200);
+    await api
+      .post('/api/users')
+      .send(userWithAllProperties)
+      .expect(200);
 
-    // const response = await api
-    //   .get('/api/users');
+    const response = await api
+      .get('/api/users');
 
-    // const users = response.body;
-    // // console.log(users)
-    // expect(users).toHaveLength(4);
+    const users = response.body;
+    expect(users).toHaveLength(4);
   });
 
   test('If the username is not unique, the creation of new user returns a 400 bad request', async () => {
