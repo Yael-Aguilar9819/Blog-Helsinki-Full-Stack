@@ -164,8 +164,12 @@ describe('Post request of /api/blogs/ works according to spec', () => {
   const newBlog = helperToDB.blogWithAllProperties;
 
   test('The remoteDB adds 1 to the length after adding a new blog post', async () => {
+    // Add the user id to the blog properties, it's needed to add it each time because it changes
+    newBlog.userId = userIDForTests;
     // This line sends the new blog, but doesn't care for it's response
-    await api.post('/api/blogs').send(newBlog);
+    await api
+      .post('/api/blogs')
+      .send(newBlog);
 
     // Then we get the blogs in the DB
     const response = await api.get('/api/blogs');
@@ -176,9 +180,12 @@ describe('Post request of /api/blogs/ works according to spec', () => {
   });
 
   test('The object returned from the RemoteDB its the same as the one sent', async () => {
-    const response = await api.post('/api/blogs').send(newBlog);
-    const blogFromServer = response.body;
+    newBlog.userId = userIDForTests;
+    const response = await api
+      .post('/api/blogs')
+      .send(newBlog);
 
+    const blogFromServer = response.body;
     // Then each of the original properties it's checked for equality
     const hasSameCatAsBaseObj = helperToDB.ObjectsHasEqualCategories(newBlog, blogFromServer);
     expect(hasSameCatAsBaseObj).toEqual(false);
@@ -187,6 +194,7 @@ describe('Post request of /api/blogs/ works according to spec', () => {
   test('if the likes property is missing from the request, it will default to 0', async () => {
     // The new blog is created without likes, the reference is copied from the helper file
     const { blogWithoutLikes } = helperToDB;
+    blogWithoutLikes.userId = userIDForTests;
 
     const response = await api
       .post('/api/blogs')
@@ -200,6 +208,8 @@ describe('Post request of /api/blogs/ works according to spec', () => {
   test('if title or url are missing, returns a 400 bad request response', async () => {
     const blogNoURL = helperToDB.blogwithoutUrl;
     const blogNoTitle = helperToDB.blogWithoutTitle;
+    blogNoURL.userId = userIDForTests;
+    blogNoTitle.userId = userIDForTests;
 
     // Checks both characteristis, one after the other
     await api.post('/api/blogs')
@@ -249,7 +259,7 @@ describe('Delete/:id endpoint of blogs works properly', () => {
       .expect(400); // this means that the middleware catched the exception
   });
 
-  describe('The update endpont works', () => {
+  describe('The update endpoint works', () => {
     test('It returns a correct response status from a known blog', async () => {
       const blogToUpdate = await helperToDB.getRandomBlog();
       blogToUpdate.title = 'Welp'; // This is justa  simple variation
