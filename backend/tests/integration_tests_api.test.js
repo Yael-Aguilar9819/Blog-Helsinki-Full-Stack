@@ -43,7 +43,7 @@ describe('GET endpoint for users works correctly', () => {
   });
 });
 
-describe('POST endpoint works correctly', () => {
+describe('POST endpoint of users endpoint works correctly', () => {
   test('a properly made user adds 1 to the length of the userDB', async () => {
     // This is the user object that will be send to the post endpoint
     const { userWithAllProperties } = helperToDB;
@@ -135,7 +135,7 @@ describe('POST endpoint works correctly', () => {
   });
 });
 
-describe('The basic GET endpoint works properly', () => {
+describe('The basic GET endpoint of /api/blogs/ works properly', () => {
   // This is a test that just returns checks if the server repsonse is application/json
   test('blogs are returned as json', async () => {
     await api
@@ -159,7 +159,7 @@ describe('The basic GET endpoint works properly', () => {
   });
 });
 
-describe('Post request works according to spec', () => {
+describe('Post request of /api/blogs/ works according to spec', () => {
   // It's reference it's given to an object with a shorter name
   const newBlog = helperToDB.blogWithAllProperties;
 
@@ -212,7 +212,7 @@ describe('Post request works according to spec', () => {
   });
 });
 
-describe('Delete/:id endpoint works properly', () => {
+describe('Delete/:id endpoint of blogs works properly', () => {
   test('Succeeds at deleting with status code 204 if blog id is valid', async () => {
     // this helper method retrieves a random blog of the remotDB
     const blogToDelete = await helperToDB.getRandomBlog();

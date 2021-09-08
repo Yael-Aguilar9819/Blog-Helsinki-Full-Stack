@@ -11,10 +11,11 @@ blogRouter.get('/', async (request, response) => {
 });
 
 blogRouter.post('/', async (request, response, next) => {
-  const user = await User.findById(request.body.userId)
-  // The body is directly modified to add the user ID
-  request.body.user = user._id; 
   try {
+    const user = await User.findById(request.body.userId)
+    // The body is directly modified to add the user ID
+    request.body.user = user._id;   
+    
     const blog = new Blog(request.body);
     // The server response it's the same blog with the id
     const responseFromServer = await blog.save();
