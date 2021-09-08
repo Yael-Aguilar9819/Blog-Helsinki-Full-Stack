@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
 const supertest = require('supertest');
+const mongoose = require('mongoose');
 const Blog = require('../models/blog'); // With '..' go back 1 dir
 const User = require('../models/user'); // With '..' go back 1 dir
 const helperToDB = require('./helper_to_db');
@@ -7,7 +7,7 @@ const app = require('../app');
 
 const api = supertest(app);
 
-let userForTests = {};
+let userIDForTests = {};
 
 // This will run before every single test
 beforeEach(async () => {
@@ -21,7 +21,7 @@ beforeEach(async () => {
   // This will wait for all the users to be saved to the DB
   const resp = await Promise.all(promiseArrayOfUsers);
   // This gets the ID from the first user, to be used everytime
-  userForTests = resp[0]._id;
+  userIDForTests = resp[0]._id;
 
   // Gets the blogs array from helper_to_db.js to create an array of blogs
   // then an array of promises, an finally with Promise.all it's run in parallel
@@ -302,7 +302,7 @@ describe('user portion in Blogs works appropriately', () => {
 
   test('After creating a new blog, a valid blog with a valid userID is returned', async () => {
     const newBlogWithUserID = helperToDB.blogWithAllProperties;
-    newBlogWithUserID.id = userForTests.id; // Add the user id to the blog properties
+    newBlogWithUserID.userId = userIDForTests; // Add the user id to the blog properties
 
     // This line sends the new blog,
     const resp = await api
@@ -314,7 +314,7 @@ describe('user portion in Blogs works appropriately', () => {
     // This will get the user ID returned
     const userIdReturnedObject = await User.findById(blogFromServ.user);
     // Just asking for a true value, instead of a null if it doesn't exist
-    expect(userIdReturnedObject).toEqual(true);
+    expect(!!userIdReturnedObject).toEqual(true);
   });
 });
 
