@@ -26,7 +26,7 @@ beforeEach(async () => {
   // Gets the blogs array from helper_to_db.js to create an array of blogs
   // then an array of promises, an finally with Promise.all it's run in parallel
   await Blog.deleteMany({});
-  const promiseArrayOfBlogs = helperToDB.getArrayOfInitialBlogPromises(userIDForTests)
+  const promiseArrayOfBlogs = helperToDB.getArrayOfInitialBlogPromises(userIDForTests);
   // const blogWithUserAdded = helperToDB.listOfBlogsToDB.map(blog => {
   //   blog.user = userIDForTests
   //   return blog});
@@ -50,7 +50,7 @@ describe('GET endpoint for users works correctly', () => {
 describe('POST endpoint of users endpoint works correctly', () => {
   test('a properly made user adds 1 to the length of the userDB', async () => {
     // This is the user object that will be send to the post endpoint
-    const userWithAllProperties = helperToDB.userWithAllProperties;
+    const { userWithAllProperties } = helperToDB;
 
     // the response it's a no care this time
     await api
@@ -191,13 +191,15 @@ describe('Post request of /api/blogs/ works according to spec', () => {
 
     const blogFromServer = response.body;
     // Then each of the original properties it's checked for equality
-    const hasSameCatAsBaseObj = helperToDB.ObjectsHaveDifferentValuesOrCats(newBlog, blogFromServer);
+    const hasSameCatAsBaseObj = helperToDB.ObjectsHaveDifferentValuesOrCats(
+      newBlog, blogFromServer,
+    );
     expect(hasSameCatAsBaseObj).toEqual(false);
   });
 
   test('if the likes property is missing from the request, it will default to 0', async () => {
     // The new blog is created without likes, the reference is copied from the helper file
-    const blogWithoutLikes = helperToDB.blogWithoutLikes;
+    const { blogWithoutLikes } = helperToDB;
     blogWithoutLikes.userId = userIDForTests;
 
     const response = await api
@@ -282,10 +284,10 @@ describe('Delete/:id endpoint of blogs works properly', () => {
         .put(`/api/blogs/${blogToUpdate.id}`)
         .send(blogToUpdate)
         .expect(200);
-        
-        // It has to be cast to String, so it's the same type
-        // As the one returned from the DB
-        blogToUpdate.user = String(blogToUpdate.user)
+
+      // It has to be cast to String, so it's the same type
+      // As the one returned from the DB
+      blogToUpdate.user = String(blogToUpdate.user);
       expect(updatedRemoteBlog.body).toEqual(blogToUpdate);
     });
 

@@ -154,14 +154,18 @@ const userWithoutPasswordParameter = {
   name: 'name given totally correct',
 };
 
-const getArrayOfInitialBlogPromises = (userID) => {
+/* eslint-disable no-param-reassign */
+// it's necessary to add the parameter of ID to add it to the blog
+const getArrayOfInitialBlogPromises = userID => {
   const blogWithUserAdded = listOfBlogsToDB.map(blog => {
-    blog.user = userID
-    return blog});
+    blog.user = userID;
+    return blog;
+  });
   const blogsToAdd = blogWithUserAdded.map(blog => new Blog(blog));
   const promiseArrayOfBlogs = blogsToAdd.map(blog => blog.save());
-  return promiseArrayOfBlogs
-}
+  return promiseArrayOfBlogs;
+};
+/* eslint-enable no-param-reassign */
 
 module.exports = {
   listOfBlogsToDB,
