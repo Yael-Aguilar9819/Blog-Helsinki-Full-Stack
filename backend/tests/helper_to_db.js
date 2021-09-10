@@ -68,7 +68,7 @@ const getRandomBlog = async () => {
   return arrayOfBlogs[randomBlogIndex];
 };
 
-const ObjectsHasEqualCategories = (baseObject, objectToCompare) => {
+const ObjectsHaveDifferentValuesOrCats = (baseObject, objectToCompare) => {
   let isThereADifference = false;
   Object.keys(baseObject).forEach(property => { // it compares each property of the original object
     if (objectToCompare[property] !== baseObject[property]) {
@@ -171,7 +171,7 @@ module.exports = {
   blogWithoutTitle,
   blogsInRemoteDB,
   getRandomBlog,
-  ObjectsHasEqualCategories,
+  ObjectsHaveDifferentValuesOrCats,
   usersInRemoteDB,
   getRandomUser,
   hashListOfUsers,

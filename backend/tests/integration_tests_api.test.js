@@ -191,7 +191,7 @@ describe('Post request of /api/blogs/ works according to spec', () => {
 
     const blogFromServer = response.body;
     // Then each of the original properties it's checked for equality
-    const hasSameCatAsBaseObj = helperToDB.ObjectsHasEqualCategories(newBlog, blogFromServer);
+    const hasSameCatAsBaseObj = helperToDB.ObjectsHaveDifferentValuesOrCats(newBlog, blogFromServer);
     expect(hasSameCatAsBaseObj).toEqual(false);
   });
 
