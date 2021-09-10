@@ -46,7 +46,7 @@ describe('GET endpoint for users works correctly', () => {
 describe('POST endpoint of users endpoint works correctly', () => {
   test('a properly made user adds 1 to the length of the userDB', async () => {
     // This is the user object that will be send to the post endpoint
-    const { userWithAllProperties } = helperToDB;
+    const userWithAllProperties = helperToDB.userWithAllProperties;
 
     // the response it's a no care this time
     await api
@@ -193,7 +193,7 @@ describe('Post request of /api/blogs/ works according to spec', () => {
 
   test('if the likes property is missing from the request, it will default to 0', async () => {
     // The new blog is created without likes, the reference is copied from the helper file
-    const { blogWithoutLikes } = helperToDB;
+    const blogWithoutLikes = helperToDB.blogWithoutLikes;
     blogWithoutLikes.userId = userIDForTests;
 
     const response = await api
