@@ -26,12 +26,12 @@ beforeEach(async () => {
   // Gets the blogs array from helper_to_db.js to create an array of blogs
   // then an array of promises, an finally with Promise.all it's run in parallel
   await Blog.deleteMany({});
-  const blogWithUserAdded = helperToDB.listOfBlogsToDB.map(blog => {
-    blog.user = userIDForTests
-    return blog});
-  const blogsToAdd = blogWithUserAdded.map(blog => new Blog(blog));
-  // const blogsToAdd = helperToDB.listOfBlogsToDB.map(blog => new Blog(blog));
-  const promiseArrayOfBlogs = blogsToAdd.map(blog => blog.save());
+  const promiseArrayOfBlogs = helperToDB.getArrayOfInitialBlogPromises(userIDForTests)
+  // const blogWithUserAdded = helperToDB.listOfBlogsToDB.map(blog => {
+  //   blog.user = userIDForTests
+  //   return blog});
+  // const blogsToAdd = blogWithUserAdded.map(blog => new Blog(blog));
+  // const promiseArrayOfBlogs = blogsToAdd.map(blog => blog.save());
   await Promise.all(promiseArrayOfBlogs);
 });
 
@@ -282,7 +282,9 @@ describe('Delete/:id endpoint of blogs works properly', () => {
         .put(`/api/blogs/${blogToUpdate.id}`)
         .send(blogToUpdate)
         .expect(200);
-
+        console.log(typeof updatedRemoteBlog.body)
+        console.log(typeof blogToUpdate)
+        console.log(helperToDB.ObjectsHasEqualCategories(blogToUpdate, updatedRemoteBlog.body))
       expect(updatedRemoteBlog.body).toEqual(blogToUpdate);
     });
 

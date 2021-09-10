@@ -154,6 +154,15 @@ const userWithoutPasswordParameter = {
   name: 'name given totally correct',
 };
 
+const getArrayOfInitialBlogPromises = (userID) => {
+  const blogWithUserAdded = listOfBlogsToDB.map(blog => {
+    blog.user = userID
+    return blog});
+  const blogsToAdd = blogWithUserAdded.map(blog => new Blog(blog));
+  const promiseArrayOfBlogs = blogsToAdd.map(blog => blog.save());
+  return promiseArrayOfBlogs
+}
+
 module.exports = {
   listOfBlogsToDB,
   blogWithAllProperties,
@@ -171,4 +180,5 @@ module.exports = {
   userWithoutUsername,
   userWithoutNameParameter,
   userWithoutPasswordParameter,
+  getArrayOfInitialBlogPromises,
 };
