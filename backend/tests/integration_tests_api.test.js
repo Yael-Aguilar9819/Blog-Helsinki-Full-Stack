@@ -26,7 +26,11 @@ beforeEach(async () => {
   // Gets the blogs array from helper_to_db.js to create an array of blogs
   // then an array of promises, an finally with Promise.all it's run in parallel
   await Blog.deleteMany({});
-  const blogsToAdd = helperToDB.listOfBlogsToDB.map(blog => new Blog(blog));
+  const blogWithUserAdded = helperToDB.listOfBlogsToDB.map(blog => {
+    blog.user = userIDForTests
+    return blog});
+  const blogsToAdd = blogWithUserAdded.map(blog => new Blog(blog));
+  // const blogsToAdd = helperToDB.listOfBlogsToDB.map(blog => new Blog(blog));
   const promiseArrayOfBlogs = blogsToAdd.map(blog => blog.save());
   await Promise.all(promiseArrayOfBlogs);
 });

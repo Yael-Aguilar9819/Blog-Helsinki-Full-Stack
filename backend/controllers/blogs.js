@@ -5,7 +5,8 @@ const User = require('../models/user');
 // This are the main routes of the blog file
 // Now it's refactored into an async/await functions
 blogRouter.get('/', async (request, response) => {
-  const allBlogs = await Blog.find({});
+  // populate fills the user target with it's id, username, and name
+  const allBlogs = await Blog.find({}).populate('user', { username: 1, name: 1 });
   response.json(allBlogs);
 });
 
