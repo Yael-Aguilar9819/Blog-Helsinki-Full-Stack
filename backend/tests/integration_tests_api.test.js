@@ -282,9 +282,10 @@ describe('Delete/:id endpoint of blogs works properly', () => {
         .put(`/api/blogs/${blogToUpdate.id}`)
         .send(blogToUpdate)
         .expect(200);
-        console.log(typeof updatedRemoteBlog.body)
-        console.log(typeof blogToUpdate)
-        console.log(helperToDB.ObjectsHasEqualCategories(blogToUpdate, updatedRemoteBlog.body))
+        
+        // It has to be cast to String, so it's the same type
+        // As the one returned from the DB
+        blogToUpdate.user = String(blogToUpdate.user)
       expect(updatedRemoteBlog.body).toEqual(blogToUpdate);
     });
 
