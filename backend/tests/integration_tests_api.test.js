@@ -345,6 +345,19 @@ describe('user portion in Blogs works appropriately', () => {
       .expect(400);
     console.log(resp.body)
   })
+  
+  test('Blog with an invalid userID will return a 400 bad request', async () => {
+    const newBlogWithoutUserID = helperToDB.blogWithAllProperties;
+    newBlogWithUserID.userId = "023213Gibberish-IDsdsa"; // This is a wrong ID
+
+    const resp = await api
+      .post('/api/blogs')
+      .send(newBlogWithoutUserID)
+      .expect(400); // 400 Bad Request
+    console.log(resp.body)
+
+  })
+
 });
 
 afterAll(async () => {
