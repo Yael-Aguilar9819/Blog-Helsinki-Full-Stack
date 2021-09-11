@@ -8,6 +8,7 @@ const app = require('../app');
 const api = supertest(app);
 
 let userIDForTests = {};
+let numberOfBlogsAdded = 0;
 
 // This will run before every single test
 beforeEach(async () => {
@@ -27,6 +28,7 @@ beforeEach(async () => {
   // then an array of promises, an finally with Promise.all it's run in parallel
   await Blog.deleteMany({});
   const promiseArrayOfBlogs = helperToDB.getArrayOfInitialBlogPromises(userIDForTests);
+  numberOfBlogsAdded = promiseArrayOfBlogs.length
   await Promise.all(promiseArrayOfBlogs);
 });
 
@@ -355,6 +357,19 @@ describe('user portion in Blogs works appropriately', () => {
     // the response.body should be in the format of "{ error: 'malformatted id' }"
   });
 });
+
+describe('Blog portion in api/users Endpoint works according to spec', () => {
+  test('GET endpoint returns a section with the blogs the user has', async () => {
+    const resp = await api
+      .get('/api/users')
+      .expect(200)
+      .expect('Content-Type', /application\/json/);
+    
+    // So it should have the same number of blogs as the ones added by the beforeEach
+    expect(resp.body[0].blogs).toHaveLength(numberOfBlogsAdded);
+  });
+
+})
 
 afterAll(async () => {
   await mongoose.connection.close();
