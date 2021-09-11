@@ -160,7 +160,8 @@ describe('The basic GET endpoint of /api/blogs/ works properly', () => {
 
 describe('Post request of /api/blogs/ works according to spec', () => {
   // It's reference it's given to an object with a shorter name
-  const newBlog = helperToDB.blogWithAllProperties;
+  // Now it's deep cloned
+  const newBlog = JSON.parse(JSON.stringify(helperToDB.blogWithAllProperties));
 
   test('The remoteDB adds 1 to the length after adding a new blog post', async () => {
     // Add the user id to the blog properties, it's needed to add it each time because it changes
@@ -315,7 +316,8 @@ describe('user portion in Blogs works appropriately', () => {
   });
 
   test('After creating a new blog, a valid blog with a valid userID is returned', async () => {
-    const newBlogWithUserID = helperToDB.blogWithAllProperties;
+    const newBlogWithUserID = JSON.parse(JSON.stringify(helperToDB.blogWithAllProperties));
+
     newBlogWithUserID.userId = userIDForTests; // Add the user id to the blog properties
 
     // This line sends the new blog,
@@ -332,25 +334,26 @@ describe('user portion in Blogs works appropriately', () => {
   });
 
   test('A blog without an user portion will be rejected with a 400 bad request', async () => {
-    const newBlogWithoutUserID = helperToDB.blogWithAllProperties;
-
-    console.log(newBlogWithoutUserID)
-    const resp = await api
+    const newBlogWithoutUserID = JSON.parse(JSON.stringify(helperToDB.blogWithAllProperties));
+    // this time the userID its not added, and also it's deep copied
+    await api
       .post('/api/blogs')
       .send(newBlogWithoutUserID)
-      // .expect(400);
-      // console.log(resp.statusCode)
-      console.log(resp.body)
+      .expect(400);
+        // the response.body should be in the format of 
+        // "{ error: 'Blog validation failed: user: Path `user` is required.' }"
+
     })
   
   test('Blog with an invalid userID will return a 400 bad request', async () => {
-    const newBlogWithoutUserID = helperToDB.blogWithAllProperties;
+    const newBlogWithoutUserID = JSON.parse(JSON.stringify(helperToDB.blogWithAllProperties));
     newBlogWithoutUserID.userId = "023213Gibberish-IDsdsa"; // This is a wrong ID
 
-    const resp = await api
+    await api
       .post('/api/blogs')
       .send(newBlogWithoutUserID)
       .expect(400); // 400 Bad Request
+    // the response.body should be in the format of "{ error: 'malformatted id' }"
   })
 
 });
