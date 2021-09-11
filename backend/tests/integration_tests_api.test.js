@@ -335,6 +335,16 @@ describe('user portion in Blogs works appropriately', () => {
     // Just asking for a true value, instead of a null if it doesn't exist
     expect(!!userIdReturnedObject).toEqual(true);
   });
+
+  test('A blog without an user portion will be rejected with a 400 bad request', async () => {
+    const newBlogWithoutUserID = helperToDB.blogWithAllProperties;
+
+    const resp = await api
+      .post('/api/blogs')
+      .send(newBlogWithoutUserID)
+      .expect(400);
+    console.log(resp.body)
+  })
 });
 
 afterAll(async () => {
