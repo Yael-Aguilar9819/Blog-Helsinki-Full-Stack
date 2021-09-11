@@ -27,7 +27,7 @@ beforeEach(async () => {
   // then an array of promises, an finally with Promise.all it's run in parallel
   await Blog.deleteMany({});
   const promiseArrayOfBlogs = helperToDB.getArrayOfInitialBlogPromises(userIDForTests);
-  await Promise.all(promiseArrayOfBlogs); 
+  await Promise.all(promiseArrayOfBlogs);
 });
 
 describe('GET endpoint for users works correctly', () => {
@@ -340,22 +340,20 @@ describe('user portion in Blogs works appropriately', () => {
       .post('/api/blogs')
       .send(newBlogWithoutUserID)
       .expect(400);
-        // the response.body should be in the format of 
-        // "{ error: 'Blog validation failed: user: Path `user` is required.' }"
+    // the response.body should be in the format of
+    // "{ error: 'Blog validation failed: user: Path `user` is required.' }"
+  });
 
-    })
-  
   test('Blog with an invalid userID will return a 400 bad request', async () => {
     const newBlogWithoutUserID = JSON.parse(JSON.stringify(helperToDB.blogWithAllProperties));
-    newBlogWithoutUserID.userId = "023213Gibberish-IDsdsa"; // This is a wrong ID
+    newBlogWithoutUserID.userId = '023213Gibberish-IDsdsa'; // This is a wrong ID
 
     await api
       .post('/api/blogs')
       .send(newBlogWithoutUserID)
       .expect(400); // 400 Bad Request
     // the response.body should be in the format of "{ error: 'malformatted id' }"
-  })
-
+  });
 });
 
 afterAll(async () => {
