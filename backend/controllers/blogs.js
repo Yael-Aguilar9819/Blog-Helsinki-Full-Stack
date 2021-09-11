@@ -14,7 +14,7 @@ blogRouter.post('/', async (request, response, next) => {
   try {
     const user = await User.findById(request.body.userId);
     // The body is directly modified to add the user ID
-    request.body.user = user._id;  
+    request.body.user = request.body.userId;  
     const blog = new Blog(request.body);
     // The server response it's the same blog with the id
     const responseFromServer = await blog.save();

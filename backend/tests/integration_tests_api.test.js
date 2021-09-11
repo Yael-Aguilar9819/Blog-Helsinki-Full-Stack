@@ -27,12 +27,7 @@ beforeEach(async () => {
   // then an array of promises, an finally with Promise.all it's run in parallel
   await Blog.deleteMany({});
   const promiseArrayOfBlogs = helperToDB.getArrayOfInitialBlogPromises(userIDForTests);
-  // const blogWithUserAdded = helperToDB.listOfBlogsToDB.map(blog => {
-  //   blog.user = userIDForTests
-  //   return blog});
-  // const blogsToAdd = blogWithUserAdded.map(blog => new Blog(blog));
-  // const promiseArrayOfBlogs = blogsToAdd.map(blog => blog.save());
-  await Promise.all(promiseArrayOfBlogs);
+  await Promise.all(promiseArrayOfBlogs); 
 });
 
 describe('GET endpoint for users works correctly', () => {
@@ -339,23 +334,23 @@ describe('user portion in Blogs works appropriately', () => {
   test('A blog without an user portion will be rejected with a 400 bad request', async () => {
     const newBlogWithoutUserID = helperToDB.blogWithAllProperties;
 
+    console.log(newBlogWithoutUserID)
     const resp = await api
       .post('/api/blogs')
       .send(newBlogWithoutUserID)
-      .expect(400);
-    console.log(resp.body)
-  })
+      // .expect(400);
+      // console.log(resp.statusCode)
+      console.log(resp.body)
+    })
   
   test('Blog with an invalid userID will return a 400 bad request', async () => {
     const newBlogWithoutUserID = helperToDB.blogWithAllProperties;
-    newBlogWithUserID.userId = "023213Gibberish-IDsdsa"; // This is a wrong ID
+    newBlogWithoutUserID.userId = "023213Gibberish-IDsdsa"; // This is a wrong ID
 
     const resp = await api
       .post('/api/blogs')
       .send(newBlogWithoutUserID)
       .expect(400); // 400 Bad Request
-    console.log(resp.body)
-
   })
 
 });
