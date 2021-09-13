@@ -364,10 +364,24 @@ describe('Blog portion in api/users Endpoint works according to spec', () => {
       .get('/api/users')
       .expect(200)
       .expect('Content-Type', /application\/json/);
-    
+
+    console.log(resp.body)
     // So it should have the same number of blogs as the ones added by the beforeEach
     expect(resp.body[0].blogs).toHaveLength(numberOfBlogsAdded);
   });
+
+  test('After the user adds a new blog, its reflected in its user blog portion', async () => {
+    const resp = await api
+    .get('/api/users')
+    .expect(200)
+
+    actualNumberOfBlogs = resp.body[0].blogs // and we save them
+
+    // So the same number of blogs are returned
+    expect(actualNumberOfBlogs).toHaveLength(numberOfBlogsAdded);
+
+    
+  })
 
 })
 
