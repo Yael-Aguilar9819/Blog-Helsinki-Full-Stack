@@ -12,7 +12,7 @@ let numberOfBlogsAdded = 0;
 
 // This will be the selected user in some tests
 // added it to increase maintainability
-const selectedUser = 0
+const selectedUser = 0;
 
 // This will run before every single test
 beforeEach(async () => {
@@ -32,7 +32,7 @@ beforeEach(async () => {
   // then an array of promises, an finally with Promise.all it's run in parallel
   await Blog.deleteMany({});
   const promiseArrayOfBlogs = helperToDB.getArrayOfInitialBlogPromises(userIDForTests);
-  numberOfBlogsAdded = promiseArrayOfBlogs.length
+  numberOfBlogsAdded = promiseArrayOfBlogs.length;
   await Promise.all(promiseArrayOfBlogs);
 });
 
@@ -369,15 +369,14 @@ describe('Blog portion in api/users Endpoint works according to spec', () => {
       .expect(200)
       .expect('Content-Type', /application\/json/);
 
-    console.log(resp.body)
     // So it should have the same number of blogs as the ones added by the beforeEach
     expect(resp.body[selectedUser].blogs).toHaveLength(numberOfBlogsAdded);
   });
 
   test('After the user adds a new blog, its reflected in its user blog portion adding one', async () => {
     const resp = await api
-    .get('/api/users')
-    .expect(200)
+      .get('/api/users')
+      .expect(200);
 
     // So the same number of blogs are returned from the test
     expect(resp.body[selectedUser].blogs).toHaveLength(numberOfBlogsAdded);
@@ -388,15 +387,14 @@ describe('Blog portion in api/users Endpoint works according to spec', () => {
     await api
       .post('/api/blogs')
       .send(newBlog);
-  
+
     const SecondResp = await api
       .get('/api/users')
-      .expect(200)    
-    
-      expect(SecondResp.body[selectedUser].blogs).toHaveLength(numberOfBlogsAdded + 1);
-  })
+      .expect(200);
 
-})
+    expect(SecondResp.body[selectedUser].blogs).toHaveLength(numberOfBlogsAdded + 1);
+  });
+});
 
 afterAll(async () => {
   await mongoose.connection.close();
