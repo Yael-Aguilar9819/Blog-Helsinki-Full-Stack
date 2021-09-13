@@ -372,7 +372,6 @@ describe('Blog portion in api/users Endpoint works according to spec', () => {
       .expect(200)
       .expect('Content-Type', /application\/json/);
 
-    console.log(resp.body[0])
     // So it should have the same number of blogs as the ones added by the beforeEach
     expect(resp.body[selectedUser].blogs).toHaveLength(numberOfBlogsAdded);
   });
@@ -396,7 +395,6 @@ describe('Blog portion in api/users Endpoint works according to spec', () => {
       .get('/api/users')
       .expect(200);
 
-      console.log(SecondResp.body)
     expect(SecondResp.body[selectedUser].blogs).toHaveLength(numberOfBlogsAdded + 1);
   });
 });
