@@ -167,6 +167,15 @@ const getArrayOfInitialBlogPromises = userID => {
 };
 /* eslint-enable no-param-reassign */
 
+// this time it's necessary to make it async
+// Because it modifies the same parameter each time
+const addBlogsToUser = async (userID, arrayOfBlogsReturned) => {
+  const user = await User.findById(userID)
+
+  user.blogs = user.blogs.concat(arrayOfBlogsReturned.map(blog => blog._id))
+  await user.save()
+}
+
 module.exports = {
   listOfBlogsToDB,
   blogWithAllProperties,
@@ -185,4 +194,5 @@ module.exports = {
   userWithoutNameParameter,
   userWithoutPasswordParameter,
   getArrayOfInitialBlogPromises,
+  addBlogsToUser
 };

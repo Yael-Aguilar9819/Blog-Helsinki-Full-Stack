@@ -5,7 +5,7 @@ const User = require('../models/user');
 const minimumPasswordLength = 3;
 
 userRouter.get('/', async (request, response) => {
-  const allUsers = await User.find({}).populate('blogs', {title:1});
+  const allUsers = await User.find({}).populate('blogs');
   response.json(allUsers);
 });
 

@@ -33,7 +33,10 @@ beforeEach(async () => {
   await Blog.deleteMany({});
   const promiseArrayOfBlogs = helperToDB.getArrayOfInitialBlogPromises(userIDForTests);
   numberOfBlogsAdded = promiseArrayOfBlogs.length;
-  await Promise.all(promiseArrayOfBlogs);
+  const blogsAddedToDB = await Promise.all(promiseArrayOfBlogs);
+  // This adds all the newly saved blogs to the user object
+  // that is user through the tests here
+  await helperToDB.addBlogsToUser(userIDForTests, blogsAddedToDB)
 });
 
 describe('GET endpoint for users works correctly', () => {
@@ -369,6 +372,7 @@ describe('Blog portion in api/users Endpoint works according to spec', () => {
       .expect(200)
       .expect('Content-Type', /application\/json/);
 
+    console.log(resp.body[0])
     // So it should have the same number of blogs as the ones added by the beforeEach
     expect(resp.body[selectedUser].blogs).toHaveLength(numberOfBlogsAdded);
   });
@@ -378,12 +382,8 @@ describe('Blog portion in api/users Endpoint works according to spec', () => {
       .get('/api/users')
       .expect(200);
 
-    // const allBlogs = await Blog.find({});
-    // const blogResp = await api
-    //   .get('/api/blogs');
-    // console.log(resp.body)
     // So the same number of blogs are returned from the test
-    // expect(resp.body[selectedUser].blogs).toHaveLength(numberOfBlogsAdded);
+    expect(resp.body[selectedUser].blogs).toHaveLength(numberOfBlogsAdded);
 
     const newBlog = JSON.parse(JSON.stringify(helperToDB.blogWithAllProperties));
     newBlog.userId = userIDForTests;
@@ -396,6 +396,7 @@ describe('Blog portion in api/users Endpoint works according to spec', () => {
       .get('/api/users')
       .expect(200);
 
+      console.log(SecondResp.body)
     expect(SecondResp.body[selectedUser].blogs).toHaveLength(numberOfBlogsAdded + 1);
   });
 });
