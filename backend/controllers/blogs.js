@@ -1,5 +1,6 @@
 const blogRouter = require('express').Router();
 const Blog = require('../models/blog'); // With '..' go back 1 dir
+const User = require('../models/user'); // Needed to populate the user object
 
 // This are the main routes of the blog file
 // Now it's refactored into an async/await functions
@@ -12,10 +13,18 @@ blogRouter.get('/', async (request, response) => {
 blogRouter.post('/', async (request, response, next) => {
   try {
     // The body is directly modified to add the user ID
+    // request.body.user = request.body.userId;
     request.body.user = request.body.userId;
     const blog = new Blog(request.body);
     // The server response it's the same blog with the id
     const responseFromServer = await blog.save();
+    // Then we modify the User object in it's own collection
+    const user = await User.findById(request.body.userId)
+    // then it's added to the current blogs in the user blogs
+    user.blogs = user.blogs.concat(responseFromServer._id)
+    // and saved
+    await user.save()
+    
     // Then it's converted to json and returned to whatever method called POST
     response.status(201).json(responseFromServer);
   } catch (exception) {
