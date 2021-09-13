@@ -10,6 +10,10 @@ const api = supertest(app);
 let userIDForTests = {};
 let numberOfBlogsAdded = 0;
 
+// This will be the selected user in some tests
+// added it to increase maintainability
+const selectedUser = 0
+
 // This will run before every single test
 beforeEach(async () => {
   await User.deleteMany({});
@@ -22,7 +26,7 @@ beforeEach(async () => {
   // This will wait for all the users to be saved to the DB
   const resp = await Promise.all(promiseArrayOfUsers);
   // This gets the ID from the first user, to be used everytime
-  userIDForTests = resp[0]._id;
+  userIDForTests = resp[selectedUser]._id;
 
   // Gets the blogs array from helper_to_db.js to create an array of blogs
   // then an array of promises, an finally with Promise.all it's run in parallel
@@ -367,20 +371,29 @@ describe('Blog portion in api/users Endpoint works according to spec', () => {
 
     console.log(resp.body)
     // So it should have the same number of blogs as the ones added by the beforeEach
-    expect(resp.body[0].blogs).toHaveLength(numberOfBlogsAdded);
+    expect(resp.body[selectedUser].blogs).toHaveLength(numberOfBlogsAdded);
   });
 
-  test('After the user adds a new blog, its reflected in its user blog portion', async () => {
+  test('After the user adds a new blog, its reflected in its user blog portion adding one', async () => {
     const resp = await api
     .get('/api/users')
     .expect(200)
 
-    actualNumberOfBlogs = resp.body[0].blogs // and we save them
+    // So the same number of blogs are returned from the test
+    expect(resp.body[selectedUser].blogs).toHaveLength(numberOfBlogsAdded);
 
-    // So the same number of blogs are returned
-    expect(actualNumberOfBlogs).toHaveLength(numberOfBlogsAdded);
-
+    const newBlog = JSON.parse(JSON.stringify(helperToDB.blogWithAllProperties));
+    newBlog.userId = userIDForTests;
+    // This line sends the new blog, but doesn't care for it's response
+    await api
+      .post('/api/blogs')
+      .send(newBlog);
+  
+    const SecondResp = await api
+      .get('/api/users')
+      .expect(200)    
     
+      expect(SecondResp.body[selectedUser].blogs).toHaveLength(numberOfBlogsAdded + 1);
   })
 
 })
