@@ -36,7 +36,7 @@ beforeEach(async () => {
   const blogsAddedToDB = await Promise.all(promiseArrayOfBlogs);
   // This adds all the newly saved blogs to the user object
   // that is user through the tests here
-  await helperToDB.addBlogsToUser(userIDForTests, blogsAddedToDB)
+  await helperToDB.addBlogsToUser(userIDForTests, blogsAddedToDB);
 });
 
 describe('GET endpoint for users works correctly', () => {

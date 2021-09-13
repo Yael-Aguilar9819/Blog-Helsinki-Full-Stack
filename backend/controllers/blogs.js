@@ -20,7 +20,7 @@ blogRouter.post('/', async (request, response, next) => {
     const blogResponseFromServer = await blog.save();
     // Then we modify the User object in it's own collection
     await saveBlogIDinUserCollection(request.body.userId, blogResponseFromServer);
-    
+
     // Then it's converted to json and returned to whatever method called POST
     response.status(201).json(blogResponseFromServer);
   } catch (exception) {
@@ -51,11 +51,11 @@ blogRouter.put('/:id', async (request, response, next) => {
 });
 
 const saveBlogIDinUserCollection = async (userID, blogToSave) => {
-  const user = await User.findById(userID)
+  const user = await User.findById(userID);
   // then it's added to the current blogs in the user blogs
-  user.blogs = user.blogs.concat(blogToSave._id)
+  user.blogs = user.blogs.concat(blogToSave._id);
   // and saved
-  await user.save()
-}
+  await user.save();
+};
 
 module.exports = blogRouter;
