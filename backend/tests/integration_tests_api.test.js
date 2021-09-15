@@ -399,6 +399,28 @@ describe('Blog portion in api/users Endpoint works according to spec', () => {
   });
 });
 
+describe('Login works appropriately', () => {
+  test('Login as an existing user returns a JWT token', async () => {
+
+  })
+
+  test('Trying to log with an incorrect password returns an error', async () => {
+
+  })
+
+  test('Trying to log without a password returns an error', async () => {
+
+  })
+
+  test('Trying to log with an username that doesnt exist returns an error', async () => {
+
+  })
+
+  test('Trying to log without any data returns an error', async () => {
+
+  })
+})
+
 afterAll(async () => {
   await mongoose.connection.close();
 });
