@@ -13,7 +13,6 @@ blogRouter.get('/', async (request, response) => {
 blogRouter.post('/', async (request, response, next) => {
   try {
     // The body is directly modified to add the user ID
-    // request.body.user = request.body.userId;
     request.body.user = request.body.userId;
     const blog = new Blog(request.body);
     // The server response it's the same blog with the id
