@@ -401,59 +401,57 @@ describe('Blog portion in api/users Endpoint works according to spec', () => {
 
 describe('Login works appropriately', () => {
   test('Login as an existing user returns a JWT token', async () => {
-    //Deep copy of the first user
+    // Deep copy of the first user
     // Although it doesn't matter the number, all of the list went inside the remoteDB
     const userWithPass = JSON.parse(JSON.stringify(helperToDB.listOfUsersToDB[0]));
 
     const resp = await api
       .post('/api/login')
       .send(userWithPass)
-      .expect(200)
+      .expect(200);
 
     // This will check that each of the categories exist in the object returned
-    expect(!!resp.body.username).toEqual(true)
-    expect(!!resp.body.token).toEqual(true)
-    expect(!!resp.body.name).toEqual(true)
-  })
+    expect(!!resp.body.username).toEqual(true);
+    expect(!!resp.body.token).toEqual(true);
+    expect(!!resp.body.name).toEqual(true);
+  });
 
   test('Trying to log with an incorrect password returns an error', async () => {
     const userWithWrongPass = JSON.parse(JSON.stringify(helperToDB.listOfUsersToDB[0]));
     // The pass will be modified with an unknown one
-    userWithWrongPass.password = 'Truly Not A Correct Password'
+    userWithWrongPass.password = 'Truly Not A Correct Password';
 
-    const resp = 
-      await api
-        .post('/api/login')
-        .send(userWithWrongPass)
-        .expect(401) // 401 Unauthorized
+    const resp = await api
+      .post('/api/login')
+      .send(userWithWrongPass)
+      .expect(401); // 401 Unauthorized
 
     // this means that an object with an error exists
-    expect(!!resp.error).toEqual(true)
-  })
+    expect(!!resp.error).toEqual(true);
+  });
 
   test('Trying to log without a password returns an error', async () => {
     const userWithNoPass = JSON.parse(JSON.stringify(helperToDB.listOfUsersToDB[0]));
     // The pass will be modified with an unknown one
-    delete userWithNoPass.password
+    delete userWithNoPass.password;
 
-    const resp = 
-      await api
-        .post('/api/login')
-        .send(userWithNoPass)
-        .expect(401) // 401 Unauthorized
+    const resp = await api
+      .post('/api/login')
+      .send(userWithNoPass)
+      .expect(401); // 401 Unauthorized
 
     // this means that an object with an error exists
-    expect(!!resp.error).toEqual(true)
-  })
+    expect(!!resp.error).toEqual(true);
+  });
 
   test('Trying to log with an username that doesnt exist returns an error', async () => {
 
-  })
+  });
 
   test('Trying to log without any data returns an error', async () => {
 
-  })
-})
+  });
+});
 
 afterAll(async () => {
   await mongoose.connection.close();
