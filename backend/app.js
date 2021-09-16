@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 
 const blogRouter = require('./controllers/blogs');
 const usersRouter = require('./controllers/users');
+const loginRouter = require('./controllers/login');
 
 const config = require('./utils/config');
 const middleware = require('./utils/middleware');
@@ -29,6 +30,9 @@ app.use('/api/blogs', blogRouter);
 
 // This router redirects to the user endpoint
 app.use('/api/users', usersRouter);
+
+// Login endpoint
+app.use('/api/login', loginRouter);
 
 // If url is unknown, this dispatches
 app.use(middleware.unknownEndpoint);

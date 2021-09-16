@@ -23,3 +23,6 @@ loginRouter.post('/', async (request, response) => {
     OK: 'passed succesfully, not token implemented'
   })
 })
+
+
+module.exports = loginRouter;

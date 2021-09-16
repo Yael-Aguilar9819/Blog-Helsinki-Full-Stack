@@ -26,8 +26,7 @@ beforeEach(async () => {
   // This will wait for all the users to be saved to the DB
   const resp = await Promise.all(promiseArrayOfUsers);
   // This gets the ID from the first user, to be used everytime
-  userForTests = resp[selectedUser];
-  // userIDForTests = resp[selectedUser]._id;
+  userIDForTests = resp[selectedUser]._id;
 
   // Gets the blogs array from helper_to_db.js to create an array of blogs
   // then an array of promises, an finally with Promise.all it's run in parallel
@@ -402,7 +401,15 @@ describe('Blog portion in api/users Endpoint works according to spec', () => {
 
 describe('Login works appropriately', () => {
   test('Login as an existing user returns a JWT token', async () => {
+    //Deep copy of the first user
+    // Although it doesn't matter the number, all of the list went inside the remoteDB
+    const userWithPass = JSON.parse(JSON.stringify(helperToDB.listOfUsersToDB[0]));
+    console.log(userWithPass)
 
+    const resp = await api
+      .post('/api/login')
+      .send(userWithPass)
+    console.log(resp.body)
   })
 
   test('Trying to log with an incorrect password returns an error', async () => {
