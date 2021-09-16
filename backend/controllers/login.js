@@ -19,9 +19,20 @@ loginRouter.post('/', async (request, response) => {
       error: 'invalid username or password'
     })
   }
-  response.status(200).json({
-    OK: 'passed succesfully, not token implemented'
-  })
+
+  // This will create the object that is going to be made into the token 
+  // signed by a key that is given by the admin
+  const userForToken = {
+    username: user.username,
+    id: user._id,
+  }
+
+  const token = jwt.sign(userForToken, process.env.SECRET)
+
+  // Then it's send back to the user
+  response
+    .status(200)
+    .send({ token, username: user.username, name: user.name })
 })
 
 

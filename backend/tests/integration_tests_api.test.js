@@ -404,12 +404,16 @@ describe('Login works appropriately', () => {
     //Deep copy of the first user
     // Although it doesn't matter the number, all of the list went inside the remoteDB
     const userWithPass = JSON.parse(JSON.stringify(helperToDB.listOfUsersToDB[0]));
-    console.log(userWithPass)
 
     const resp = await api
       .post('/api/login')
       .send(userWithPass)
-    console.log(resp.body)
+      .expect(200)
+
+    // This will check that each of the categories exist in the object returned
+    expect(!!resp.body.username).toEqual(true)
+    expect(!!resp.body.token).toEqual(true)
+    expect(!!resp.body.name).toEqual(true)
   })
 
   test('Trying to log with an incorrect password returns an error', async () => {
