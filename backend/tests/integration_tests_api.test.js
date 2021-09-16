@@ -26,7 +26,8 @@ beforeEach(async () => {
   // This will wait for all the users to be saved to the DB
   const resp = await Promise.all(promiseArrayOfUsers);
   // This gets the ID from the first user, to be used everytime
-  userIDForTests = resp[selectedUser]._id;
+  userForTests = resp[selectedUser];
+  // userIDForTests = resp[selectedUser]._id;
 
   // Gets the blogs array from helper_to_db.js to create an array of blogs
   // then an array of promises, an finally with Promise.all it's run in parallel
