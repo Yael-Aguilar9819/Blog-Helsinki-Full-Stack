@@ -417,18 +417,33 @@ describe('Login works appropriately', () => {
   })
 
   test('Trying to log with an incorrect password returns an error', async () => {
-    const userWithPass = JSON.parse(JSON.stringify(helperToDB.listOfUsersToDB[0]));
+    const userWithWrongPass = JSON.parse(JSON.stringify(helperToDB.listOfUsersToDB[0]));
     // The pass will be modified with an unknown one
-    userWithPass.password = 'Truly Not A Correct Password'
+    userWithWrongPass.password = 'Truly Not A Correct Password'
 
-    const resp = await api
-    .post('/api/login')
-    .send(userWithPass)
-    .expect(401) // 401 Unauthorized
+    const resp = 
+      await api
+        .post('/api/login')
+        .send(userWithWrongPass)
+        .expect(401) // 401 Unauthorized
+
+    // this means that an object with an error exists
+    expect(!!resp.error).toEqual(true)
   })
 
   test('Trying to log without a password returns an error', async () => {
+    const userWithNoPass = JSON.parse(JSON.stringify(helperToDB.listOfUsersToDB[0]));
+    // The pass will be modified with an unknown one
+    delete userWithNoPass.password
 
+    const resp = 
+      await api
+        .post('/api/login')
+        .send(userWithNoPass)
+        .expect(401) // 401 Unauthorized
+
+    // this means that an object with an error exists
+    expect(!!resp.error).toEqual(true)
   })
 
   test('Trying to log with an username that doesnt exist returns an error', async () => {

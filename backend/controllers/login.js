@@ -8,6 +8,12 @@ loginRouter.post('/', async (request, response) => {
   const body = request.body
 
   const user = await User.findOne({ username: body.username })
+
+  if (!body.password) {
+    return response.status(401).json({
+      error: 'password was not given'
+    })
+  }
   const passwordCorrect = user === null
     ? false
     // this will compare the password given with the hash using bcrypt
