@@ -417,7 +417,14 @@ describe('Login works appropriately', () => {
   })
 
   test('Trying to log with an incorrect password returns an error', async () => {
+    const userWithPass = JSON.parse(JSON.stringify(helperToDB.listOfUsersToDB[0]));
+    // The pass will be modified with an unknown one
+    userWithPass.password = 'Truly Not A Correct Password'
 
+    const resp = await api
+    .post('/api/login')
+    .send(userWithPass)
+    .expect(401) // 401 Unauthorized
   })
 
   test('Trying to log without a password returns an error', async () => {
