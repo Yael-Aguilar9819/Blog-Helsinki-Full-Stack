@@ -444,7 +444,19 @@ describe('Login works appropriately', () => {
     expect(!!resp.error).toEqual(true);
   });
 
-  test('Trying to log with an username that doesnt exist returns an error', async () => {
+  test('Trying to log with an username that doesnt exist returns an error describing it', async () => {
+    const userWithInexistantUsername = JSON.parse(JSON.stringify(helperToDB.listOfUsersToDB[0]));
+    // The pass will be modified with an unknown one
+    userWithInexistantUsername.username = "This definitely doesn't exist"
+
+    const resp = await api
+      .post('/api/login')
+      .send(userWithInexistantUsername)
+      .expect(401); // 401 Unauthorized
+    
+    console.log(resp.body)
+    // this means that an object with an error exists
+    expect(!!resp.error).toEqual(true);
 
   });
 
