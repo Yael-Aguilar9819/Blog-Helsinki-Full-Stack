@@ -16,6 +16,13 @@ blogRouter.post('/', async (request, response, next) => {
     // The body is directly modified to add the user ID
     request.body.user = request.body.userId;
     const blog = new Blog(request.body);
+
+    //Uses the functtion to extract the token
+    const token = getTokenFrom(request)
+    const decodedToken = jwt.verify(token, process.env.SECRET)
+    if (!token || !decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or invalid' })
+    }
     // The server response it's the same blog with the id
     const blogResponseFromServer = await blog.save();
     // Then we modify the User object in it's own collection
