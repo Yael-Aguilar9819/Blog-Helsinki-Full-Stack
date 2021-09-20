@@ -14,6 +14,7 @@ loginRouter.post('/', async (request, response) => {
       error: 'password was not given',
     });
   }
+
   const passwordCorrect = user === null
     ? false
     // this will compare the password given with the hash using bcrypt

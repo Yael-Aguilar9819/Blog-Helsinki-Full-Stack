@@ -459,7 +459,11 @@ describe('Login works appropriately', () => {
   });
 
   test('Trying to log without any data returns an error', async () => {
+    const resp = await api
+    .post('/api/login')
+    .expect(401); // 401 Unauthorized
 
+    expect(!!resp.error).toEqual(true);
   });
 });
 
