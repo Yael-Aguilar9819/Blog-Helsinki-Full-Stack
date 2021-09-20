@@ -1,6 +1,7 @@
 const blogRouter = require('express').Router();
 const Blog = require('../models/blog'); // With '..' go back 1 dir
 const User = require('../models/user'); // Needed to populate the user object
+const jwt = require('jsonwebtoken')
 
 // This are the main routes of the blog file
 // Now it's refactored into an async/await functions
@@ -56,5 +57,13 @@ const saveBlogIDinUserCollection = async (userID, blogToSave) => {
   // and saved
   await user.save();
 };
+
+const getTokenFrom = request => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    return authorization.substring(7)
+  }
+  return null
+}
 
 module.exports = blogRouter;
