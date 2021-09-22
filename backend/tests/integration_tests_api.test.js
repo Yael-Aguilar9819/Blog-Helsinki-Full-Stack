@@ -29,12 +29,13 @@ beforeEach(async () => {
   // This gets the ID from the first user, to be used everytime
   userIDForTests = resp[selectedUser]._id;
 
-  userToken = await api
+  // This reuses the first user added to create a new JWT
+  const userLogin = await api
     .post('/api/login')
     .send(helperToDB.listOfUsersToDB[selectedUser])
     .expect(200);
   
-  console.log(userToken)
+  userToken = userLogin.body.token
 
   // Gets the blogs array from helper_to_db.js to create an array of blogs
   // then an array of promises, an finally with Promise.all it's run in parallel
@@ -184,9 +185,9 @@ describe('Post request of /api/blogs/ works according to spec', () => {
     // This line sends the new blog, but doesn't care for it's response
     const resp = await api
       .post('/api/blogs')
+      .set('Authorization', 'bearer ' + userToken)
       .send(newBlog);
 
-    console.log(resp.body)
     // Then we get the blogs in the DB
     const response = await api.get('/api/blogs');
     const blogs = response.body;
