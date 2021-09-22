@@ -7,7 +7,7 @@ const app = require('../app');
 
 const api = supertest(app);
 
-let userToken = {}
+let userToken = {};
 let userIDForTests = {};
 let numberOfBlogsAdded = 0;
 
@@ -34,8 +34,8 @@ beforeEach(async () => {
     .post('/api/login')
     .send(helperToDB.listOfUsersToDB[selectedUser])
     .expect(200);
-  
-  userToken = userLogin.body.token
+
+  userToken = userLogin.body.token;
 
   // Gets the blogs array from helper_to_db.js to create an array of blogs
   // then an array of promises, an finally with Promise.all it's run in parallel
@@ -185,7 +185,7 @@ describe('Post request of /api/blogs/ works according to spec', () => {
     // This line sends the new blog, but doesn't care for it's response
     await api
       .post('/api/blogs')
-      .set('Authorization', 'bearer ' + userToken)
+      .set('Authorization', `bearer ${userToken}`)
       .send(newBlog);
 
     // Then we get the blogs in the DB
@@ -197,10 +197,9 @@ describe('Post request of /api/blogs/ works according to spec', () => {
   });
 
   test('The object returned from the RemoteDB its the same as the one sent', async () => {
-    // newBlog.userId = userIDForTests;
     const response = await api
       .post('/api/blogs')
-      .set('Authorization', 'bearer ' + userToken)
+      .set('Authorization', `bearer ${userToken}`)
       .send(newBlog);
 
     const blogFromServer = response.body;
@@ -214,11 +213,10 @@ describe('Post request of /api/blogs/ works according to spec', () => {
   test('if the likes property is missing from the request, it will default to 0', async () => {
     // The new blog is created without likes, the reference is copied from the helper file
     const { blogWithoutLikes } = helperToDB;
-    // blogWithoutLikes.userId = userIDForTests;
 
     const response = await api
       .post('/api/blogs')
-      .set('Authorization', 'bearer ' + userToken)
+      .set('Authorization', `bearer ${userToken}`)
       .send(blogWithoutLikes);
 
     const blogResponseNoLikes = response.body;
@@ -229,18 +227,16 @@ describe('Post request of /api/blogs/ works according to spec', () => {
   test('if title or url are missing, returns a 400 bad request response', async () => {
     const blogNoURL = helperToDB.blogwithoutUrl;
     const blogNoTitle = helperToDB.blogWithoutTitle;
-    // blogNoURL.userId = userIDForTests;
-    // blogNoTitle.userId = userIDForTests;
 
     // Checks both characteristis, one after the other
     await api.post('/api/blogs')
       .send(blogNoURL)
-      .set('Authorization', 'bearer ' + userToken)
+      .set('Authorization', `bearer ${userToken}`)
       .expect(400);
 
     await api.post('/api/blogs')
       .send(blogNoTitle)
-      .set('Authorization', 'bearer ' + userToken)
+      .set('Authorization', `bearer ${userToken}`)
       .expect(400);
   });
 });
@@ -472,8 +468,8 @@ describe('Login works appropriately', () => {
 
   test('Trying to log without any data returns an error', async () => {
     const resp = await api
-    .post('/api/login')
-    .expect(401); // 401 Unauthorized
+      .post('/api/login')
+      .expect(401); // 401 Unauthorized
 
     expect(!!resp.error).toEqual(true);
   });

@@ -1,7 +1,7 @@
 const blogRouter = require('express').Router();
+const jwt = require('jsonwebtoken');
 const Blog = require('../models/blog'); // With '..' go back 1 dir
 const User = require('../models/user'); // Needed to populate the user object
-const jwt = require('jsonwebtoken')
 
 // This are the main routes of the blog file
 // Now it's refactored into an async/await functions
@@ -13,19 +13,18 @@ blogRouter.get('/', async (request, response) => {
 
 blogRouter.post('/', async (request, response, next) => {
   try {
-    //Uses the function to extract the token
-    const token = getTokenFrom(request)
-    const decodedToken = jwt.verify(token, process.env.SECRET)
+    // Uses the function to extract the token
+    const token = getTokenFrom(request);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
     if (!token || !decodedToken.id) {
-      return response.status(401).json({ error: 'token missing or invalid' })
+      return response.status(401).json({ error: 'token missing or invalid' });
     }
     // The decoded token returns the user object
-    const user = await User.findById(decodedToken.id)
+    const user = await User.findById(decodedToken.id);
 
     // The body is directly modified to add the user ID
     request.body.user = user._id;
     const blog = new Blog(request.body);
-
 
     // The server response it's the same blog with the id
     const blogResponseFromServer = await blog.save();
@@ -70,12 +69,12 @@ const saveBlogIDinUserCollection = async (userID, blogToSave) => {
 };
 
 const getTokenFrom = request => {
-  const authorization = request.get('authorization')
+  const authorization = request.get('authorization');
   // All tokens start with 'bearer '
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    return authorization.substring(7)
+    return authorization.substring(7);
   }
-  return null
-}
+  return null;
+};
 
 module.exports = blogRouter;
