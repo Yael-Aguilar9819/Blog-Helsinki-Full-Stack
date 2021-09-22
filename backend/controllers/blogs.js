@@ -13,25 +13,24 @@ blogRouter.get('/', async (request, response) => {
 
 blogRouter.post('/', async (request, response, next) => {
   try {
-    // The body is directly modified to add the user ID
-    request.body.user = request.body.userId;
-    console.log("reached 1")
-    const blog = new Blog(request.body);
-
-    //Uses the functtion to extract the token
+    //Uses the function to extract the token
     const token = getTokenFrom(request)
     const decodedToken = jwt.verify(token, process.env.SECRET)
     if (!token || !decodedToken.id) {
       return response.status(401).json({ error: 'token missing or invalid' })
     }
-    console.log(request.body, "sds")
+    // The decoded token returns the user object
+    const user = await User.findById(decodedToken.id)
+
+    // The body is directly modified to add the user ID
+    request.body.user = user._id;
+    const blog = new Blog(request.body);
+
 
     // The server response it's the same blog with the id
     const blogResponseFromServer = await blog.save();
     // Then we modify the User object in it's own collection
-    await saveBlogIDinUserCollection(request.body.userId, blogResponseFromServer);
-
-    console.log("reached 3")
+    await saveBlogIDinUserCollection(request.body.user, blogResponseFromServer);
 
     // Then it's converted to json and returned to whatever method called POST
     response.status(201).json(blogResponseFromServer);
@@ -72,6 +71,7 @@ const saveBlogIDinUserCollection = async (userID, blogToSave) => {
 
 const getTokenFrom = request => {
   const authorization = request.get('authorization')
+  // All tokens start with 'bearer '
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
     return authorization.substring(7)
   }
