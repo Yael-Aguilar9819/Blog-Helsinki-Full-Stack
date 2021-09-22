@@ -15,6 +15,7 @@ blogRouter.post('/', async (request, response, next) => {
   try {
     // The body is directly modified to add the user ID
     request.body.user = request.body.userId;
+    console.log("reached 1")
     const blog = new Blog(request.body);
 
     //Uses the functtion to extract the token
@@ -23,10 +24,14 @@ blogRouter.post('/', async (request, response, next) => {
     if (!token || !decodedToken.id) {
       return response.status(401).json({ error: 'token missing or invalid' })
     }
+    console.log(request.body, "sds")
+
     // The server response it's the same blog with the id
     const blogResponseFromServer = await blog.save();
     // Then we modify the User object in it's own collection
     await saveBlogIDinUserCollection(request.body.userId, blogResponseFromServer);
+
+    console.log("reached 3")
 
     // Then it's converted to json and returned to whatever method called POST
     response.status(201).json(blogResponseFromServer);
