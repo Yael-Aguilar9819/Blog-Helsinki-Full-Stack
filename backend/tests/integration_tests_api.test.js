@@ -183,7 +183,7 @@ describe('Post request of /api/blogs/ works according to spec', () => {
 
   test('The remoteDB adds 1 to the length after adding a new blog post', async () => {
     // This line sends the new blog, but doesn't care for it's response
-    const resp = await api
+    await api
       .post('/api/blogs')
       .set('Authorization', 'bearer ' + userToken)
       .send(newBlog);
@@ -197,9 +197,10 @@ describe('Post request of /api/blogs/ works according to spec', () => {
   });
 
   test('The object returned from the RemoteDB its the same as the one sent', async () => {
-    newBlog.userId = userIDForTests;
+    // newBlog.userId = userIDForTests;
     const response = await api
       .post('/api/blogs')
+      .set('Authorization', 'bearer ' + userToken)
       .send(newBlog);
 
     const blogFromServer = response.body;
@@ -213,10 +214,11 @@ describe('Post request of /api/blogs/ works according to spec', () => {
   test('if the likes property is missing from the request, it will default to 0', async () => {
     // The new blog is created without likes, the reference is copied from the helper file
     const { blogWithoutLikes } = helperToDB;
-    blogWithoutLikes.userId = userIDForTests;
+    // blogWithoutLikes.userId = userIDForTests;
 
     const response = await api
       .post('/api/blogs')
+      .set('Authorization', 'bearer ' + userToken)
       .send(blogWithoutLikes);
 
     const blogResponseNoLikes = response.body;
@@ -227,16 +229,18 @@ describe('Post request of /api/blogs/ works according to spec', () => {
   test('if title or url are missing, returns a 400 bad request response', async () => {
     const blogNoURL = helperToDB.blogwithoutUrl;
     const blogNoTitle = helperToDB.blogWithoutTitle;
-    blogNoURL.userId = userIDForTests;
-    blogNoTitle.userId = userIDForTests;
+    // blogNoURL.userId = userIDForTests;
+    // blogNoTitle.userId = userIDForTests;
 
     // Checks both characteristis, one after the other
     await api.post('/api/blogs')
       .send(blogNoURL)
+      .set('Authorization', 'bearer ' + userToken)
       .expect(400);
 
     await api.post('/api/blogs')
       .send(blogNoTitle)
+      .set('Authorization', 'bearer ' + userToken)
       .expect(400);
   });
 });
