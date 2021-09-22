@@ -7,6 +7,7 @@ const app = require('../app');
 
 const api = supertest(app);
 
+let userToken = {}
 let userIDForTests = {};
 let numberOfBlogsAdded = 0;
 
@@ -27,6 +28,13 @@ beforeEach(async () => {
   const resp = await Promise.all(promiseArrayOfUsers);
   // This gets the ID from the first user, to be used everytime
   userIDForTests = resp[selectedUser]._id;
+
+  userToken = await api
+    .post('/api/login')
+    .send(helperToDB.listOfUsersToDB[selectedUser])
+    .expect(200);
+  
+  console.log(userToken)
 
   // Gets the blogs array from helper_to_db.js to create an array of blogs
   // then an array of promises, an finally with Promise.all it's run in parallel
@@ -173,8 +181,6 @@ describe('Post request of /api/blogs/ works according to spec', () => {
   const newBlog = JSON.parse(JSON.stringify(helperToDB.blogWithAllProperties));
 
   test('The remoteDB adds 1 to the length after adding a new blog post', async () => {
-    // Add the user id to the blog properties, it's needed to add it each time because it changes
-    newBlog.userId = userIDForTests;
     // This line sends the new blog, but doesn't care for it's response
     const resp = await api
       .post('/api/blogs')
