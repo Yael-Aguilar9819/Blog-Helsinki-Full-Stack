@@ -482,13 +482,27 @@ describe('JWT is produced and processed correctly', () => {
     expect(!!resp.body.token).toEqual(true)
   });
 
-  test('An successful login returns a 401 code error', async () => {
+  test('An unsuccessful login returns a 401 code error', async () => {
+    //Modified an existing user to make it unknown to the DB
+    const userWithDifferentPassAndName = JSON.parse(JSON.stringify(helperToDB.listOfUsersToDB[0]));
+    userWithDifferentPassAndName.username = 'UnknownUser'
+    userWithDifferentPassAndName.password = 'WithAnUnknownPass'
+
+    const resp = await api
+    .post('/api/login')
+    .send(userWithDifferentPassAndName)
+    .expect(401) // 401 Unauthorized
+
+    //Converts the object into a boolean value
+    // and verifies that the object has a property called error  
+    expect(!!resp.error).toEqual(true);
+
   });
 
   test('Using a valid token in POST request returns a successful response', async () => {
   });
 
-  test('Using an invalid token in POST request returns an error response ', async () => {
+  test('Using an invalid token in POST request returns an unauthorized error response ', async () => {
   });
 
 });
