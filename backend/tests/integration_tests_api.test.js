@@ -384,10 +384,13 @@ describe('Blog portion in api/users Endpoint works according to spec', () => {
     expect(resp.body[selectedUser].blogs).toHaveLength(numberOfBlogsAdded);
 
     const newBlog = JSON.parse(JSON.stringify(helperToDB.blogWithAllProperties));
+    
     // This line sends the new blog, but doesn't care for it's response
     await api
       .post('/api/blogs')
-      .send(newBlog);
+      .send(newBlog)
+      .set('Authorization', `bearer ${userToken}`)
+      .expect(201); // 201 Created
 
     const SecondResp = await api
       .get('/api/users')
