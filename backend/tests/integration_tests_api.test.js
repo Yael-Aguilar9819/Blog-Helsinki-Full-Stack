@@ -335,12 +335,11 @@ describe('user portion in Blogs works appropriately', () => {
   test('After creating a new blog, a valid blog with a valid userID is returned', async () => {
     const newBlogWithUserID = JSON.parse(JSON.stringify(helperToDB.blogWithAllProperties));
 
-    newBlogWithUserID.userId = userIDForTests; // Add the user id to the blog properties
-
     // This line sends the new blog,
     const resp = await api
       .post('/api/blogs')
       .send(newBlogWithUserID)
+      .set('Authorization', `bearer ${userToken}`)
       .expect(201);
 
     const blogFromServ = resp.body;
@@ -367,7 +366,8 @@ describe('user portion in Blogs works appropriately', () => {
 
     await api
       .post('/api/blogs')
-      .send(newBlogWithoutUserID)
+      .send(newBlogWithoutUserID) // This sends the user token with it
+      .set('Authorization', `bearer ${userToken}`)
       .expect(400); // 400 Bad Request
     // the response.body should be in the format of "{ error: 'malformatted id' }"
   });
