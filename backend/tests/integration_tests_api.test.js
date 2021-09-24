@@ -358,8 +358,8 @@ describe('user portion in Blogs works appropriately', () => {
     await api
       .post('/api/blogs')
       .send(newBlogWithoutUserID) // This sends the user token with it
-      .set('Authorization', `bearer unknownTokenForThisUser8238231`)
-      .expect(401); // 400 Una  
+      .set('Authorization', 'bearer unknownTokenForThisUser8238231')
+      .expect(401); // 400 Una
     // the response.body should be in the format of "{ error: 'malformatted id' }"
   });
 });
@@ -384,7 +384,7 @@ describe('Blog portion in api/users Endpoint works according to spec', () => {
     expect(resp.body[selectedUser].blogs).toHaveLength(numberOfBlogsAdded);
 
     const newBlog = JSON.parse(JSON.stringify(helperToDB.blogWithAllProperties));
-    
+
     // This line sends the new blog, but doesn't care for it's response
     await api
       .post('/api/blogs')
@@ -470,39 +470,38 @@ describe('Login works appropriately', () => {
 
 describe('JWT is produced and processed correctly', () => {
   test('A successful login returns a JWT token', async () => {
-    //A valid user that exists
+    // A valid user that exists
     const userWithPass = JSON.parse(JSON.stringify(helperToDB.listOfUsersToDB[0]));
 
     const resp = await api
-    .post('/api/login')
-    .send(userWithPass)
-    .expect(200)
+      .post('/api/login')
+      .send(userWithPass)
+      .expect(200);
 
     // This verifies that the object returned inside .body contains a property called toke
-    expect(!!resp.body.token).toEqual(true)
+    expect(!!resp.body.token).toEqual(true);
   });
 
   test('An unsuccessful login returns a 401 code error', async () => {
-    //Modified an existing user to make it unknown to the DB
+    // Modified an existing user to make it unknown to the DB
     const userWithDifferentPassAndName = JSON.parse(JSON.stringify(helperToDB.listOfUsersToDB[0]));
-    userWithDifferentPassAndName.username = 'UnknownUser'
-    userWithDifferentPassAndName.password = 'WithAnUnknownPass'
+    userWithDifferentPassAndName.username = 'UnknownUser';
+    userWithDifferentPassAndName.password = 'WithAnUnknownPass';
 
     const resp = await api
-    .post('/api/login')
-    .send(userWithDifferentPassAndName)
-    .expect(401) // 401 Unauthorized
+      .post('/api/login')
+      .send(userWithDifferentPassAndName)
+      .expect(401); // 401 Unauthorized
 
-    //Converts the object into a boolean value
-    // and verifies that the object has a property called error  
+    // Converts the object into a boolean value
+    // and verifies that the object has a property called error
     expect(!!resp.error).toEqual(true);
-
   });
 
   test('Using a valid token in POST request returns a successful response', async () => {
     // A random new blog
     const newBlog = JSON.parse(JSON.stringify(helperToDB.blogWithAllProperties));
-    
+
     // This line sends the new blog, but doesn't care for it's response
     const resp = await api
       .post('/api/blogs')
@@ -512,12 +511,10 @@ describe('JWT is produced and processed correctly', () => {
 
     // Checks that the object has a property called author
     expect(!!resp.body.author).toEqual(true);
-
   });
 
   test('Using an invalid token in POST request returns an unauthorized error response ', async () => {
   });
-
 });
 
 afterAll(async () => {
