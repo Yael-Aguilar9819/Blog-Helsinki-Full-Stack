@@ -470,6 +470,16 @@ describe('Login works appropriately', () => {
 
 describe('JWT is produced and processed correctly', () => {
   test('A successful login returns a JWT token', async () => {
+    //A valid user that exists
+    const userWithPass = JSON.parse(JSON.stringify(helperToDB.listOfUsersToDB[0]));
+
+    const resp = await api
+    .post('/api/login')
+    .send(userWithPass)
+    .expect(200)
+
+    // This verifies that the object returned inside .body contains a property called toke
+    expect(!!resp.body.token).toEqual(true)
   });
 
   test('An successful login returns a 401 code error', async () => {
