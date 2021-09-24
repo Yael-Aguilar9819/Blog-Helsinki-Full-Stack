@@ -8,7 +8,6 @@ const app = require('../app');
 const api = supertest(app);
 
 let userToken = {};
-let userIDForTests = {};
 let numberOfBlogsAdded = 0;
 
 // This will be the selected user in some tests
@@ -27,7 +26,7 @@ beforeEach(async () => {
   // This will wait for all the users to be saved to the DB
   const resp = await Promise.all(promiseArrayOfUsers);
   // This gets the ID from the first user, to be used everytime
-  userIDForTests = resp[selectedUser]._id;
+  const userID = resp[selectedUser]._id;
 
   // This reuses the first user added to create a new JWT
   const userLogin = await api
@@ -40,12 +39,12 @@ beforeEach(async () => {
   // Gets the blogs array from helper_to_db.js to create an array of blogs
   // then an array of promises, an finally with Promise.all it's run in parallel
   await Blog.deleteMany({});
-  const promiseArrayOfBlogs = helperToDB.getArrayOfInitialBlogPromises(userIDForTests);
+  const promiseArrayOfBlogs = helperToDB.getArrayOfInitialBlogPromises(userID);
   numberOfBlogsAdded = promiseArrayOfBlogs.length;
   const blogsAddedToDB = await Promise.all(promiseArrayOfBlogs);
   // This adds all the newly saved blogs to the user object
   // that is user through the tests here
-  await helperToDB.addBlogsToUser(userIDForTests, blogsAddedToDB);
+  await helperToDB.addBlogsToUser(userID, blogsAddedToDB);
 });
 
 describe('GET endpoint for users works correctly', () => {
@@ -349,26 +348,18 @@ describe('user portion in Blogs works appropriately', () => {
     expect(!!userIdReturnedObject).toEqual(true);
   });
 
-  test('A blog without an user portion will be rejected with a 400 bad request', async () => {
-    const newBlogWithoutUserID = JSON.parse(JSON.stringify(helperToDB.blogWithAllProperties));
-    // this time the userID its not added, and also it's deep copied
-    await api
-      .post('/api/blogs')
-      .send(newBlogWithoutUserID)
-      .expect(400);
-    // the response.body should be in the format of
-    // "{ error: 'Blog validation failed: user: Path `user` is required.' }"
-  });
+  // The test 'A blog without an user portion will be rejected with a 400 bad request'
+  // Was deleted because the user it's now given by the token
 
   test('Blog with an invalid userID will return a 400 bad request', async () => {
     const newBlogWithoutUserID = JSON.parse(JSON.stringify(helperToDB.blogWithAllProperties));
-    newBlogWithoutUserID.userId = '023213Gibberish-IDsdsa'; // This is a wrong ID
 
+    // The token contains the userID so an unknown token should be given
     await api
       .post('/api/blogs')
       .send(newBlogWithoutUserID) // This sends the user token with it
-      .set('Authorization', `bearer ${userToken}`)
-      .expect(400); // 400 Bad Request
+      .set('Authorization', `bearer unknownTokenForThisUser8238231`)
+      .expect(401); // 400 Una  
     // the response.body should be in the format of "{ error: 'malformatted id' }"
   });
 });
@@ -393,7 +384,6 @@ describe('Blog portion in api/users Endpoint works according to spec', () => {
     expect(resp.body[selectedUser].blogs).toHaveLength(numberOfBlogsAdded);
 
     const newBlog = JSON.parse(JSON.stringify(helperToDB.blogWithAllProperties));
-    newBlog.userId = userIDForTests;
     // This line sends the new blog, but doesn't care for it's response
     await api
       .post('/api/blogs')
