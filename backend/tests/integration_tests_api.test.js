@@ -468,6 +468,21 @@ describe('Login works appropriately', () => {
   });
 });
 
+describe('JWT is produced and processed correctly', () => {
+  test('A successful login returns a JWT token', async () => {
+  });
+
+  test('An successful login returns a 401 code error', async () => {
+  });
+
+  test('Using a valid token in POST request returns a successful response', async () => {
+  });
+
+  test('Using an invalid token in POST request returns an error response ', async () => {
+  });
+
+});
+
 afterAll(async () => {
   await mongoose.connection.close();
 });
