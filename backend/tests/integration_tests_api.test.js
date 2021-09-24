@@ -500,6 +500,19 @@ describe('JWT is produced and processed correctly', () => {
   });
 
   test('Using a valid token in POST request returns a successful response', async () => {
+    // A random new blog
+    const newBlog = JSON.parse(JSON.stringify(helperToDB.blogWithAllProperties));
+    
+    // This line sends the new blog, but doesn't care for it's response
+    const resp = await api
+      .post('/api/blogs')
+      .send(newBlog) // Then a valid JWT token is used, includes user info
+      .set('Authorization', `bearer ${userToken}`)
+      .expect(201); // 201 Created
+
+    // Checks that the object has a property called author
+    expect(!!resp.body.author).toEqual(true);
+
   });
 
   test('Using an invalid token in POST request returns an unauthorized error response ', async () => {
