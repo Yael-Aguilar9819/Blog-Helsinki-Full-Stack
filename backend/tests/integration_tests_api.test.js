@@ -185,7 +185,8 @@ describe('Post request of /api/blogs/ works according to spec', () => {
     await api
       .post('/api/blogs')
       .set('Authorization', `bearer ${userToken}`)
-      .send(newBlog);
+      .send(newBlog)
+      .expect(201)
 
     // Then we get the blogs in the DB
     const response = await api.get('/api/blogs');
