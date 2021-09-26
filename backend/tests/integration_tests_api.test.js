@@ -517,11 +517,11 @@ describe('JWT is produced and processed correctly', () => {
     // A random new blog
     const newBlog = JSON.parse(JSON.stringify(helperToDB.blogWithAllProperties));
 
-    // An incorrect token is sent 
+    // An incorrect token is sent
     const resp = await api
       .post('/api/blogs')
       .send(newBlog) // Then a valid JWT token is used, includes user info
-      .set('Authorization', `bearer DefinitelyNotAGreatToken`)
+      .set('Authorization', 'bearer DefinitelyNotAGreatToken')
       .expect(401); // 401 Unauthorized
 
     // Checks that the object has a property called error
@@ -532,19 +532,18 @@ describe('JWT is produced and processed correctly', () => {
     // A random new blog
     const newBlog = JSON.parse(JSON.stringify(helperToDB.blogWithAllProperties));
     // The token is basically the same, changing the last 2 characters
-    const modifiedToken = userToken.substring(0, userToken.length - 2) + '2B' 
+    const modifiedToken = `${userToken.substring(0, userToken.length - 2)}2B`;
 
-    // An incorrect token is sent 
+    // An incorrect token is sent
     const resp = await api
       .post('/api/blogs')
       .send(newBlog) // Then a valid JWT token is used, includes user info
       .set('Authorization', `bearer ${modifiedToken}`)
       .expect(401); // 401 Unauthorized
-    
+
     // Checks that the object has a property called error
     expect(!!resp.body.error).toEqual(true);
   });
-
 });
 
 afterAll(async () => {
