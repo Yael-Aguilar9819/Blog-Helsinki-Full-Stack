@@ -13,12 +13,9 @@ blogRouter.get('/', async (request, response) => {
 
 blogRouter.post('/', async (request, response, next) => {
   try {
-    // Uses the function to extract the token
-
-    // const token = getTokenFrom(request);
-    // const decodedToken = jwt.verify(token, process.env.SECRET);
+    // The middleware previously extracted the token
     const decodedToken = jwt.verify(request.token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
+    if (!decodedToken.id) {
       return response.status(401).json({ error: 'token missing or invalid' });
     }
     // The decoded token returns the user object
@@ -69,14 +66,5 @@ const saveBlogIDinUserCollection = async (userID, blogToSave) => {
   // and saved
   await user.save();
 };
-
-// const getTokenFrom = request => {
-//   const authorization = request.get('authorization');
-//   // All tokens start with 'bearer '
-//   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-//     return authorization.substring(7);
-//   }
-//   return null;
-// };
 
 module.exports = blogRouter;

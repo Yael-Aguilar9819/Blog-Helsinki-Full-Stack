@@ -35,12 +35,12 @@ const tokenExtractor = (request, response, next) => {
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
     // the request gets a parameter called token, with onyl the token characters
     // No modification needed
-    request.token = authorization.substring(7); 
+    request.token = authorization.substring(7);
     // return authorization.substring(7);
   }
 
   next();
-}
+};
 
 module.exports = {
   requestLogger,
