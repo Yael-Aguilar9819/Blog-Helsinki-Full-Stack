@@ -278,7 +278,22 @@ describe('Delete/:id endpoint of blogs works properly', () => {
       .expect(400); // this means that the middleware catched the exception
   });
 
-  describe('The update endpoint works', () => {
+  test('User can delete a blog created by himself', async () => {
+    
+  });
+
+  test('Trying to delete a blog with another returns an error', async () => {
+    
+  });
+
+  test('Trying to delete a blog with an incorrect token returns an error', async () => {
+    
+  });
+
+
+})
+
+describe('The update endpoint works', () => {
     test('It returns a correct response status from a known blog', async () => {
       const blogToUpdate = await helperToDB.getRandomBlog();
       blogToUpdate.title = 'Welp'; // This is justa  simple variation
@@ -319,7 +334,6 @@ describe('Delete/:id endpoint of blogs works properly', () => {
       expect(blogs.body).toHaveLength(helperToDB.listOfBlogsToDB.length);
     });
   });
-});
 
 describe('user portion in Blogs works appropriately', () => {
   test('GET endpoint returns a section with user data', async () => {
