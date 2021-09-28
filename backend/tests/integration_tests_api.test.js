@@ -279,10 +279,18 @@ describe('Delete/:id endpoint of blogs works properly', () => {
   });
 
   test('User can delete a blog created by himself', async () => {
-    
+    // We just copy the object of the user that created those blogs
+    const userCreator = JSON.parse(JSON.stringify(helperToDB.listOfUsersToDB[selectedUser]));
+    const resp = await api.get('/api/users/')
+    // This will get the ID of the first blog of the selected user
+    // So it can be deleted later
+    idOfFirstBlog = resp.body[selectedUser].blogs[0].id
+    await api
+      .delete(`/api/blogs/${idOfFirstBlog}`)
+      .expect(204)
   });
 
-  test('Trying to delete a blog with another returns an error', async () => {
+  test('Trying to delete a blog with another user returns an error', async () => {
     
   });
 
