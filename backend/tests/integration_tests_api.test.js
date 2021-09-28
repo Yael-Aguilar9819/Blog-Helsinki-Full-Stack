@@ -285,8 +285,11 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     // This will get the ID of the first blog of the selected user
     // So it can be deleted later
     idOfFirstBlog = resp.body[selectedUser].blogs[0].id
+
+    // Now It's neccesary to send a token to delete ANY blog
     await api
-      .delete(`/api/blogs/${idOfFirstBlog}`)
+      .delete(`/api/blogs/${idOfFirstBlog}`) 
+      .set('Authorization', `bearer ${userToken}`)
       .expect(204)
   });
 
