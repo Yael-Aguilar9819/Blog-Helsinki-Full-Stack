@@ -317,7 +317,17 @@ describe('Delete/:id endpoint of blogs works properly', () => {
   });
 
   test('Trying to delete a blog with an incorrect token returns an error', async () => {
+    const respUsers = await api.get('/api/users/')
+    // This will get the ID of the first blog of the user that created those blogs
+    // So it can be deleted later
+    idOfFirstBlog = respUsers.body[selectedUser].blogs[0].id
     
+    const resp =
+      await api
+        .delete(`/api/blogs/${idOfFirstBlog}`) 
+        .set('Authorization', `bearer randomTokenObviouslyNotValid`)
+        .expect(401); 
+
   });
 
 })
