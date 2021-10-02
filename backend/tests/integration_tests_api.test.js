@@ -246,7 +246,9 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     // this helper method retrieves a random blog of the remotDB
     const blogToDelete = await helperToDB.getRandomBlog();
 
-    await api.delete(`/api/blogs/${blogToDelete.id}`)
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .set('Authorization', `bearer ${userToken}`)
       .expect(204); // 204 means that the operation went through
   });
 
@@ -307,7 +309,7 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     const respUsers = await api.get('/api/users/')
     // This will get the ID of the first blog of the user that created those blogs
     // So it can be deleted later
-    idOfFirstBlog = respUsers.body[selectedUser].blogs[0].id
+    const idOfFirstBlog = respUsers.body[selectedUser].blogs[0].id
     
     const resp =
       await api
@@ -320,6 +322,7 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     const respUsers = await api.get('/api/users/')
     // This will get the ID of the first blog of the user that created those blogs
     // So it can be deleted later
+
     idOfFirstBlog = respUsers.body[selectedUser].blogs[0].id
     
     const resp =
