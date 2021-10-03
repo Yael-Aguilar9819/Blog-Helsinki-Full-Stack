@@ -255,7 +255,9 @@ describe('Delete/:id endpoint of blogs works properly', () => {
   test('The Deleted blog is no longer present in the DB, and its ID disappeared', async () => {
     const blogToDelete = await helperToDB.getRandomBlog();
 
-    await api.delete(`/api/blogs/${blogToDelete.id}`)
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .set('Authorization', `bearer ${userToken}`)
       .expect(204); // 204 means that the operation went through
 
     const afterDeletedBlog = await helperToDB.blogsInRemoteDB();
@@ -266,7 +268,8 @@ describe('Delete/:id endpoint of blogs works properly', () => {
       if (IDAppeared) { // Means that it's true
         return true;
       } if (currentBlog.id === blogToDelete.id) {
-        return true; // This would mean that one of the remote blogs has
+        // This would mean that one of the remote blogs has the same ID as the one deleted
+        return true; 
       }
       return false;
     }, false);

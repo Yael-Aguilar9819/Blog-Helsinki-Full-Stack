@@ -42,7 +42,9 @@ blogRouter.delete('/:id', async (request, response, next) => {
     // This will determine if the token is correct, otherwise, throws an error
     console.log(request.token)
     const decodedToken = jwt.verify(request.token, process.env.SECRET);
-
+    if (!decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or invalid' });
+    }
     
     // With this function, it goes, removes it, and returns back that deleted object
     await Blog.findByIdAndRemove(request.params.id);
