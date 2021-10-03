@@ -243,7 +243,7 @@ describe('Post request of /api/blogs/ works according to spec', () => {
 
 describe('Delete/:id endpoint of blogs works properly', () => {
   test('Succeeds at deleting with status code 204 if blog id is valid', async () => {
-    // this helper method retrieves a random blog of the remotDB
+    // this helper method retrieves a random blog of the remoteDB
     const blogToDelete = await helperToDB.getRandomBlog();
 
     await api
@@ -251,6 +251,10 @@ describe('Delete/:id endpoint of blogs works properly', () => {
       .set('Authorization', `bearer ${userToken}`)
       .expect(204); // 204 means that the operation went through
   });
+
+  test('The deleted blog is no longer in the user blogs section', async () => {
+  });
+
 
   test('The Deleted blog is no longer present in the DB, and its ID disappeared', async () => {
     const blogToDelete = await helperToDB.getRandomBlog();
