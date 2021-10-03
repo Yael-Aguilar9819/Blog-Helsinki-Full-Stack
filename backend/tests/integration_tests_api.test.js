@@ -255,7 +255,6 @@ describe('Delete/:id endpoint of blogs works properly', () => {
   test('The deleted blog is no longer in the user blogs section', async () => {
   });
 
-
   test('The Deleted blog is no longer present in the DB, and its ID disappeared', async () => {
     const blogToDelete = await helperToDB.getRandomBlog();
 
@@ -273,7 +272,7 @@ describe('Delete/:id endpoint of blogs works properly', () => {
         return true;
       } if (currentBlog.id === blogToDelete.id) {
         // This would mean that one of the remote blogs has the same ID as the one deleted
-        return true; 
+        return true;
       }
       return false;
     }, false);
@@ -289,100 +288,95 @@ describe('Delete/:id endpoint of blogs works properly', () => {
 
   test('User can delete a blog created by himself', async () => {
     // We just copy the object of the user that created those blogs
-    const resp = await api.get('/api/users/')
+    const resp = await api.get('/api/users/');
     // This will get the ID of the first blog of the selected user
     // So it can be deleted later
-    idOfFirstBlog = resp.body[selectedUser].blogs[0].id
+    idOfFirstBlog = resp.body[selectedUser].blogs[0].id;
 
     // Now It's neccesary to send a token to delete ANY blog
     await api
-      .delete(`/api/blogs/${idOfFirstBlog}`) 
+      .delete(`/api/blogs/${idOfFirstBlog}`)
       .set('Authorization', `bearer ${userToken}`)
-      .expect(204)
+      .expect(204);
   });
 
   test('Trying to delete a blog with another user returns an error', async () => {
     // It's not the creator, it's going to be the one after the blog creator
     const userCreator = JSON.parse(JSON.stringify(helperToDB.listOfUsersToDB[selectedUser + 1]));
 
-    const respToken = 
-      await api
+    const respToken = await api
       .post('/api/login')
       .send(userCreator)
       .expect(200);
 
     const nonCreatorToken = respToken.body.token;
 
-    const respUsers = await api.get('/api/users/')
+    const respUsers = await api.get('/api/users/');
     // This will get the ID of the first blog of the user that created those blogs
     // So it can be deleted later
-    const idOfFirstBlog = respUsers.body[selectedUser].blogs[0].id
-    
-    const resp =
-      await api
-        .delete(`/api/blogs/${idOfFirstBlog}`) 
-        .set('Authorization', `bearer ${nonCreatorToken}`)
-        .expect(401); 
+    const idOfFirstBlog = respUsers.body[selectedUser].blogs[0].id;
+
+    const resp = await api
+      .delete(`/api/blogs/${idOfFirstBlog}`)
+      .set('Authorization', `bearer ${nonCreatorToken}`)
+      .expect(401);
   });
 
   test('Trying to delete a blog with an incorrect token returns an error', async () => {
-    const respUsers = await api.get('/api/users/')
+    const respUsers = await api.get('/api/users/');
     // This will get the ID of the first blog of the user that created those blogs
     // So it can be deleted later
 
-    idOfFirstBlog = respUsers.body[selectedUser].blogs[0].id
-    
-    const resp =
-      await api
-        .delete(`/api/blogs/${idOfFirstBlog}`) 
-        .set('Authorization', `bearer randomTokenObviouslyNotValid`)
-        .expect(401); 
+    idOfFirstBlog = respUsers.body[selectedUser].blogs[0].id;
 
+    const resp = await api
+      .delete(`/api/blogs/${idOfFirstBlog}`)
+      .set('Authorization', 'bearer randomTokenObviouslyNotValid')
+      .expect(401);
   });
-
-})
+});
 
 describe('The update endpoint works', () => {
-    test('It returns a correct response status from a known blog', async () => {
-      const blogToUpdate = await helperToDB.getRandomBlog();
-      blogToUpdate.title = 'Welp'; // This is justa  simple variation
+  test('It returns a correct response status from a known blog', async () => {
+    const blogToUpdate = await helperToDB.getRandomBlog();
+    blogToUpdate.title = 'Welp'; // This is justa  simple variation
 
-      await api
-        .put(`/api/blogs/${blogToUpdate.id}`)
-        .send(blogToUpdate)
-        .expect(200);
-    });
-
-    test('Returns the blog now modified', async () => {
-      const blogToUpdate = await helperToDB.getRandomBlog();
-      blogToUpdate.title = 'New title pls'; // It gets slighly modified
-
-      const updatedRemoteBlog = await api
-        .put(`/api/blogs/${blogToUpdate.id}`)
-        .send(blogToUpdate)
-        .expect(200);
-
-      // It has to be cast to String, so it's the same type
-      // As the one returned from the DB
-      blogToUpdate.user = String(blogToUpdate.user);
-      expect(updatedRemoteBlog.body).toEqual(blogToUpdate);
-    });
-
-    test('After the update, the remoteDB has the same number of blogs', async () => {
-      const blogToUpdate = await helperToDB.getRandomBlog();
-      blogToUpdate.title = 'Welp'; // This is just a simple variation
-
-      await api
-        .put(`/api/blogs/${blogToUpdate.id}`)
-        .send(blogToUpdate);
-
-      const blogs = await api
-        .get('/api/blogs');
-
-      // So its confirmed that it has the same number of blogs in the remoteDB
-      expect(blogs.body).toHaveLength(helperToDB.listOfBlogsToDB.length);
-    });
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(blogToUpdate)
+      .expect(200);
   });
+
+  test('Returns the blog now modified', async () => {
+    const blogToUpdate = await helperToDB.getRandomBlog();
+    blogToUpdate.title = 'New title pls'; // It gets slighly modified
+
+    const updatedRemoteBlog = await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(blogToUpdate)
+      .expect(200);
+
+    // It has to be cast to String, so it's the same type
+    // As the one returned from the DB
+    blogToUpdate.user = String(blogToUpdate.user);
+    expect(updatedRemoteBlog.body).toEqual(blogToUpdate);
+  });
+
+  test('After the update, the remoteDB has the same number of blogs', async () => {
+    const blogToUpdate = await helperToDB.getRandomBlog();
+    blogToUpdate.title = 'Welp'; // This is just a simple variation
+
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(blogToUpdate);
+
+    const blogs = await api
+      .get('/api/blogs');
+
+    // So its confirmed that it has the same number of blogs in the remoteDB
+    expect(blogs.body).toHaveLength(helperToDB.listOfBlogsToDB.length);
+  });
+});
 
 describe('user portion in Blogs works appropriately', () => {
   test('GET endpoint returns a section with user data', async () => {
