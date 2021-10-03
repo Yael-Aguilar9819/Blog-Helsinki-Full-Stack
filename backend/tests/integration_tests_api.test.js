@@ -291,7 +291,7 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     const resp = await api.get('/api/users/');
     // This will get the ID of the first blog of the selected user
     // So it can be deleted later
-    idOfFirstBlog = resp.body[selectedUser].blogs[0].id;
+    const idOfFirstBlog = resp.body[selectedUser].blogs[0].id;
 
     // Now It's neccesary to send a token to delete ANY blog
     await api
@@ -320,6 +320,10 @@ describe('Delete/:id endpoint of blogs works properly', () => {
       .delete(`/api/blogs/${idOfFirstBlog}`)
       .set('Authorization', `bearer ${nonCreatorToken}`)
       .expect(401);
+
+    // In the response body should be an error property
+    expect(!!resp.error).toEqual(true);
+
   });
 
   test('Trying to delete a blog with an incorrect token returns an error', async () => {
