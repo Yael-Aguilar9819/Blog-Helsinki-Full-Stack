@@ -40,7 +40,6 @@ blogRouter.post('/', async (request, response, next) => {
 blogRouter.delete('/:id', async (request, response, next) => {
   try {
     // This will determine if the token is correct, otherwise, throws an error
-    console.log(request.token);
     const decodedToken = jwt.verify(request.token, process.env.SECRET);
     if (!decodedToken.id) {
       return response.status(401).json({ error: 'token missing or invalid' });

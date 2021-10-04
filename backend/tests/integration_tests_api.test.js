@@ -254,8 +254,8 @@ describe('Delete/:id endpoint of blogs works properly', () => {
 
   test('The deleted blog is no longer in the user blogs section', async () => {
     const firstResp = await api
-      .get('/api/users/')
-    
+      .get('/api/users/');
+
     // This gets the first blog that the user created, to delete it
     const idOfFirstBlog = firstResp.body[selectedUser].blogs[0].id;
 
@@ -265,24 +265,11 @@ describe('Delete/:id endpoint of blogs works properly', () => {
       .expect(204); // 204 means that the operation went through
 
     const secondResp = await api
-      .get('/api/users/')
-    
+      .get('/api/users/');
+
     const userBlogsAfterDeletion = secondResp.body[selectedUser].blogs;
     // Should be 1 less than the blogs added initially
     expect(userBlogsAfterDeletion).toHaveLength(numberOfBlogsAdded - 1);
-
-    // const appearedInRemoteDB = afterDeletedBlog.reduce((IDAppeared, currentBlog) => {
-    //   if (IDAppeared) { // Means that it's true
-    //     return true;
-    //   } if (currentBlog.id === blogToDelete.id) {
-    //     // This would mean that one of the remote blogs has the same ID as the one deleted
-    //     return true;
-    //   }
-    //   return false;
-    // }, false);
-
-
-
   });
 
   test('The Deleted blog is no longer present in the DB, and its ID disappeared', async () => {
@@ -313,6 +300,7 @@ describe('Delete/:id endpoint of blogs works properly', () => {
   test('Fails at deleting a non-existing blog', async () => {
     const nonExistingblogID = '29j239182j';
     await api.delete(`/api/blogs/${nonExistingblogID}`)
+      .set('Authorization', `bearer ${userToken}`)
       .expect(400); // this means that the middleware catched the exception
   });
 
@@ -353,7 +341,6 @@ describe('Delete/:id endpoint of blogs works properly', () => {
 
     // In the response body should be an error property
     expect(!!resp.error).toEqual(true);
-
   });
 
   test('Trying to delete a blog with an incorrect token returns an error', async () => {
