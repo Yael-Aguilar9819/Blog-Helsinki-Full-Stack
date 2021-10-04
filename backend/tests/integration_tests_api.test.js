@@ -253,6 +253,36 @@ describe('Delete/:id endpoint of blogs works properly', () => {
   });
 
   test('The deleted blog is no longer in the user blogs section', async () => {
+    const firstResp = await api
+      .get('/api/users/')
+    
+    // This gets the first blog that the user created, to delete it
+    const idOfFirstBlog = firstResp.body[selectedUser].blogs[0].id;
+
+    const resp = await api
+      .delete(`/api/blogs/${idOfFirstBlog}`)
+      .set('Authorization', `bearer ${userToken}`)
+      .expect(204); // 204 means that the operation went through
+
+    const secondResp = await api
+      .get('/api/users/')
+    
+    const userBlogsAfterDeletion = secondResp.body[selectedUser].blogs;
+    // Should be 1 less than the blogs added initially
+    expect(userBlogsAfterDeletion).toHaveLength(numberOfBlogsAdded - 1);
+
+    // const appearedInRemoteDB = afterDeletedBlog.reduce((IDAppeared, currentBlog) => {
+    //   if (IDAppeared) { // Means that it's true
+    //     return true;
+    //   } if (currentBlog.id === blogToDelete.id) {
+    //     // This would mean that one of the remote blogs has the same ID as the one deleted
+    //     return true;
+    //   }
+    //   return false;
+    // }, false);
+
+
+
   });
 
   test('The Deleted blog is no longer present in the DB, and its ID disappeared', async () => {
