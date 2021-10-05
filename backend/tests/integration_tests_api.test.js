@@ -309,7 +309,7 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     const resp = await api.get('/api/users/');
     // This will get the ID of the first blog of the selected user
     // So it can be deleted later
-    const idOfFirstBlog = resp.body[selectedUser].blogs[0].id;
+    const idOfFirstBlog = await resp.body[selectedUser].blogs[0].id;
 
     // Now It's neccesary to send a token to delete ANY blog
     await api
@@ -332,7 +332,7 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     const respUsers = await api.get('/api/users/');
     // This will get the ID of the first blog of the user that created those blogs
     // So it can be deleted later
-    const idOfFirstBlog = respUsers.body[selectedUser].blogs[0].id;
+    const idOfFirstBlog = await respUsers.body[selectedUser].blogs[0].id;
 
     const resp = await api
       .delete(`/api/blogs/${idOfFirstBlog}`)
@@ -348,7 +348,7 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     // This will get the ID of the first blog of the user that created those blogs
     // So it can be deleted later
 
-    idOfFirstBlog = respUsers.body[selectedUser].blogs[0].id;
+    idOfFirstBlog = await respUsers.body[selectedUser].blogs[0].id;
 
     const resp = await api
       .delete(`/api/blogs/${idOfFirstBlog}`)

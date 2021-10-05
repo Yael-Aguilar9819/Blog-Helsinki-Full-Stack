@@ -45,6 +45,14 @@ blogRouter.delete('/:id', async (request, response, next) => {
       return response.status(401).json({ error: 'token missing or invalid' });
     }
 
+    // The token is correct and exists, but it's not known
+    // if the user deleting the blog Its the same as the one who created it
+    const userCreator = await Blog.findById(request.params.id);
+    console.log(userCreator.user)
+    console.log(decodedToken.id)
+
+    console.log(userCreator.user === decodedToken.id)
+
     // With this function, it goes, removes it, and returns back that deleted object
     await Blog.findByIdAndRemove(request.params.id);
     response.status(204).end();
