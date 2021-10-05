@@ -256,7 +256,8 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     const firstResp = await api
       .get('/api/users/');
 
-    // This gets the first blog that the user created, to delete it
+    console.log(firstResp.body[selectedUser].blogs[0])
+    // This gets the first blog that the user created, to delete it    
     const idOfFirstBlog = firstResp.body[selectedUser].blogs[0].id;
 
     const resp = await api
@@ -348,7 +349,7 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     // This will get the ID of the first blog of the user that created those blogs
     // So it can be deleted later
 
-    idOfFirstBlog = await respUsers.body[selectedUser].blogs[0].id;
+    const idOfFirstBlog = respUsers.body[selectedUser].blogs[0].id;
 
     const resp = await api
       .delete(`/api/blogs/${idOfFirstBlog}`)
