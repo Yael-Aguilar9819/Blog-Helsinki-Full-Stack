@@ -13,6 +13,7 @@ let numberOfBlogsAdded = 0;
 // This will be the selected user in some tests
 // added it to increase maintainability
 const selectedUser = 0;
+const userID = resp[selectedUser]._id;
 
 // This will run before every single test
 beforeEach(async () => {
@@ -256,7 +257,6 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     const firstResp = await api
       .get('/api/users/');
 
-    console.log(firstResp.body[selectedUser].blogs[0])
     // This gets the first blog that the user created, to delete it    
     const idOfFirstBlog = firstResp.body[selectedUser].blogs[0].id;
 
