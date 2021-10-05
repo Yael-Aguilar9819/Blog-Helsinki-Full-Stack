@@ -48,10 +48,10 @@ blogRouter.delete('/:id', async (request, response, next) => {
     // The token is correct and exists, but it's not known
     // if the user deleting the blog Its the same as the one who created it
     const userCreator = await Blog.findById(request.params.id);
-    console.log(userCreator.user)
-    console.log(decodedToken.id)
 
-    console.log(userCreator.user === decodedToken.id)
+    // Stringify converts the object into a string
+    // And slice method removes the double quotes
+    console.log(JSON.stringify(userCreator.user).slice(1, -1) === decodedToken.id)
 
     // With this function, it goes, removes it, and returns back that deleted object
     await Blog.findByIdAndRemove(request.params.id);
