@@ -13,7 +13,7 @@ let numberOfBlogsAdded = 0;
 // This will be the selected user in some tests
 // added it to increase maintainability
 const selectedUser = 0;
-const userID = resp[selectedUser]._id;
+let userID = 0;
 
 // This will run before every single test
 beforeEach(async () => {
@@ -27,7 +27,8 @@ beforeEach(async () => {
   // This will wait for all the users to be saved to the DB
   const resp = await Promise.all(promiseArrayOfUsers);
   // This gets the ID from the first user, to be used everytime
-  const userID = resp[selectedUser]._id;
+  // Converted to String so it can be compared more easily
+  userID = JSON.stringify(resp[selectedUser]._id).slice(1, -1);
 
   // This reuses the first user added to create a new JWT
   const userLogin = await api
@@ -257,10 +258,12 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     const firstResp = await api
       .get('/api/users/');
 
-    // This gets the first blog that the user created, to delete it    
-    const idOfFirstBlog = firstResp.body[selectedUser].blogs[0].id;
+    // it will create an array of a single object with the creator of blogs
+    const creatorOfBlogs = firstResp.body.filter(userObj => userObj.id === userID)[0]
+    // This gets the first blog ID that the user created, to delete it    
+    const idOfFirstBlog = creatorOfBlogs.blogs[0].id;
 
-    const resp = await api
+    await api
       .delete(`/api/blogs/${idOfFirstBlog}`)
       .set('Authorization', `bearer ${userToken}`)
       .expect(204); // 204 means that the operation went through
