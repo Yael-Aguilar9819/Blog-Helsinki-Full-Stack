@@ -51,7 +51,7 @@ blogRouter.delete('/:id', async (request, response, next) => {
 
     // Stringify converts the object into a string
     // And slice method removes the double quotes
-    const IsTheSameUser = JSON.stringify(userCreator.user).slice(1, -1) === decodedToken.id
+    const IsTheSameUser = JSON.stringify(userCreator.user).slice(1, -1) === decodedToken.id;
     if (!IsTheSameUser) {
       return response.status(401).json({ error: 'Only the creator can delete its own notes' });
     }

@@ -28,7 +28,8 @@ beforeEach(async () => {
   const resp = await Promise.all(promiseArrayOfUsers);
   // This gets the ID from the first user, to be used everytime
   // Converted to String so it can be compared more easily
-  userID = JSON.stringify(resp[selectedUser]._id).slice(1, -1);
+
+  userID = resp[selectedUser]._id.toString();
 
   // This reuses the first user added to create a new JWT
   const userLogin = await api
@@ -259,8 +260,8 @@ describe('Delete/:id endpoint of blogs works properly', () => {
       .get('/api/users/');
 
     // it will create an array of a single object with the creator of blogs
-    const creatorOfBlogs = firstResp.body.filter(userObj => userObj.id === userID)[0]
-    // This gets the first blog ID that the user created, to delete it    
+    const creatorOfBlogs = firstResp.body.filter(userObj => userObj.id === userID)[0];
+    // This gets the first blog ID that the user created, to delete it
     const idOfFirstBlog = creatorOfBlogs.blogs[0].id;
 
     await api
@@ -271,10 +272,10 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     const secondResp = await api
       .get('/api/users/');
 
-    const userBlogsAfterDeletion = secondResp.body.filter(userObj => userObj.id === userID)[0].blogs
+    const userBlogsAfterDel = secondResp.body.filter(userObj => userObj.id === userID)[0].blogs;
 
     // Should be 1 less than the blogs added initially
-    expect(userBlogsAfterDeletion).toHaveLength(numberOfBlogsAdded - 1);
+    expect(userBlogsAfterDel).toHaveLength(numberOfBlogsAdded - 1);
   });
 
   test('The Deleted blog is no longer present in the DB, and its ID disappeared', async () => {
@@ -315,8 +316,8 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     // This will get the ID of the first blog of the selected user
     // So it can be deleted later
 
-    const creatorOfBlogs = resp.body.filter(userObj => userObj.id === userID)[0]
-    const idOfFirstBlog = creatorOfBlogs.blogs[0].id
+    const creatorOfBlogs = resp.body.filter(userObj => userObj.id === userID)[0];
+    const idOfFirstBlog = creatorOfBlogs.blogs[0].id;
 
     // Now It's neccesary to send a token to delete ANY blog
     await api
@@ -340,8 +341,8 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     // This will get the ID of the first blog of the user that created those blogs
     // So it can be deleted later
 
-    const creatorOfBlogs = respUsers.body.filter(userObj => userObj.id === userID)[0]
-    const idOfFirstBlog = creatorOfBlogs.blogs[0].id
+    const creatorOfBlogs = respUsers.body.filter(userObj => userObj.id === userID)[0];
+    const idOfFirstBlog = creatorOfBlogs.blogs[0].id;
 
     const resp = await api
       .delete(`/api/blogs/${idOfFirstBlog}`)
@@ -357,13 +358,14 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     // This will get the ID of the first blog of the user that created those blogs
     // So it can be deleted later
 
-    const creatorOfBlogs = respUsers.body.filter(userObj => userObj.id === userID)[0]
+    const creatorOfBlogs = respUsers.body.filter(userObj => userObj.id === userID)[0];
     const idOfFirstBlog = creatorOfBlogs.blogs[0].id;
 
     const resp = await api
       .delete(`/api/blogs/${idOfFirstBlog}`)
       .set('Authorization', 'bearer randomTokenObviouslyNotValid')
       .expect(401);
+    console.log(resp.body)
   });
 });
 
@@ -461,7 +463,7 @@ describe('Blog portion in api/users Endpoint works according to spec', () => {
       .expect('Content-Type', /application\/json/);
 
     // So it should have the same number of blogs as the ones added by the beforeEach
-    const listOfBlogs = resp.body.filter(userObj => userObj.id === userID)[0].blogs
+    const listOfBlogs = resp.body.filter(userObj => userObj.id === userID)[0].blogs;
 
     expect(listOfBlogs).toHaveLength(numberOfBlogsAdded);
   });
@@ -471,8 +473,9 @@ describe('Blog portion in api/users Endpoint works according to spec', () => {
       .get('/api/users')
       .expect(200);
 
+    const listOfUserBlogs = resp.body.filter(userObj => userObj.id === userID)[0].blogs;
     // So the same number of blogs are returned from the test
-    expect(resp.body.filter(userObj => userObj.id === userID)[0].blogs).toHaveLength(numberOfBlogsAdded);
+    expect(listOfUserBlogs).toHaveLength(numberOfBlogsAdded);
 
     const newBlog = JSON.parse(JSON.stringify(helperToDB.blogWithAllProperties));
 
@@ -487,7 +490,8 @@ describe('Blog portion in api/users Endpoint works according to spec', () => {
       .get('/api/users')
       .expect(200);
 
-    expect(secondResp.body.filter(userObj => userObj.id === userID)[0].blogs).toHaveLength(numberOfBlogsAdded + 1);
+    const listOfBlogs = secondResp.body.filter(userObj => userObj.id === userID)[0].blogs;
+    expect(listOfBlogs).toHaveLength(numberOfBlogsAdded + 1);
   });
 });
 
