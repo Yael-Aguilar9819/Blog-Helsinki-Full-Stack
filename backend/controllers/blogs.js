@@ -47,14 +47,14 @@ blogRouter.delete('/:id', async (request, response, next) => {
 
     // The token is correct and exists, but it's not known
     // if the user deleting the blog Its the same as the one who created it
-    const userCreator = await Blog.findById(request.params.id);
-    if (!userCreator) {
+    const blogToDelete = await Blog.findById(request.params.id);
+    if (!blogToDelete) {
       return response.status(404).json({ error: 'Blog was not found' });
     }
 
     // Stringify converts the object into a string
     // And slice method removes the double quotes
-    const IsTheSameUser = JSON.stringify(userCreator.user).slice(1, -1) === decodedToken.id;
+    const IsTheSameUser = JSON.stringify(blogToDelete.user).slice(1, -1) === decodedToken.id;
     if (!IsTheSameUser) {
       return response.status(401).json({ error: 'Only the creator can delete its own blogs' });
     }
