@@ -365,7 +365,9 @@ describe('Delete/:id endpoint of blogs works properly', () => {
       .delete(`/api/blogs/${idOfFirstBlog}`)
       .set('Authorization', 'bearer randomTokenObviouslyNotValid')
       .expect(401);
-    console.log(resp.body)
+
+    // This will check that there is a characteristic called 'error' in the response
+    expect(!!resp.body.error).toEqual(true);
   });
 });
 
