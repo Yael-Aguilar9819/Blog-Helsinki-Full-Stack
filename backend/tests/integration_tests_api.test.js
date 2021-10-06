@@ -350,7 +350,7 @@ describe('Delete/:id endpoint of blogs works properly', () => {
       .expect(401);
 
     // In the response body should be an error property
-    expect(!!resp.error).toEqual(true);
+    expect(!!resp.body.error).toEqual(true);
   });
 
   test('Trying to delete a blog with an incorrect token returns an error', async () => {
@@ -386,14 +386,15 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     
     // Should be deleted already, so it's going to
     // Respond with a 404
-    const resp =
+    const failedResp =
       await api
         .delete(`/api/blogs/${idOfFirstBlog}`)
         .set('Authorization', `bearer ${userToken}`)
         .expect(404); // couldn't be found
 
+    console.log(failedResp.body)
     // this means that an object with an error exists in the response
-    expect(!!resp.error).toEqual(true);
+    expect(!!failedResp.body.error).toEqual(true);
 
   })
 });
@@ -552,7 +553,7 @@ describe('Login works appropriately', () => {
       .expect(401); // 401 Unauthorized
 
     // this means that an object with an error exists
-    expect(!!resp.error).toEqual(true);
+    expect(!!resp.body.error).toEqual(true);
   });
 
   test('Trying to log without a password returns an error', async () => {
@@ -566,7 +567,7 @@ describe('Login works appropriately', () => {
       .expect(401); // 401 Unauthorized
 
     // this means that an object with an error exists
-    expect(!!resp.error).toEqual(true);
+    expect(!!resp.body.error).toEqual(true);
   });
 
   test('Trying to log with an username that doesnt exist returns an error describing it', async () => {
@@ -580,7 +581,7 @@ describe('Login works appropriately', () => {
       .expect(401); // 401 Unauthorized
 
     // this means that an object with an error exists
-    expect(!!resp.error).toEqual(true);
+    expect(!!resp.body.error).toEqual(true);
   });
 
   test('Trying to log without any data returns an error', async () => {
@@ -588,7 +589,7 @@ describe('Login works appropriately', () => {
       .post('/api/login')
       .expect(401); // 401 Unauthorized
 
-    expect(!!resp.error).toEqual(true);
+    expect(!!resp.body.error).toEqual(true);
   });
 });
 
@@ -619,7 +620,7 @@ describe('JWT is produced and processed correctly', () => {
 
     // Converts the object into a boolean value
     // and verifies that the object has a property called error
-    expect(!!resp.error).toEqual(true);
+    expect(!!resp.body.error).toEqual(true);
   });
 
   test('Using a valid token in POST request returns a successful response', async () => {

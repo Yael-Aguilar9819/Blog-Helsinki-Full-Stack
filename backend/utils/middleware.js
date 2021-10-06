@@ -40,7 +40,7 @@ const tokenExtractor = (request, response, next) => {
 };
 
 const userExtractor = (request, response, next) => {
-  console.log(request.token)
+  // console.log(request.token)
   next();
 };
 
