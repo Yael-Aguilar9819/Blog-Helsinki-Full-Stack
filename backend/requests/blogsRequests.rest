@@ -2,7 +2,7 @@
 ###
 GET http://localhost:3001/api/blogs
 
-### To create a new blog
+### Create a new blog
 POST http://localhost:3001/api/blogs
 content-type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3RSRVNUIiwiaWQiOiI2MTQ4MzBkNTQxNjU0NDIyODA4MjAzNjYiLCJpYXQiOjE2MzI2Njk3NTZ9.W-7ZvFuehme7duQTRrYI7B26gIZqWF_i2Swiacuo57E
@@ -23,5 +23,10 @@ content-type: application/json
   "author": "tester",
   "url": "www.test.com",
   "likes": 43
-
 }
+
+### Delete a blog
+DELETE http://localhost:3001/api/blogs/615d548959e1740d802a81c3
+content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3RSRVNUIiwiaWQiOiI2MTQ4MzBkNTQxNjU0NDIyODA4MjAzNjYiLCJpYXQiOjE2MzI2Njk3NTZ9.W-7ZvFuehme7duQTRrYI7B26gIZqWF_i2Swiacuo57E
+

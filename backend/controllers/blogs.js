@@ -48,12 +48,13 @@ blogRouter.delete('/:id', async (request, response, next) => {
     // The token is correct and exists, but it's not known
     // if the user deleting the blog Its the same as the one who created it
     const userCreator = await Blog.findById(request.params.id);
+    console.log(userCreator)
 
     // Stringify converts the object into a string
     // And slice method removes the double quotes
     const IsTheSameUser = JSON.stringify(userCreator.user).slice(1, -1) === decodedToken.id;
     if (!IsTheSameUser) {
-      return response.status(401).json({ error: 'Only the creator can delete its own notes' });
+      return response.status(401).json({ error: 'Only the creator can delete its own blogs' });
     }
     // With this function, it goes, removes it, and returns back that deleted object
     await Blog.findByIdAndRemove(request.params.id);
