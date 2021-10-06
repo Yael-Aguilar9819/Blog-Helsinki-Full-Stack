@@ -271,7 +271,9 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     const secondResp = await api
       .get('/api/users/');
 
-    const userBlogsAfterDeletion = secondResp.body[selectedUser].blogs;
+    // const userBlogsAfterDeletion = secondResp.body[selectedUser].blogs;
+    const userBlogsAfterDeletion = secondResp.body.filter(userObj => userObj.id === userID)[0]
+
     // Should be 1 less than the blogs added initially
     expect(userBlogsAfterDeletion).toHaveLength(numberOfBlogsAdded - 1);
   });
@@ -313,7 +315,10 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     const resp = await api.get('/api/users/');
     // This will get the ID of the first blog of the selected user
     // So it can be deleted later
-    const idOfFirstBlog = await resp.body[selectedUser].blogs[0].id;
+
+    // const idOfFirstBlog = await resp.body[selectedUser].blogs[0].id;
+    const creatorOfBlogs = resp.body.filter(userObj => userObj.id === userID)[0]
+    const idOfFirstBlog = creatorOfBlogs.blogs[0].id
 
     // Now It's neccesary to send a token to delete ANY blog
     await api
@@ -336,7 +341,10 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     const respUsers = await api.get('/api/users/');
     // This will get the ID of the first blog of the user that created those blogs
     // So it can be deleted later
-    const idOfFirstBlog = await respUsers.body[selectedUser].blogs[0].id;
+    // const idOfFirstBlog = await respUsers.body[selectedUser].blogs[0].id;
+    const creatorOfBlogs = respUsers.body.filter(userObj => userObj.id === userID)[0]
+    const idOfFirstBlog = creatorOfBlogs.blogs[0].id
+
 
     const resp = await api
       .delete(`/api/blogs/${idOfFirstBlog}`)
@@ -352,7 +360,9 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     // This will get the ID of the first blog of the user that created those blogs
     // So it can be deleted later
 
-    const idOfFirstBlog = respUsers.body[selectedUser].blogs[0].id;
+    // const idOfFirstBlog = respUsers.body[selectedUser].blogs[0].id;
+    const creatorOfBlogs = respUsers.body.filter(userObj => userObj.id === userID)[0]
+    const idOfFirstBlog = creatorOfBlogs.blogs[0].id;
 
     const resp = await api
       .delete(`/api/blogs/${idOfFirstBlog}`)
@@ -455,7 +465,10 @@ describe('Blog portion in api/users Endpoint works according to spec', () => {
       .expect('Content-Type', /application\/json/);
 
     // So it should have the same number of blogs as the ones added by the beforeEach
-    expect(resp.body[selectedUser].blogs).toHaveLength(numberOfBlogsAdded);
+    const listOfBlogs = resp.body.filter(userObj => userObj.id === userID)[0].blogs
+
+    // expect(resp.body[selectedUser].blogs).toHaveLength(numberOfBlogsAdded);
+    expect(listOfBlogs).toHaveLength(numberOfBlogsAdded);
   });
 
   test('After the user adds a new blog, its reflected in its user blog portion adding one', async () => {
