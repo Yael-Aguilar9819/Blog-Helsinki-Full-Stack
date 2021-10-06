@@ -25,8 +25,12 @@ app.use(express.json());
 // Now it's before others middlewares so it's always invoked
 app.use(middleware.requestLogger);
 
-// The token extractor pre-processes every token to be used more easily
+// The token extractor pre-processes every request to expose the token
 app.use(middleware.tokenExtractor);
+
+// The user extractor uses the tokenExtractor to pre-process the user
+app.use(middleware.userExtractor);
+
 
 // Being a router means that every endpoint + the blogs URL will be redirected here
 app.use('/api/blogs', blogRouter);

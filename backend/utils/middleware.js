@@ -31,16 +31,16 @@ const tokenExtractor = (request, response, next) => {
   const authorization = request.get('authorization');
   // All tokens start with 'bearer '
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    // the request gets a parameter called token, with onyl the token characters
+    // the request gets a parameter called token, with only the token characters
     // No modification needed
     request.token = authorization.substring(7);
-    // return authorization.substring(7);
   }
 
   next();
 };
 
 const userExtractor = (request, response, next) => {
+  console.log(request.token)
   next();
 };
 
@@ -49,4 +49,5 @@ module.exports = {
   unknownEndpoint,
   errorHandler,
   tokenExtractor,
+  userExtractor,
 };
