@@ -44,16 +44,24 @@ const tokenExtractor = (request, response, next) => {
 
 const userExtractor = async (request, response, next) => {
 
-  // If a token was given, this segment will the used
-  if (request.token) {
-    // It's verified by the jwt token, unhandled exception now
-    const decodedToken = jwt.verify(request.token, process.env.SECRET);
-    if (!decodedToken.id) {
-      return response.status(401).json({ error: 'token missing or invalid' });
+  try {
+    // If a token was given, this segment will the used
+    if (request.token) {
+      // It's verified by the jwt token, unhandled exception now
+      const decodedToken = jwt.verify(request.token, process.env.SECRET);
+
+      // if there's no token ID because it doesn't exist exist, this will handle it
+      if (!decodedToken.id) {
+        request.user = null
+        next();
+        // return response.status(401).json({ error: 'token missing or invalid' });
+      }
+      // Return the user from the decoded token
+      const user = await User.findById(decodedToken.id);
+      request.user = user
     }
-    // Return the user from the decoded token
-    const user = await User.findById(decodedToken.id);
-    request.user = user
+  } catch (exception) {
+    next(exception);
   }
 
   // const decodedToken = jwt.verify(request.token, process.env.SECRET);
