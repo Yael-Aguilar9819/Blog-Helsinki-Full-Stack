@@ -1,9 +1,10 @@
 const logger = require('./logger');
 const User = require('../models/user'); // Needed to populate the user object
+const jwt = require('jsonwebtoken');
 
 
 const requestLogger = (request, response, next) => {
-  logger.info('Method:', request.method);
+  logger.info('Method: ', request.method);
   logger.info('Path:  ', request.path);
   logger.info('Body:  ', request.body);
   logger.info('---');
@@ -41,8 +42,20 @@ const tokenExtractor = (request, response, next) => {
   next();
 };
 
-const userExtractor = (request, response, next) => {
-  console.log("Method ", request.method, " token: ", request.token, " body ", request.bodt)
+const userExtractor = async (request, response, next) => {
+
+  // If a token was given, this segment will the used
+  if (request.token) {
+    // It's verified by the jwt token, unhandled exception now
+    const decodedToken = jwt.verify(request.token, process.env.SECRET);
+    if (!decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or invalid' });
+    }
+    // Return the user from the decoded token
+    const user = await User.findById(decodedToken.id);
+    request.user = user
+  }
+
   // const decodedToken = jwt.verify(request.token, process.env.SECRET);
   // console.log(decodedToken)
   // if (!decodedToken.id) {
