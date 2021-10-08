@@ -178,7 +178,7 @@ describe('The basic GET endpoint of /api/blogs/ works properly', () => {
   });
 });
 
-describe('Post request of /api/blogs/ works according to spec', () => {
+describe('Post Endpoint request of /api/blogs/ works according to spec', () => {
   // It's reference it's given to an object with a shorter name
   // Now it's deep cloned
   const newBlog = JSON.parse(JSON.stringify(helperToDB.blogWithAllProperties));

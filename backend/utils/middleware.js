@@ -42,12 +42,12 @@ const tokenExtractor = (request, response, next) => {
 };
 
 const userExtractor = (request, response, next) => {
-  // console.log(request.token)
-  const decodedToken = jwt.verify(request.token, process.env.SECRET);
-  console.log(decodedToken)
-  if (!decodedToken.id) {
-    return response.status(401).json({ error: 'token missing or invalid' });
-  }
+  console.log("Method ", request.method, " token: ", request.token, " body ", request.bodt)
+  // const decodedToken = jwt.verify(request.token, process.env.SECRET);
+  // console.log(decodedToken)
+  // if (!decodedToken.id) {
+  //   return response.status(401).json({ error: 'token missing or invalid' });
+  // }
   // const user = await User.findById(request.token);
   next();
 };
