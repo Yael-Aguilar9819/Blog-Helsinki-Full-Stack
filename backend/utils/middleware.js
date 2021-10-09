@@ -63,12 +63,6 @@ const userExtractor = async (request, response, next) => {
     next(exception);
   }
 
-  // const decodedToken = jwt.verify(request.token, process.env.SECRET);
-  // console.log(decodedToken)
-  // if (!decodedToken.id) {
-  //   return response.status(401).json({ error: 'token missing or invalid' });
-  // }
-  // const user = await User.findById(request.token);
   next();
 };
 
