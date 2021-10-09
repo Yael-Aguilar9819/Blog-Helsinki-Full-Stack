@@ -14,13 +14,14 @@ blogRouter.get('/', async (request, response) => {
 blogRouter.post('/', async (request, response, next) => {
   try {
     // The middleware previously extracted the token
-    const decodedToken = jwt.verify(request.token, process.env.SECRET);
-    if (!decodedToken.id) {
-      return response.status(401).json({ error: 'token missing or invalid' });
-    }
-    // The decoded token returns the user object
-    const user = await User.findById(decodedToken.id);
+    // const decodedToken = jwt.verify(request.token, process.env.SECRET);
+    // if (!decodedToken.id) {
+    //   return response.status(401).json({ error: 'token missing or invalid' });
+    // }
+    // // The decoded token returns the user object
+    // const user = await User.findById(decodedToken.id);
 
+    const user = request.user
     // The body is directly modified to add the user ID
     request.body.user = user._id;
     const blog = new Blog(request.body);
