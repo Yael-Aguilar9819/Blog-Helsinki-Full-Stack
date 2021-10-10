@@ -14,10 +14,10 @@ blogRouter.get('/', async (request, response) => {
 blogRouter.post('/', async (request, response, next) => {
   try {
     // The middleware previously extracted the token
-    const decodedToken = jwt.verify(request.token, process.env.SECRET);
-    if (!decodedToken.id) {
-      return response.status(401).json({ error: 'token missing or invalid' });
-    }
+    // const decodedToken = jwt.verify(request.token, process.env.SECRET);
+    // if (!decodedToken.id) {
+    //   return response.status(401).json({ error: 'token missing or invalid' });
+    // }
     // The token is obtained from the middleware that pre-processed the user
     const user = request.user
 
@@ -87,7 +87,9 @@ const saveBlogIDinUserCollection = async (userObj, blogToSave) => {
   userObj.blogs = userObj.blogs.concat(blogToSave._id);
 
   // and saved
-  userObj.save();
+  console.log(userObj)
+  try {userObj.save();}
+  catch(excep){console.log(excep)}
 
 };
 
