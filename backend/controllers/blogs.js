@@ -25,7 +25,7 @@ blogRouter.post('/', async (request, response, next) => {
     const blogResponseFromServer = await blog.save();
 
     // The user is modified automatically, it's not necessary to do it manually
-
+    const respi = await saveBlogIDinUserCollection(request.user, blogResponseFromServer)
     // Then it's converted to json and returned to whatever method called POST
     response.status(201).json(blogResponseFromServer);
   } catch (exception) {
@@ -73,5 +73,16 @@ blogRouter.put('/:id', async (request, response, next) => {
     next(exception);
   }
 });
+
+const saveBlogIDinUserCollection = async (userObj, blogToSave) => {
+  // The userObj can be used directly without searching again in the DB
+  // then it's added to the current blogs in the user blogs
+  userObj.blogs = userObj.blogs.concat(blogToSave._id);
+
+  // This just saves it to the DB
+  // The response it's not necessary
+  await userObj.save();
+};
+
 
 module.exports = blogRouter;
