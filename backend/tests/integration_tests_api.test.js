@@ -379,25 +379,23 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     // This will get the ID of the first blog of the selected user
     const creatorOfBlogs = resp.body.filter(userObj => userObj.id === userID)[0];
     const idOfFirstBlog = creatorOfBlogs.blogs[0].id;
-    
+
     // Now It's neccesary to send a token to delete ANY blog
     await api
       .delete(`/api/blogs/${idOfFirstBlog}`)
       .set('Authorization', `bearer ${userToken}`)
       .expect(204);
-    
+
     // Should be deleted already, so it's going to
     // Respond with a 404
-    const failedResp =
-      await api
-        .delete(`/api/blogs/${idOfFirstBlog}`)
-        .set('Authorization', `bearer ${userToken}`)
-        .expect(404); // couldn't be found
+    const failedResp = await api
+      .delete(`/api/blogs/${idOfFirstBlog}`)
+      .set('Authorization', `bearer ${userToken}`)
+      .expect(404); // couldn't be found
 
     // this means that an object with an error exists in the response
     expect(!!failedResp.body.error).toEqual(true);
-
-  })
+  });
 });
 
 describe('The update endpoint works', () => {

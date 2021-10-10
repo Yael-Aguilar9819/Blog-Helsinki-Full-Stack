@@ -14,7 +14,7 @@ blogRouter.get('/', async (request, response) => {
 blogRouter.post('/', async (request, response, next) => {
   try {
     // The user is obtained from the middleware that pre-processed request
-    const user = request.user
+    const { user } = request;
 
     // The body is directly modified to add the user ID
     request.body.user = user._id;

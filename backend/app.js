@@ -31,7 +31,6 @@ app.use(middleware.tokenExtractor);
 // The user extractor uses the tokenExtractor to pre-process the user
 app.use(middleware.userExtractor);
 
-
 // Being a router means that every endpoint + the blogs URL will be redirected here
 app.use('/api/blogs', blogRouter);
 

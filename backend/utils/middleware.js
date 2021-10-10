@@ -1,7 +1,6 @@
+const jwt = require('jsonwebtoken');
 const logger = require('./logger');
 const User = require('../models/user'); // Needed to populate the user object
-const jwt = require('jsonwebtoken');
-
 
 const requestLogger = (request, response, next) => {
   logger.info('Method: ', request.method);
@@ -43,7 +42,6 @@ const tokenExtractor = (request, response, next) => {
 };
 
 const userExtractor = async (request, response, next) => {
-
   try {
     // If a token was given, this segment will the used
     if (request.token) {
@@ -52,12 +50,12 @@ const userExtractor = async (request, response, next) => {
 
       // if there's no token ID because it doesn't exist exist, this will handle it
       if (!decodedToken.id) {
-        request.user = null
+        request.user = null;
         next();
       }
       // Return the user from the decoded token
       const user = await User.findById(decodedToken.id);
-      request.user = user
+      request.user = user;
     }
   } catch (exception) {
     next(exception);
