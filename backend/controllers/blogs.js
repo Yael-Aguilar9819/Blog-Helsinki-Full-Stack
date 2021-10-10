@@ -13,12 +13,7 @@ blogRouter.get('/', async (request, response) => {
 
 blogRouter.post('/', async (request, response, next) => {
   try {
-    // The middleware previously extracted the token
-    // const decodedToken = jwt.verify(request.token, process.env.SECRET);
-    // if (!decodedToken.id) {
-    //   return response.status(401).json({ error: 'token missing or invalid' });
-    // }
-    // The token is obtained from the middleware that pre-processed the user
+    // The user is obtained from the middleware that pre-processed request
     const user = request.user
 
     // The body is directly modified to add the user ID
@@ -29,9 +24,7 @@ blogRouter.post('/', async (request, response, next) => {
     // The server response it's the same blog with the id
     const blogResponseFromServer = await blog.save();
 
-    // Then we modify the User object in it's own collection
-    // await saveBlogIDinUserCollection(request.body.user, blogResponseFromServer);
-    await saveBlogIDinUserCollection(request.user, blogResponseFromServer);
+    // The user is modified automatically, it's not necessary to do it manually
 
     // Then it's converted to json and returned to whatever method called POST
     response.status(201).json(blogResponseFromServer);
@@ -80,17 +73,5 @@ blogRouter.put('/:id', async (request, response, next) => {
     next(exception);
   }
 });
-
-const saveBlogIDinUserCollection = async (userObj, blogToSave) => {
-  // The userObj can be used directly without searching again in the DB
-  // then it's added to the current blogs in the user blogs
-  userObj.blogs = userObj.blogs.concat(blogToSave._id);
-
-  // and saved
-  console.log(userObj)
-  try {userObj.save();}
-  catch(excep){console.log(excep)}
-
-};
 
 module.exports = blogRouter;
