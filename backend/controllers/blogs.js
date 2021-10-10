@@ -18,14 +18,13 @@ blogRouter.post('/', async (request, response, next) => {
 
     // The body is directly modified to add the user ID
     request.body.user = user._id;
-
     const blog = new Blog(request.body);
 
     // The server response it's the same blog with the id
     const blogResponseFromServer = await blog.save();
 
     // The user is modified automatically, it's not necessary to do it manually
-    const respi = await saveBlogIDinUserCollection(request.user, blogResponseFromServer)
+    await saveBlogIDinUserCollection(request.user, blogResponseFromServer)
     // Then it's converted to json and returned to whatever method called POST
     response.status(201).json(blogResponseFromServer);
   } catch (exception) {
@@ -35,12 +34,6 @@ blogRouter.post('/', async (request, response, next) => {
 
 blogRouter.delete('/:id', async (request, response, next) => {
   try {
-    // This will determine if the token is correct, otherwise, throws an error
-    const decodedToken = jwt.verify(request.token, process.env.SECRET);
-    if (!decodedToken.id) {
-      return response.status(401).json({ error: 'token missing or invalid' });
-    }
-
     // The token is correct and exists, but it's not known
     // if the user deleting the blog Its the same as the one who created it
     const blogToDelete = await Blog.findById(request.params.id);
@@ -48,9 +41,9 @@ blogRouter.delete('/:id', async (request, response, next) => {
       return response.status(404).json({ error: 'Blog was not found' });
     }
 
-    // Stringify converts the object into a string
-    // And slice method removes the double quotes
-    const IsTheSameUser = JSON.stringify(blogToDelete.user).slice(1, -1) === decodedToken.id;
+    // The function converts the object into a string and removes the double quotes
+    const IsTheSameUser = formatUserIDInBlogs(blogToDelete.user) === formatUserIDInBlogs(request.user._id);
+    console.log(IsTheSameUser)
     if (!IsTheSameUser) {
       return response.status(401).json({ error: 'Only the creator can delete its own blogs' });
     }
@@ -84,5 +77,8 @@ const saveBlogIDinUserCollection = async (userObj, blogToSave) => {
   await userObj.save();
 };
 
+const formatUserIDInBlogs = userID => {
+  return JSON.stringify(userID).slice(1, -1);
+}
 
 module.exports = blogRouter;
