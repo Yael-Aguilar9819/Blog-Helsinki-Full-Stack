@@ -191,7 +191,7 @@ describe('Post Endpoint request of /api/blogs/ works according to spec', () => {
       .post('/api/blogs')
       .set('Authorization', `bearer ${userToken}`)
       .send(newBlog)
-      // .expect(201);
+      .expect(201);
 
     // Then we get the blogs in the DB
     const response = await api.get('/api/blogs');
