@@ -178,6 +178,8 @@ describe('The basic GET endpoint of /api/blogs/ works properly', () => {
   });
 });
 
+// START OF API BLOG ENDPOINTS
+
 describe('Post Endpoint request of /api/blogs/ works according to spec', () => {
   // It's reference it's given to an object with a shorter name
   // Now it's deep cloned
@@ -189,7 +191,7 @@ describe('Post Endpoint request of /api/blogs/ works according to spec', () => {
       .post('/api/blogs')
       .set('Authorization', `bearer ${userToken}`)
       .send(newBlog)
-      .expect(201);
+      // .expect(201);
 
     // Then we get the blogs in the DB
     const response = await api.get('/api/blogs');
@@ -392,7 +394,6 @@ describe('Delete/:id endpoint of blogs works properly', () => {
         .set('Authorization', `bearer ${userToken}`)
         .expect(404); // couldn't be found
 
-    console.log(failedResp.body)
     // this means that an object with an error exists in the response
     expect(!!failedResp.body.error).toEqual(true);
 

@@ -14,22 +14,32 @@ blogRouter.get('/', async (request, response) => {
 blogRouter.post('/', async (request, response, next) => {
   try {
     // The middleware previously extracted the token
-    // const decodedToken = jwt.verify(request.token, process.env.SECRET);
-    // if (!decodedToken.id) {
-    //   return response.status(401).json({ error: 'token missing or invalid' });
-    // }
-    // // The decoded token returns the user object
+    const decodedToken = jwt.verify(request.token, process.env.SECRET);
+    if (!decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or invalid' });
+    }
+    console.log(request.user)
+    // The decoded token returns the user object
     // const user = await User.findById(decodedToken.id);
 
-    const user = request.user
+    try {
+      const user = request.user
+    } catch(excp) {
+      console.log(excp)
+    }
+    cosnoel.log("passed 2")
+
     // The body is directly modified to add the user ID
     request.body.user = user._id;
+
+    console.log("passed 3")
     const blog = new Blog(request.body);
 
     // The server response it's the same blog with the id
     const blogResponseFromServer = await blog.save();
     // Then we modify the User object in it's own collection
-    await saveBlogIDinUserCollection(request.body.user, blogResponseFromServer);
+    // await saveBlogIDinUserCollection(request.body.user, blogResponseFromServer);
+    await saveBlogIDinUserCollection(request.user, blogResponseFromServer);
 
     // Then it's converted to json and returned to whatever method called POST
     response.status(201).json(blogResponseFromServer);
@@ -79,10 +89,10 @@ blogRouter.put('/:id', async (request, response, next) => {
   }
 });
 
-const saveBlogIDinUserCollection = async (userID, blogToSave) => {
-  const user = await User.findById(userID);
+const saveBlogIDinUserCollection = async (userObj, blogToSave) => {
+  // The userObj can be used directly without searching again in the DB
   // then it's added to the current blogs in the user blogs
-  user.blogs = user.blogs.concat(blogToSave._id);
+  userObj.blogs = userObj.blogs.concat(blogToSave._id);
   // and saved
   await user.save();
 };
