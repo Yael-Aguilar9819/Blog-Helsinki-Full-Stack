@@ -29,11 +29,11 @@ app.use(middleware.requestLogger);
 app.use(middleware.tokenExtractor);
 
 // The user extractor uses the tokenExtractor to pre-process the user
-// It's extracted so it can be used sparingly in necessary routes
+// Extracted so now can be used for specific routes instead of every single one
 const { userExtractor } = require('./utils/middleware');
 
 // Being a router means that every endpoint + the blogs URL will be redirected here
-app.use('/api/blogs', blogRouter, userExtractor);
+app.use('/api/blogs', userExtractor, blogRouter);
 
 // This router redirects to the user endpoint
 app.use('/api/users', usersRouter);
