@@ -1,7 +1,5 @@
 const blogRouter = require('express').Router();
-const jwt = require('jsonwebtoken');
 const Blog = require('../models/blog'); // With '..' go back 1 dir
-const User = require('../models/user'); // Needed to populate the user object
 
 // This are the main routes of the blog file
 // Now it's refactored into an async/await functions
@@ -43,7 +41,6 @@ blogRouter.delete('/:id', async (request, response, next) => {
 
     // The function converts the object into a string and removes the double quotes
     const IsTheSameUser = formatUserIDInBlogs(blogToDelete.user) === formatUserIDInBlogs(request.user._id);
-    console.log(IsTheSameUser)
     if (!IsTheSameUser) {
       return response.status(401).json({ error: 'Only the creator can delete its own blogs' });
     }
