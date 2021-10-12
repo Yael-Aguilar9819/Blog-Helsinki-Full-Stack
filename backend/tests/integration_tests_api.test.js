@@ -327,75 +327,6 @@ describe('Delete/:id endpoint of blogs works properly', () => {
       .set('Authorization', `bearer ${userToken}`)
       .expect(204);
   });
-
-  test('Trying to delete a blog with another user returns an error', async () => {
-    // It's not the creator, it's going to be the one after the blog creator
-    const userCreator = JSON.parse(JSON.stringify(helperToDB.listOfUsersToDB[selectedUser + 1]));
-
-    const respToken = await api
-      .post('/api/login')
-      .send(userCreator)
-      .expect(200);
-
-    const nonCreatorToken = respToken.body.token;
-
-    const respUsers = await api.get('/api/users/');
-    // This will get the ID of the first blog of the user that created those blogs
-    // So it can be deleted later
-
-    const creatorOfBlogs = respUsers.body.filter(userObj => userObj.id === userID)[0];
-    const idOfFirstBlog = creatorOfBlogs.blogs[0].id;
-
-    const resp = await api
-      .delete(`/api/blogs/${idOfFirstBlog}`)
-      .set('Authorization', `bearer ${nonCreatorToken}`)
-      .expect(401);
-
-    // In the response body should be an error property
-    expect(!!resp.body.error).toEqual(true);
-  });
-
-  test('Trying to delete a blog with an incorrect token returns an error', async () => {
-    const respUsers = await api.get('/api/users/');
-    // This will get the ID of the first blog of the user that created those blogs
-    // So it can be deleted later
-
-    const creatorOfBlogs = respUsers.body.filter(userObj => userObj.id === userID)[0];
-    const idOfFirstBlog = creatorOfBlogs.blogs[0].id;
-
-    const resp = await api
-      .delete(`/api/blogs/${idOfFirstBlog}`)
-      .set('Authorization', 'bearer randomTokenObviouslyNotValid')
-      .expect(401);
-
-    // This will check that there is a characteristic called 'error' in the response
-    expect(!!resp.body.error).toEqual(true);
-  });
-
-  test('Trying to delete a blog that doesnt exist anymore returns an error', async () => {
-    // We just copy the object of the user that created those blogs
-    const resp = await api.get('/api/users/');
-
-    // This will get the ID of the first blog of the selected user
-    const creatorOfBlogs = resp.body.filter(userObj => userObj.id === userID)[0];
-    const idOfFirstBlog = creatorOfBlogs.blogs[0].id;
-
-    // Now It's neccesary to send a token to delete ANY blog
-    await api
-      .delete(`/api/blogs/${idOfFirstBlog}`)
-      .set('Authorization', `bearer ${userToken}`)
-      .expect(204);
-
-    // Should be deleted already, so it's going to
-    // Respond with a 404
-    const failedResp = await api
-      .delete(`/api/blogs/${idOfFirstBlog}`)
-      .set('Authorization', `bearer ${userToken}`)
-      .expect(404); // couldn't be found
-
-    // this means that an object with an error exists in the response
-    expect(!!failedResp.body.error).toEqual(true);
-  });
 });
 
 describe('The update endpoint works', () => {
@@ -667,6 +598,75 @@ describe('JWT is produced and processed correctly', () => {
 
     // Checks that the object has a property called error
     expect(!!resp.body.error).toEqual(true);
+  });
+
+  test('Trying to delete a blog with another user returns an error', async () => {
+    // It's not the creator, it's going to be the one after the blog creator
+    const userCreator = JSON.parse(JSON.stringify(helperToDB.listOfUsersToDB[selectedUser + 1]));
+
+    const respToken = await api
+      .post('/api/login')
+      .send(userCreator)
+      .expect(200);
+
+    const nonCreatorToken = respToken.body.token;
+
+    const respUsers = await api.get('/api/users/');
+    // This will get the ID of the first blog of the user that created those blogs
+    // So it can be deleted later
+
+    const creatorOfBlogs = respUsers.body.filter(userObj => userObj.id === userID)[0];
+    const idOfFirstBlog = creatorOfBlogs.blogs[0].id;
+
+    const resp = await api
+      .delete(`/api/blogs/${idOfFirstBlog}`)
+      .set('Authorization', `bearer ${nonCreatorToken}`)
+      .expect(401);
+
+    // In the response body should be an error property
+    expect(!!resp.body.error).toEqual(true);
+  });
+
+  test('Trying to delete a blog with an incorrect token returns an error', async () => {
+    const respUsers = await api.get('/api/users/');
+    // This will get the ID of the first blog of the user that created those blogs
+    // So it can be deleted later
+
+    const creatorOfBlogs = respUsers.body.filter(userObj => userObj.id === userID)[0];
+    const idOfFirstBlog = creatorOfBlogs.blogs[0].id;
+
+    const resp = await api
+      .delete(`/api/blogs/${idOfFirstBlog}`)
+      .set('Authorization', 'bearer randomTokenObviouslyNotValid')
+      .expect(401);
+
+    // This will check that there is a characteristic called 'error' in the response
+    expect(!!resp.body.error).toEqual(true);
+  });
+
+  test('Trying to delete a blog that doesnt exist anymore returns an error', async () => {
+    // We just copy the object of the user that created those blogs
+    const resp = await api.get('/api/users/');
+
+    // This will get the ID of the first blog of the selected user
+    const creatorOfBlogs = resp.body.filter(userObj => userObj.id === userID)[0];
+    const idOfFirstBlog = creatorOfBlogs.blogs[0].id;
+
+    // Now It's neccesary to send a token to delete ANY blog
+    await api
+      .delete(`/api/blogs/${idOfFirstBlog}`)
+      .set('Authorization', `bearer ${userToken}`)
+      .expect(204);
+
+    // Should be deleted already, so it's going to
+    // Respond with a 404
+    const failedResp = await api
+      .delete(`/api/blogs/${idOfFirstBlog}`)
+      .set('Authorization', `bearer ${userToken}`)
+      .expect(404); // couldn't be found
+
+    // this means that an object with an error exists in the response
+    expect(!!failedResp.body.error).toEqual(true);
   });
 });
 
