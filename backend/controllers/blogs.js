@@ -22,7 +22,7 @@ blogRouter.post('/', async (request, response, next) => {
     const blogResponseFromServer = await blog.save();
 
     // The user is modified automatically, it's not necessary to do it manually
-    await saveBlogIDinUserCollection(request.user, blogResponseFromServer)
+    await saveBlogIDinUserCollection(request.user, blogResponseFromServer);
     // Then it's converted to json and returned to whatever method called POST
     response.status(201).json(blogResponseFromServer);
   } catch (exception) {
@@ -40,7 +40,8 @@ blogRouter.delete('/:id', async (request, response, next) => {
     }
 
     // The function converts the object into a string and removes the double quotes
-    const IsTheSameUser = formatUserIDInBlogs(blogToDelete.user) === formatUserIDInBlogs(request.user._id);
+    const IsTheSameUser = formatUserIDInBlogs(blogToDelete.user)
+                          === formatUserIDInBlogs(request.user._id);
     if (!IsTheSameUser) {
       return response.status(401).json({ error: 'Only the creator can delete its own blogs' });
     }
@@ -74,8 +75,6 @@ const saveBlogIDinUserCollection = async (userObj, blogToSave) => {
   await userObj.save();
 };
 
-const formatUserIDInBlogs = userID => {
-  return JSON.stringify(userID).slice(1, -1);
-}
+const formatUserIDInBlogs = userID => JSON.stringify(userID).slice(1, -1);
 
 module.exports = blogRouter;
