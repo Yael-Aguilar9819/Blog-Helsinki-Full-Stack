@@ -6,4 +6,8 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
-export default { getAll }
+const exportedObject = {
+  getAll,
+};
+
+export default exportedObject
