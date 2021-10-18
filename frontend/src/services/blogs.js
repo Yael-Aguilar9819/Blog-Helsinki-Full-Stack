@@ -1,12 +1,12 @@
 const baseUrl = '/api/blogs'
 
 const getAll = async () => {
-  const request = await fetch(baseUrl);
-  return request.then(response => response.data)
+  const response = await fetch(baseUrl);
+  return response.json()
 }
 
 const exportedObject = {
   getAll,
-};
+};  
 
 export default exportedObject
