@@ -13,11 +13,31 @@ const App = () => {
     )  
   }, [])
 
-  
-  
+const handleLogin = async (event) => {
+  event.preventDefault()
+  // try {
+  //   const user = await loginService.login({
+  //     username, password,
+  //   })
+  //   window.localStorage.setItem(
+  //     'loggedNoteappUser', JSON.stringify(user)
+  //   ) 
+
+  //   noteService.setToken(user.token)
+  //   setUser(user)
+  //   setUsername('')
+  //   setPassword('')
+  // } catch (exception) {
+  //   setErrorMessage('Wrong credentials')
+  //   setTimeout(() => {
+  //     setErrorMessage(null)
+  //   }, 5000)
+  // }
+}
+
 // login form handles the function of the 
 const loginForm = () => (
-  <form onSubmit={"welp"}>
+  <form onSubmit={handleLogin}>
     {/* each of this 2 are an input. To be reworked in a component */}
     <div>
       username
