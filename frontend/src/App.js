@@ -27,6 +27,8 @@ const handleLogin = async (event) => {
     window.localStorage.setItem(
       'loggedNoteappUser', JSON.stringify(user)
     ) 
+    console.log(user)
+
 
     blogService.setToken(user.token)
     setUser(user)
