@@ -5,7 +5,7 @@ POST http://localhost:3001/api/users
 content-type: application/json
 
 {
-    "username" : "rootREST", 
+    "username" : "originalREST", 
     "name": "name of first user",
-    "password" : "functionalPass"
+    "password" : "PassKindaOk"
 }
