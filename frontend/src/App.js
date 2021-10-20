@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+
+// Both of this services loosely couple the backend with the frontend
 import blogService from './services/blogs'
+import loginService from './services/login' 
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
+  const [user, setUser] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -15,24 +20,24 @@ const App = () => {
 
 const handleLogin = async (event) => {
   event.preventDefault()
-  // try {
-  //   const user = await loginService.login({
-  //     username, password,
-  //   })
-  //   window.localStorage.setItem(
-  //     'loggedNoteappUser', JSON.stringify(user)
-  //   ) 
+  try {
+    const user = await loginService.login({
+      username, password,
+    })
+    window.localStorage.setItem(
+      'loggedNoteappUser', JSON.stringify(user)
+    ) 
 
-  //   noteService.setToken(user.token)
-  //   setUser(user)
-  //   setUsername('')
-  //   setPassword('')
-  // } catch (exception) {
-  //   setErrorMessage('Wrong credentials')
-  //   setTimeout(() => {
-  //     setErrorMessage(null)
-  //   }, 5000)
-  // }
+    blogService.setToken(user.token)
+    setUser(user)
+    setUsername('')
+    setPassword('')
+  } catch (exception) {
+    setErrorMessage('Wrong credentials')
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
+  }
 }
 
 // login form handles the function of the 
