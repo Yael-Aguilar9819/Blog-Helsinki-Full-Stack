@@ -14,4 +14,8 @@ const login = async credentials => {
     return await response.json()
 }
 
-export default { login }
+const exportedFunc = {
+    login,
+  };  
+  
+export default exportedFunc
