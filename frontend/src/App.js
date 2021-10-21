@@ -13,9 +13,14 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+    // It has to be an inner function
+    // Because useEffect functions have to be synchronous
+    // To avoid race conditions 
+    const fetchBlogs = async () => {
+      const blogs = await blogService.getAll();
+      setBlogs(blogs);  
+    }
+    fetchBlogs();
   }, [])
 
 const handleLogin = async (event) => {
@@ -27,9 +32,7 @@ const handleLogin = async (event) => {
     window.localStorage.setItem(
       'loggedNoteappUser', JSON.stringify(user)
     ) 
-    console.log(user)
-
-
+    // This receives the token and cleans the usernames
     blogService.setToken(user.token)
     setUser(user)
     setUsername('')
