@@ -34,15 +34,17 @@ const handleLogin = async (event) => {
     ) 
     // This receives the token and cleans the usernames
     blogService.setToken(user.token)
-    console.log(!!user.error)
+    // If the object returned has NOT a property called token
+    // A verification error will be shown to the user
+    if (!!!user.token) {
+      createTemporalErrorMessage("Wrong credentials")
+      return; 
+    }
     setUser(user)
     setUsername('')
     setPassword('')
   } catch (exception) {
-    setErrorMessage('There was an unexpected error')
-    setTimeout(() => {
-      setErrorMessage(null)
-    }, 5000)
+    createTemporalErrorMessage(exception);
   }
 }
 
@@ -71,6 +73,13 @@ const loginForm = () => (
     <button type="submit">login</button>
   </form>      
 )
+
+const createTemporalErrorMessage = (message) => {
+  setErrorMessage(message)
+  setTimeout(() => {
+    setErrorMessage(null)
+  }, 5000)
+}
 
   return (
     <div>
