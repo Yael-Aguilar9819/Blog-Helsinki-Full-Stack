@@ -34,11 +34,12 @@ const handleLogin = async (event) => {
     ) 
     // This receives the token and cleans the usernames
     blogService.setToken(user.token)
+    console.log(!!user.error)
     setUser(user)
     setUsername('')
     setPassword('')
   } catch (exception) {
-    setErrorMessage('Wrong credentials')
+    setErrorMessage('There was an unexpected error')
     setTimeout(() => {
       setErrorMessage(null)
     }, 5000)
@@ -74,7 +75,15 @@ const loginForm = () => (
   return (
     <div>
       {/* This invokes the loginForm  */}
-      {loginForm()}
+
+      {/* {loginForm()} */}
+      {user === null ?
+      loginForm() :
+      <div>
+        <p>{user.username} logged-in</p>
+        {<h2>To do a way to create new notes</h2>}
+      </div>
+      }
       <h2>blogs</h2>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
