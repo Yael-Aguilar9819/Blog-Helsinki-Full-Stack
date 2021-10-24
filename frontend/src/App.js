@@ -75,12 +75,7 @@ const loginForm = () => (
   </form>      
 )
 
-const showBlogs = () => (
-    blogs.map(blog =>
-    <Blog key={blog.id} blog={blog} />
-    )
-)
-
+// This created a temporal error message to be shown to the user
 const createTemporalErrorMessage = (message) => {
   setErrorMessage(message)
   setTimeout(() => {
@@ -96,11 +91,13 @@ const createTemporalErrorMessage = (message) => {
       {user === null ?
       loginForm() :
       <div>
+        <div>
         <p>{user.username} logged-in</p>
         {<h2>TODO a way to create new notes</h2>}
+        </div>
+        <ListOfBlogs blogs = {blogs}/>
       </div>
       }
-      {showBlogs()}
     </div>
   )
 }
