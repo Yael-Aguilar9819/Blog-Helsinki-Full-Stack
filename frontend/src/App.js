@@ -42,6 +42,7 @@ const handleLogin = async (event) => {
       createTemporalErrorMessage("Wrong credentials")
       return; 
     }
+    window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
     setUser(user)
     setUsername('')
     setPassword('')
@@ -60,14 +61,12 @@ const createTemporalErrorMessage = (message) => {
 
   return (
     <div>
-      {/* This invokes the loginForm  */}
-
       {user === null ?
       <LoginForm loginFunc = {handleLogin} nameField = {username} 
         setNameFunc = {setUsername} passField = {password} setPassFunc = {setPassword}/> :
       <div>
         <div>
-        <p>{user.username} logged-in</p>
+        <p>{user.username} logged in</p>
         {<h2>TODO a way to create new notes</h2>}
         </div>
         <ListOfBlogs blogs = {blogs}/>
