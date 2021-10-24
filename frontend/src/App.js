@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import ListOfBlogs from './components/ListOfBlogs'
+import LoginForm from './components/LoginForm'
 
 // Both of this services loosely couple the backend with the frontend
 import blogService from './services/blogs'
@@ -49,32 +50,6 @@ const handleLogin = async (event) => {
   }
 }
 
-// login form handles the function of the 
-const loginForm = () => (
-  <form onSubmit={handleLogin}>
-    {/* each of this 2 are an input. To be reworked in a component */}
-    <div>
-      username
-        <input
-        type="text"
-        value={username}
-        name="Username"
-        onChange={({ target }) => setUsername(target.value)}
-      />
-    </div>
-    <div>
-      password
-        <input
-        type="password"
-        // value={password}
-        name="Password"
-        onChange={({ target }) => setPassword(target.value)}
-      />
-    </div>
-    <button type="submit">login</button>
-  </form>      
-)
-
 // This created a temporal error message to be shown to the user
 const createTemporalErrorMessage = (message) => {
   setErrorMessage(message)
@@ -87,9 +62,9 @@ const createTemporalErrorMessage = (message) => {
     <div>
       {/* This invokes the loginForm  */}
 
-      {/* {loginForm()} */}
       {user === null ?
-      loginForm() :
+      <LoginForm loginFunc = {handleLogin} nameField = {username} 
+        setNameFunc = {setUsername} passField = {password} setPassFunc = {setPassword}/> :
       <div>
         <div>
         <p>{user.username} logged-in</p>

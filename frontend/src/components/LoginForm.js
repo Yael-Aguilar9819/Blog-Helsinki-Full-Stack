@@ -1,7 +1,10 @@
 import React from 'react'
-const LoginForm = ({loginFunction, nameField, setNameFunction, passField, setPassFunction}) => {
+
+// login form handles the function of the 
+
+const LoginForm = ({loginFunc, nameField, setNameFunc, passField, setPassFunc}) => {
     return (
-        <form onSubmit={loginFunction}>
+        <form onSubmit={loginFunc}>
         {/* each of this 2 are an input. To be reworked in a component */}
         <div>
           username
@@ -9,7 +12,7 @@ const LoginForm = ({loginFunction, nameField, setNameFunction, passField, setPas
             type="text"
             value={nameField}
             name="Username"
-            onChange={({ target }) => setNameFunction(target.value)}
+            onChange={({ target }) => setNameFunc(target.value)}
           />
         </div>
         <div>
@@ -18,7 +21,7 @@ const LoginForm = ({loginFunction, nameField, setNameFunction, passField, setPas
             type="password"
             value={passField}
             name="Password"
-            onChange={({ target }) => setPassFunction(target.value)}
+            onChange={({ target }) => setPassFunc(target.value)}
           />
         </div>
         <button type="submit">login</button>
