@@ -1,7 +1,8 @@
 const baseUrl = '/api/login'
 
+// This will login directly to the server
+// Returns a token, name and username
 const login = async credentials => {
-    // const response = await axios.post(baseUrl, credentials)
     const response = 
     await fetch(baseUrl, {
         method: 'POST',
