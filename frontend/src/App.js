@@ -24,6 +24,17 @@ const App = () => {
     fetchBlogs();
   }, [])
 
+  useEffect(() => {
+    // It checks whatever the localStorage has that variable
+    // The user is the one who is controlled
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      // noteService.setToken(user.token)
+    }
+  }, [])
+
 // This is the main function that handles the login function
 const handleLogin = async (event) => {
   event.preventDefault()
