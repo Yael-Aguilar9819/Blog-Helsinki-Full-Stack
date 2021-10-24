@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import Blog from './components/Blog'
 import ListOfBlogs from './components/ListOfBlogs'
 
 // Both of this services loosely couple the backend with the frontend
@@ -24,6 +23,7 @@ const App = () => {
     fetchBlogs();
   }, [])
 
+// This is the main function that handles the login function
 const handleLogin = async (event) => {
   event.preventDefault()
   try {
@@ -66,7 +66,7 @@ const loginForm = () => (
       password
         <input
         type="password"
-        value={password}
+        // value={password}
         name="Password"
         onChange={({ target }) => setPassword(target.value)}
       />
