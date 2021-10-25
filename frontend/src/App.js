@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import styles from './index.css'
 import ListOfBlogs from './components/ListOfBlogs'
 import LoginForm from './components/LoginForm'
 
@@ -77,7 +78,8 @@ const createTemporalErrorMessage = (message) => {
         setNameFunc = {setUsername} passField = {password} setPassFunc = {setPassword}/> :
       <div>
         <div>
-        <p>{user.username} logged in</p>
+        <p className="username-permanent">{user.username} logged in</p>
+        <button>Log out</button>
         {<h2>TODO a way to create new notes</h2>}
         </div>
         <ListOfBlogs blogs = {blogs}/>
