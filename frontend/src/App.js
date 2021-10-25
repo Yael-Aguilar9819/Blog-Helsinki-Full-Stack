@@ -33,7 +33,7 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
-      // noteService.setToken(user.token)
+      blogService.setToken(user.token)
     }
   }, [])
 
@@ -64,8 +64,12 @@ const handleLogin = async (event) => {
   }
 }
 
+// This is the function that the logout button calls to
+// So everything concerning the user is now deleted
 const logOutFunction = () => {
   window.localStorage.removeItem(nameToStoreUserInfo)
+  blogService.setToken("null")
+  setUser(null)
 }
 
 // This created a temporal error message to be shown to the user
@@ -85,7 +89,7 @@ const createTemporalErrorMessage = (message) => {
       <div>
         <div>
         <p className="username-permanent">{user.username} logged in</p>
-        <button>Log out</button>
+        <button onClick={logOutFunction}>Log out</button>
         {<h2>TODO a way to create new notes</h2>}
         </div>
         <ListOfBlogs blogs = {blogs}/>
