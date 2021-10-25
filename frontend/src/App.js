@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import styles from './index.css'
 import ListOfBlogs from './components/ListOfBlogs'
 import LoginForm from './components/LoginForm'
 
 // Both of this services loosely couple the backend with the frontend
 import blogService from './services/blogs'
 import loginService from './services/login' 
+
+const nameToStoreUserInfo = "loggedBlogUser"
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -28,7 +29,7 @@ const App = () => {
   useEffect(() => {
     // It checks whatever the localStorage has that variable
     // The user is the one who is controlled
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogUser')
+    const loggedUserJSON = window.localStorage.getItem(nameToStoreUserInfo)
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
@@ -54,13 +55,17 @@ const handleLogin = async (event) => {
       createTemporalErrorMessage("Wrong credentials")
       return; 
     }
-    window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
+    window.localStorage.setItem(nameToStoreUserInfo, JSON.stringify(user))
     setUser(user)
     setUsername('')
     setPassword('')
   } catch (exception) {
     createTemporalErrorMessage(exception);
   }
+}
+
+const logOutFunction = () => {
+  window.localStorage.removeItem(nameToStoreUserInfo)
 }
 
 // This created a temporal error message to be shown to the user
@@ -74,6 +79,7 @@ const createTemporalErrorMessage = (message) => {
   return (
     <div>
       {user === null ?
+      // this passes everything to the LoginForm function
       <LoginForm loginFunc = {handleLogin} nameField = {username} 
         setNameFunc = {setUsername} passField = {password} setPassFunc = {setPassword}/> :
       <div>
