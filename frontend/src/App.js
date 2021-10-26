@@ -11,7 +11,8 @@ const nameToStoreUserInfo = "loggedBlogUser"
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('') 
+  const [password, setPassword] = useState('')
+  const [newBlogInfo, setnewBlogInfo] = useState(null)
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
 
@@ -64,8 +65,19 @@ const handleLogin = async (event) => {
   }
 }
 
+// This function will handle the form of the new blog
+const handleNewBlog = async (event) => {
+  event.preventDefault()
+  try {
+    console.log("Going to send this new blog: ", newBlogInfo)
+  } catch (exception) {
+    createTemporalErrorMessage(exception);
+  }
+
+}
+
 const newBlogForm = () => (
-  <form onSubmit>
+  <form onSubmit ={handleNewBlog}>
       <div>
         Title:
           <input
