@@ -65,6 +65,36 @@ const handleLogin = async (event) => {
 }
 
 const newBlogForm = () => (
+  <form onSubmit>
+      <div>
+        Title:
+          <input
+          type="text"
+          value=""
+          name="Title"
+          onChange="nope"
+          />
+      </div>
+      <div>
+      Author:
+          <input
+          type="text"
+          value=""
+          name="Author"
+          onChange="nope"
+          />
+      </div>
+      <div>
+      URL:
+          <input
+          type="text"
+          value=""
+          name="URL"
+          onChange="nope"
+          />
+      </div>
+      <button type="submit">Create</button>
+    </form>   
 )
 
 // This is the function that the logout button calls to
@@ -94,6 +124,7 @@ const createTemporalErrorMessage = (message) => {
         <p className="username-permanent">{user.username} logged in</p>
         <button onClick={logOutFunction}>Log out</button>
         {<h2>Create new blog</h2>}
+        {newBlogForm()}
         </div>
         <ListOfBlogs blogs = {blogs}/>
       </div>
