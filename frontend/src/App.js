@@ -64,6 +64,9 @@ const handleLogin = async (event) => {
   }
 }
 
+const newBlogForm = () => (
+)
+
 // This is the function that the logout button calls to
 // So everything concerning the user is now deleted
 const logOutFunction = () => {
@@ -90,7 +93,7 @@ const createTemporalErrorMessage = (message) => {
         <div>
         <p className="username-permanent">{user.username} logged in</p>
         <button onClick={logOutFunction}>Log out</button>
-        {<h2>TODO a way to create new notes</h2>}
+        {<h2>Create new blog</h2>}
         </div>
         <ListOfBlogs blogs = {blogs}/>
       </div>
