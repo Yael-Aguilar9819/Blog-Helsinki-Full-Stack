@@ -12,7 +12,8 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
-  const [newBlogInfo, setnewBlogInfo] = useState(null)
+  // This creates a default new object
+  const [newBlogInfo, setNewBlogInfo] = useState({title:null, author:null, url:null})
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
 
@@ -73,7 +74,10 @@ const handleNewBlog = async (event) => {
   } catch (exception) {
     createTemporalErrorMessage(exception);
   }
+}
 
+const handlePropertyOfNewBlog = (target, property) => {
+  console.log(target, property)
 }
 
 const newBlogForm = () => (
@@ -82,27 +86,27 @@ const newBlogForm = () => (
         Title:
           <input
           type="text"
-          value=""
+          value= {newBlogInfo.title}
           name="Title"
-          onChange="nope"
+          onChange={({ target }) => handlePropertyOfNewBlog(target.value, 'title')}
           />
       </div>
       <div>
       Author:
           <input
           type="text"
-          value=""
+          value={newBlogInfo.author}
           name="Author"
-          onChange="nope"
+          onChange={({ target }) => handlePropertyOfNewBlog(target.value, 'author')}
           />
       </div>
       <div>
       URL:
           <input
           type="text"
-          value=""
+          value={newBlogInfo.url}
           name="URL"
-          onChange="nope"
+          onChange={({ target }) => handlePropertyOfNewBlog(target.value, 'url')}
           />
       </div>
       <button type="submit">Create</button>
