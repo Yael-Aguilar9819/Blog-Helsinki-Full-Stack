@@ -13,7 +13,7 @@ const App = () => {
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
   // This creates a default new object
-  const [newBlogInfo, setNewBlogInfo] = useState({title:null, author:null, url:null})
+  const [newBlogInfo, setNewBlogInfo] = useState({title:'', author:'', url:''})
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
 
@@ -77,7 +77,12 @@ const handleNewBlog = async (event) => {
 }
 
 const handlePropertyOfNewBlog = (target, property) => {
-  console.log(target, property)
+  // Not really efficient, but only happens every keystroke
+  // Fromt the user
+  const newBlog = Object.assign({}, newBlogInfo);
+  // Using [] the previous info in the property can be modified
+  newBlog[property] = target
+  setNewBlogInfo(newBlog)
 }
 
 const newBlogForm = () => (
