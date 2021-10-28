@@ -16,10 +16,12 @@ const methodToBackendReturnJson = async (url, method, body, token) => {
                           },
                           body: body
                         })
-if (response.status !== 200) {
-  throw new Error(`cannot fetch data with error code: ${response.status}`);
-}
-                             
+  // now it passes if it's just a satisfactory response
+  if (response.status < 200 || response.status > 299) {
+    throw new Error(`cannot fetch data with error code: ${response.status}`);
+  }
+                  
+console.log("welp")
 return response.json();
 }
 
