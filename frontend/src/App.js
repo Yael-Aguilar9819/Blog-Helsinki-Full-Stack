@@ -71,6 +71,9 @@ const handleNewBlog = async (event) => {
   event.preventDefault()
   try {
     console.log("Going to send this new blog: ", newBlogInfo)
+    // Thos connects directly to the backend through the handler
+    const createdBlog = await blogService.create(newBlogInfo)
+    console.log(createdBlog)
   } catch (exception) {
     createTemporalErrorMessage(exception);
   }
