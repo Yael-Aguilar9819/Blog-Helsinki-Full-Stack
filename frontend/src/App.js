@@ -71,7 +71,6 @@ const handleNewBlog = async (event) => {
   event.preventDefault()
   try {
     // This connects directly to the backend through the handler
-    // We are not interested in the response, because it's just 204-Created
     const respFromServ =  await blogService.create(newBlogInfo)
     
     // This sets the blog response from server

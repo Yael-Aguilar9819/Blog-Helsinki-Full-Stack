@@ -1,7 +1,6 @@
 import React from 'react'
 
-// login form handles the function of the 
-
+// login form is the main component of the login functions
 const LoginForm = ({loginFunc, nameField, setNameFunc, passField, setPassFunc}) => {
     return (
         <form onSubmit={loginFunc}>
