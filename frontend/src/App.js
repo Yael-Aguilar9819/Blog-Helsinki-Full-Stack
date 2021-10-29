@@ -72,8 +72,12 @@ const handleNewBlog = async (event) => {
   try {
     // This connects directly to the backend through the handler
     // We are not interested in the response, because it's just 204-Created
-    await blogService.create(newBlogInfo)
-
+    const respFromServ =  await blogService.create(newBlogInfo)
+    
+    // This sets the blog response from server
+    // As an extra info, the userID it's not yet populated
+    setBlogs(blogs.concat(respFromServ))
+    
     const emptyNewBlogInfo = 
       // This reduce function makes every property an empty String
       Object.keys(newBlogInfo).reduce((property, value) => {
