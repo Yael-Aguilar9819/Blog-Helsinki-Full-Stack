@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import ListOfBlogs from './components/ListOfBlogs'
+import NewBlogForm from './components/NewBlogForm'
 import LoginForm from './components/LoginForm'
 
 // Both of this services loosely couple the backend with the frontend
@@ -101,38 +102,6 @@ const handlePropertyOfNewBlog = (target, property) => {
   setNewBlogInfo(newBlog)
 }
 
-const newBlogForm = () => (
-  <form onSubmit ={handleNewBlog}>
-      <div>
-        Title:
-          <input
-          type="text"
-          value= {newBlogInfo.title}
-          name="Title"
-          onChange={({ target }) => handlePropertyOfNewBlog(target.value, 'title')}
-          />
-      </div>
-      <div>
-      Author:
-          <input
-          type="text"
-          value={newBlogInfo.author}
-          name="Author"
-          onChange={({ target }) => handlePropertyOfNewBlog(target.value, 'author')}
-          />
-      </div>
-      <div>
-      URL:
-          <input
-          type="text"
-          value={newBlogInfo.url}
-          name="URL"
-          onChange={({ target }) => handlePropertyOfNewBlog(target.value, 'url')}
-          />
-      </div>
-      <button type="submit">Create</button>
-    </form>   
-)
 
 // This is the function that the logout button calls to
 // So everything concerning the user is now deleted
@@ -161,7 +130,9 @@ const createTemporalErrorMessage = (message) => {
         <p className="username-permanent">{user.username} logged in</p>
         <button onClick={logOutFunction}>Log out</button>
         {<h2>Create new blog</h2>}
-        {newBlogForm()}
+        {/* {newBlogForm()} */}
+        <NewBlogForm createNewBlogFunc={handleNewBlog} handleProperties={handlePropertyOfNewBlog} 
+          mainObject={newBlogInfo}/>
         </div>
         <ListOfBlogs blogs = {blogs}/>
       </div>
