@@ -130,7 +130,6 @@ const createTemporalErrorMessage = (message) => {
         <p className="username-permanent">{user.username} logged in</p>
         <button onClick={logOutFunction}>Log out</button>
         {<h2>Create new blog</h2>}
-        {/* {newBlogForm()} */}
         <NewBlogForm createNewBlogFunc={handleNewBlog} handleProperties={handlePropertyOfNewBlog} 
           mainObject={newBlogInfo}/>
         </div>
