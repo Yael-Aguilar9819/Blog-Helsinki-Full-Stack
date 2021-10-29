@@ -70,11 +70,20 @@ const handleLogin = async (event) => {
 const handleNewBlog = async (event) => {
   event.preventDefault()
   try {
-    // console.log("Going to send this new blog: ", newBlogInfo)
-    // Thos connects directly to the backend through the handler
-    const createdBlog = await blogService.create(newBlogInfo)
-    console.log("it passed!")
-    // console.log(JSON.stringify(createdBlog))
+    // This connects directly to the backend through the handler
+    // We are not interested in the response, because it's just 204-Created
+    await blogService.create(newBlogInfo)
+
+    const emptyNewBlogInfo = 
+      // This reduce function makes every property an empty String
+      Object.keys(newBlogInfo).reduce((property, value) => {
+        property[value] = ''; 
+        return property; 
+      }, {})
+
+    // And it's just applied to the setFunction
+    setNewBlogInfo(emptyNewBlogInfo)
+    
   } catch (exception) {
     createTemporalErrorMessage(exception);
   }
@@ -82,7 +91,7 @@ const handleNewBlog = async (event) => {
 
 const handlePropertyOfNewBlog = (target, property) => {
   // Not really efficient, but only happens every keystroke
-  // Fromt the user
+  // From the user
   const newBlog = Object.assign({}, newBlogInfo);
   // Using [] the previous info in the property can be modified
   newBlog[property] = target

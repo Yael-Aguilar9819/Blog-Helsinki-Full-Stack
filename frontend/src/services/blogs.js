@@ -21,7 +21,6 @@ const methodToBackendReturnJson = async (url, method, body, token) => {
     throw new Error(`cannot fetch data with error code: ${response.status}`);
   }
                   
-console.log("welp")
 return response.json();
 }
 
