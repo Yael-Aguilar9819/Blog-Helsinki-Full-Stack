@@ -8,6 +8,10 @@ import blogService from './services/blogs'
 import loginService from './services/login' 
 
 const nameToStoreUserInfo = "loggedBlogUser"
+const MESSAGE = {
+  CORRECT = "positive",
+  NEGATIVE = "negative"
+}
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -113,24 +117,25 @@ const logOutFunction = () => {
 
 // This created a temporal error message to be shown to the user
 const createTemporalErrorMessage = (message) => {
-  setNotificationMessage({
-    message: messageToShow, status: "negative"
-  })
-  setTimeout(() => {
-    notificationMessage(null)
-  }, 5000)
+    // message: messageToShow, status: "negative"
+    createTemporalMessageFor5Secs(message, "negative")
 }
 
 const createTemporalPositiveMessage = (message) => {
-  setNotificationMessage({
-    message: messageToShow, status: "positive"
-  })
-  setTimeout(() => {
-    notificationMessage(null)
-  }, 5000)
+    // message: messageToShow, status: "positive"
+    createTemporalMessageFor5Secs(message, "positive")
 }
 
-const set
+const createTemporalMessageFor5Secs = (message, status) => {
+  setNotificationMessage({
+    message: message, status: status
+  })
+  // After 5 secs, the notification should disappear
+  setTimeout(() => {
+    setNotificationMessage(null)
+  }, 5000)
+
+}
 
 
   return (
