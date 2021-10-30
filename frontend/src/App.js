@@ -113,14 +113,18 @@ const logOutFunction = () => {
 
 // This created a temporal error message to be shown to the user
 const createTemporalErrorMessage = (message) => {
-  setNotificationMessage({message: messageToShow, status: "negative"})
+  setNotificationMessage({
+    message: messageToShow, status: "negative"
+  })
   setTimeout(() => {
     notificationMessage(null)
   }, 5000)
 }
 
 const createTemporalPositiveMessage = (message) => {
-  setNotificationMessage({message: messageToShow, status: "positive"})
+  setNotificationMessage({
+    message: messageToShow, status: "positive"
+  })
   setTimeout(() => {
     notificationMessage(null)
   }, 5000)
