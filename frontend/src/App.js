@@ -131,7 +131,7 @@ const createTemporalMessageFor5Secs = (message, status) => {
 
   return (
     <div>
-      <NotificationMessage messageInfo = {notificationMessage}/>
+      <Notification messageInfo = {notificationMessage}/>
       {user === null ?
       // this passes everything to the LoginForm function
       <LoginForm loginFunc = {handleLogin} nameField = {username} 

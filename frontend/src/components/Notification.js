@@ -1,13 +1,17 @@
+// This style sheet was created specifically for this component
+import styles from "./Notification.module.css"
+
 const Notification = ({messageInfo}) => {
-    const {message, status} = messageInfo
-    if (message === null) {
-      return (
-        null
-      )
-    }
+  if (messageInfo === null) {
+    return (
+      null
+    )
+  }
+  
+  const {message, status} = messageInfo
   
     // This will give the styles of each of the messages
-    else if (status === "positive") {
+    if (status === "positive") {
       return (
         <div className={styles.positiveContainer}>
           <h2 className={styles.positiveMessage}>{message}</h2>
