@@ -16,7 +16,7 @@ const App = () => {
   // This creates a default new object
   const [newBlogInfo, setNewBlogInfo] = useState({title:'', author:'', url:''})
   const [user, setUser] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [notificationMessage, setNotificationMessage] = useState(null)
 
   useEffect(() => {
     // It has to be an inner function
@@ -113,11 +113,21 @@ const logOutFunction = () => {
 
 // This created a temporal error message to be shown to the user
 const createTemporalErrorMessage = (message) => {
-  setErrorMessage(message)
+  notificationMessage(message)
   setTimeout(() => {
-    setErrorMessage(null)
+    notificationMessage(null)
   }, 5000)
 }
+
+const createTemporalPositiveMessage = (message) => {
+  notificationMessage(message)
+  setTimeout(() => {
+    notificationMessage(null)
+  }, 5000)
+}
+
+const set
+
 
   return (
     <div>
