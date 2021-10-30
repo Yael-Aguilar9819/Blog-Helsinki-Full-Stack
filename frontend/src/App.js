@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import ListOfBlogs from './components/ListOfBlogs'
 import NewBlogForm from './components/NewBlogForm'
 import LoginForm from './components/LoginForm'
+import Notification from './components/Notification'
 
 // Both of this services loosely couple the backend with the frontend
 import blogService from './services/blogs'
@@ -9,8 +10,8 @@ import loginService from './services/login'
 
 const nameToStoreUserInfo = "loggedBlogUser"
 const NOTIFICATION = {
-  POSITIVE = "positive",
-  NEGATIVE = "negative"
+  POSITIVE:"positive",
+  NEGATIVE:"negative"
 }
 
 const App = () => {
@@ -115,18 +116,7 @@ const logOutFunction = () => {
   setUser(null)
 }
 
-// This created a temporal error message to be shown to the user
-const createTemporalErrorMessage = (message) => {
-    // message: messageToShow, status: "negative"
-    createTemporalMessageFor5Secs(message, "negative")
-}
-
-const createTemporalPositiveMessage = (message) => {
-    // message: messageToShow, status: "positive"
-    createTemporalMessageFor5Secs(message, "positive")
-}
-
-// This created a temporal error message to be shown to the user
+// This creates a temporal error message to be shown to the user
 const createTemporalMessageFor5Secs = (message, status) => {
   setNotificationMessage({
     message: message, status: status
@@ -141,6 +131,7 @@ const createTemporalMessageFor5Secs = (message, status) => {
 
   return (
     <div>
+      <NotificationMessage messageInfo = {notificationMessage}/>
       {user === null ?
       // this passes everything to the LoginForm function
       <LoginForm loginFunc = {handleLogin} nameField = {username} 

@@ -1,4 +1,4 @@
-const NotificationMessage = ({messageInfo}) => {
+const Notification = ({messageInfo}) => {
     const {message, status} = messageInfo
     if (message === null) {
       return (
@@ -26,4 +26,4 @@ const NotificationMessage = ({messageInfo}) => {
   
     
   };
-  export default NotificationMessage
+  export default Notification
