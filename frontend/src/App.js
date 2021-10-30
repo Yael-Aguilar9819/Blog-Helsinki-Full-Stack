@@ -8,8 +8,8 @@ import blogService from './services/blogs'
 import loginService from './services/login' 
 
 const nameToStoreUserInfo = "loggedBlogUser"
-const MESSAGE = {
-  CORRECT = "positive",
+const NOTIFICATION = {
+  POSITIVE = "positive",
   NEGATIVE = "negative"
 }
 
@@ -59,7 +59,7 @@ const handleLogin = async (event) => {
     // If the object returned has NOT a property called token
     // A verification error will be shown to the user
     if (!!!user.token) {
-      createTemporalErrorMessage("Wrong credentials")
+      createTemporalMessageFor5Secs("Wrong credentials", NOTIFICATION.NEGATIVE)
       return; 
     }
     window.localStorage.setItem(nameToStoreUserInfo, JSON.stringify(user))
@@ -67,7 +67,7 @@ const handleLogin = async (event) => {
     setUsername('')
     setPassword('')
   } catch (exception) {
-    createTemporalErrorMessage(exception);
+    createTemporalMessageFor5Secs(exception, NOTIFICATION.NEGATIVE);
   }
 }
 
@@ -93,7 +93,7 @@ const handleNewBlog = async (event) => {
     setNewBlogInfo(emptyNewBlogInfo)
     
   } catch (exception) {
-    createTemporalErrorMessage(exception);
+    createTemporalMessageFor5Secs(exception, NOTIFICATION.NEGATIVE);
   }
 }
 
@@ -126,6 +126,7 @@ const createTemporalPositiveMessage = (message) => {
     createTemporalMessageFor5Secs(message, "positive")
 }
 
+// This created a temporal error message to be shown to the user
 const createTemporalMessageFor5Secs = (message, status) => {
   setNotificationMessage({
     message: message, status: status
