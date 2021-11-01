@@ -52,6 +52,7 @@ const handleLogin = async (event) => {
     const user = await loginService.login({
       username, password,
     })
+
     window.localStorage.setItem(
       'loggedNoteappUser', JSON.stringify(user)
     ) 
@@ -63,6 +64,8 @@ const handleLogin = async (event) => {
       createTemporalMessageFor5Secs("Wrong credentials", NOTIFICATION.NEGATIVE)
       return; 
     }
+
+    createTemporalMessageFor5Secs("Succesfully logged!", "positive")
     window.localStorage.setItem(nameToStoreUserInfo, JSON.stringify(user))
     setUser(user)
     setUsername('')
@@ -90,6 +93,7 @@ const handleNewBlog = async (event) => {
         return property; 
       }, {})
 
+    createTemporalMessageFor5Secs("A new blog was created!", "positive")
     // And it's just applied to the setFunction
     setNewBlogInfo(emptyNewBlogInfo)
     
@@ -113,6 +117,7 @@ const handlePropertyOfNewBlog = (target, property) => {
 const logOutFunction = () => {
   window.localStorage.removeItem(nameToStoreUserInfo)
   blogService.setToken("null")
+  createTemporalMessageFor5Secs("Logged out succesfully!", "positive")
   setUser(null)
 }
 
