@@ -1,9 +1,12 @@
 import React from 'react'
 
 // login form is the main component of the login functions
-const NewBlogForm = ({createNewBlogFunc, handleProperties, mainObject}) => {
+const NewBlogForm = ({createNewBlogFunc, handleProperties, mainObject, messageAsTitle}) => {
     return (
-      // This is the function that controls how the info inside the form is used
+      <div>
+      <h2>{messageAsTitle}</h2>
+
+      {/* // This is the function that controls how the info inside the form is used */}
     <form onSubmit ={createNewBlogFunc}>
       {/* to be separated in different components */}
       <div>
@@ -35,6 +38,7 @@ const NewBlogForm = ({createNewBlogFunc, handleProperties, mainObject}) => {
       </div>
       <button type="submit">Create</button>
     </form>   
+    </div>
       )
     };
 export default NewBlogForm

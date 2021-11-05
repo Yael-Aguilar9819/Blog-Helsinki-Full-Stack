@@ -143,11 +143,10 @@ const createTemporalMessageFor5Secs = (message, status) => {
         setNameFunc = {setUsername} passField = {password} setPassFunc = {setPassword}/> :
       <div>
         <div>
-        <p className="username-permanent">{user.username} logged in</p>
-        <button onClick={logOutFunction}>Log out</button>
-        {<h2>Create new blog</h2>}
-        <NewBlogForm createNewBlogFunc={handleNewBlog} handleProperties={handlePropertyOfNewBlog} 
-          mainObject={newBlogInfo}/>
+          <p className="username-permanent">{user.username} logged in</p>
+          <button onClick={logOutFunction}>Log out</button>
+          <NewBlogForm createNewBlogFunc={handleNewBlog} handleProperties={handlePropertyOfNewBlog} 
+            mainObject={newBlogInfo} messageAsTitle={"Create New Blog"}/>
         </div>
         <ListOfBlogs blogs = {blogs}/>
       </div>
