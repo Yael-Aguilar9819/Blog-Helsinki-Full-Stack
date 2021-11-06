@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
-const Togglable = ({buttonLabel}) => {
+// Children is received from the default props.children desconstrured
+const Togglable = ({buttonLabel, children}) => {
   const [visible, setVisible] = useState(false)
 
   // This is the that will be shown depending of the visibility
@@ -19,7 +20,9 @@ const Togglable = ({buttonLabel}) => {
         <button onClick={toggleVisibility}>{buttonLabel}</button>
       </div>
       <div style={showWhenVisible}>
-        <button onClick={toggleVisibility}>cancel</button>
+        {/* The children are the object given to the togglable component under it's tree */}
+        {children}
+        <button onClick={toggleVisibility}>Cancel</button>
       </div>
     </div>
   )

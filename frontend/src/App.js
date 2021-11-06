@@ -7,6 +7,7 @@ import Notification from './components/Notification'
 // Both of this services loosely couple the backend with the frontend
 import blogService from './services/blogs'
 import loginService from './services/login' 
+import Togglable from './components/Togglable'
 
 const nameToStoreUserInfo = "loggedBlogUser"
 const NOTIFICATION = {
@@ -145,8 +146,10 @@ const createTemporalMessageFor5Secs = (message, status) => {
         <div>
           <p className="username-permanent">{user.username} logged in</p>
           <button onClick={logOutFunction}>Log out</button>
-          <NewBlogForm createNewBlogFunc={handleNewBlog} handleProperties={handlePropertyOfNewBlog} 
-            mainObject={newBlogInfo} messageAsTitle={"Create New Blog"}/>
+          <Togglable buttonLabel="Create Blog">
+            <NewBlogForm createNewBlogFunc={handleNewBlog} handleProperties={handlePropertyOfNewBlog} 
+              mainObject={newBlogInfo} messageAsTitle={"Create New Blog"}/>
+          </Togglable>
         </div>
         <ListOfBlogs blogs = {blogs}/>
       </div>
