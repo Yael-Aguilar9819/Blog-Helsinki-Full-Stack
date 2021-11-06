@@ -139,7 +139,7 @@ const createTemporalMessageFor5Secs = (message, status) => {
           <button onClick={logOutFunction}>Log out</button>
           <Togglable buttonLabel="Create Blog">
             <NewBlogForm createNewBlogFunc={handleNewBlog} 
-              mainObject={newBlogInfo} messageAsTitle={"Create New Blog"}/>
+              messageAsTitle={"Create New Blog"}/>
           </Togglable>
         </div>
         <ListOfBlogs blogs = {blogs}/>

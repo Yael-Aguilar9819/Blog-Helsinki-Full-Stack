@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 
 // login form is the main component of the login functions
-const NewBlogForm = ({createNewBlogFunc, mainObject, messageAsTitle}) => {
+const NewBlogForm = ({createNewBlogFunc, messageAsTitle}) => {
     // This creates a default new object
   const [newBlogInfo, setNewBlogInfo] = useState({title:'', author:'', url:''})
 
 
-  
+
   const handlePropertyOfNewBlog = (target, property) => {
     // Not really efficient, but only happens every keystroke
     // From the user
@@ -16,6 +16,9 @@ const NewBlogForm = ({createNewBlogFunc, mainObject, messageAsTitle}) => {
     setNewBlogInfo(newBlog)
   }
   
+  const visuallyAddNote = (event) => {
+
+  }
   
     return (
       <div>
@@ -28,7 +31,7 @@ const NewBlogForm = ({createNewBlogFunc, mainObject, messageAsTitle}) => {
         Title:
           <input
           type="text"
-          value= {mainObject.title}
+          value= {newBlogInfo.title}
           name="Title"
           onChange={({ target }) => handlePropertyOfNewBlog(target.value, 'title')}
           />
@@ -37,7 +40,7 @@ const NewBlogForm = ({createNewBlogFunc, mainObject, messageAsTitle}) => {
       Author:
           <input
           type="text"
-          value={mainObject.author}
+          value={newBlogInfo.author}
           name="Author"
           onChange={({ target }) => handlePropertyOfNewBlog(target.value, 'author')}
           />
@@ -46,7 +49,7 @@ const NewBlogForm = ({createNewBlogFunc, mainObject, messageAsTitle}) => {
       URL:
           <input
           type="text"
-          value={mainObject.url}
+          value={newBlogInfo.url}
           name="URL"
           onChange={({ target }) => handlePropertyOfNewBlog(target.value, 'url')}
           />
