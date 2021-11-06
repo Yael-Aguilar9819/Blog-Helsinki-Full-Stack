@@ -1,7 +1,18 @@
 import React from 'react'
 
 // login form is the main component of the login functions
-const NewBlogForm = ({createNewBlogFunc, handleProperties, mainObject, messageAsTitle}) => {
+const NewBlogForm = ({createNewBlogFunc, mainObject, messageAsTitle}) => {
+
+  const handlePropertyOfNewBlog = (target, property) => {
+    // Not really efficient, but only happens every keystroke
+    // From the user
+    const newBlog = Object.assign({}, newBlogInfo);
+    // Using [] the previous info in the property can be modified
+    newBlog[property] = target
+    setNewBlogInfo(newBlog)
+  }
+  
+  
     return (
       <div>
       <h2>{messageAsTitle}</h2>
@@ -15,7 +26,7 @@ const NewBlogForm = ({createNewBlogFunc, handleProperties, mainObject, messageAs
           type="text"
           value= {mainObject.title}
           name="Title"
-          onChange={({ target }) => handleProperties(target.value, 'title')}
+          onChange={({ target }) => handlePropertyOfNewBlog(target.value, 'title')}
           />
       </div>
       <div>
@@ -24,7 +35,7 @@ const NewBlogForm = ({createNewBlogFunc, handleProperties, mainObject, messageAs
           type="text"
           value={mainObject.author}
           name="Author"
-          onChange={({ target }) => handleProperties(target.value, 'author')}
+          onChange={({ target }) => handlePropertyOfNewBlog(target.value, 'author')}
           />
       </div>
       <div>
@@ -33,7 +44,7 @@ const NewBlogForm = ({createNewBlogFunc, handleProperties, mainObject, messageAs
           type="text"
           value={mainObject.url}
           name="URL"
-          onChange={({ target }) => handleProperties(target.value, 'url')}
+          onChange={({ target }) => handlePropertyOfNewBlog(target.value, 'url')}
           />
       </div>
       <button type="submit">Create</button>

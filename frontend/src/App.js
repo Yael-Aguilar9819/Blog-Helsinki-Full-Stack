@@ -103,15 +103,6 @@ const handleNewBlog = async (event) => {
   }
 }
 
-const handlePropertyOfNewBlog = (target, property) => {
-  // Not really efficient, but only happens every keystroke
-  // From the user
-  const newBlog = Object.assign({}, newBlogInfo);
-  // Using [] the previous info in the property can be modified
-  newBlog[property] = target
-  setNewBlogInfo(newBlog)
-}
-
 
 // This is the function that the logout button calls to
 // So everything concerning the user is now deleted
@@ -147,7 +138,7 @@ const createTemporalMessageFor5Secs = (message, status) => {
           <p className="username-permanent">{user.username} logged in</p>
           <button onClick={logOutFunction}>Log out</button>
           <Togglable buttonLabel="Create Blog">
-            <NewBlogForm createNewBlogFunc={handleNewBlog} handleProperties={handlePropertyOfNewBlog} 
+            <NewBlogForm createNewBlogFunc={handleNewBlog} 
               mainObject={newBlogInfo} messageAsTitle={"Create New Blog"}/>
           </Togglable>
         </div>
