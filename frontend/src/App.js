@@ -81,7 +81,7 @@ const handleNewBlog = async (event) => {
   event.preventDefault()
   try {
     // This connects directly to the backend through the handler
-    const respFromServ =  await blogService.create(newBlogInfo)
+    const respFromServ = await blogService.create(newBlogInfo)
     
     // This sets the blog response from server
     // As an extra info, the userID it's not yet populated
