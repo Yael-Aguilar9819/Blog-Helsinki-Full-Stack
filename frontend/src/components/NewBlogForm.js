@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 // login form is the main component of the login functions
-const NewBlogForm = ({createNewBlogFunc, messageAsTitle}) => {
+const NewBlogForm = ({createNewBlogServ, messageAsTitle}) => {
     // This creates a default new object
   const [newBlogInfo, setNewBlogInfo] = useState({title:'', author:'', url:''})
 
@@ -16,7 +16,7 @@ const NewBlogForm = ({createNewBlogFunc, messageAsTitle}) => {
     setNewBlogInfo(newBlog)
   }
   
-  const visuallyAddNote = (event) => {
+  const visuallyAddNote = async (event) => {
     event.preventDefault()
 
     const emptyNewBlogInfo = 
@@ -26,8 +26,10 @@ const NewBlogForm = ({createNewBlogFunc, messageAsTitle}) => {
         return property; 
       }, {})
 
-    setNewBlogInfo(emptyNewBlogInfo)
+    // This offloads everythign outside of this form to the main app
+    createNewBlogServ(newBlogInfo)
 
+    setNewBlogInfo(emptyNewBlogInfo)
   }
   
     return (
@@ -35,7 +37,7 @@ const NewBlogForm = ({createNewBlogFunc, messageAsTitle}) => {
       <h2>{messageAsTitle}</h2>
 
       {/* // This is the function that controls how the info inside the form is used */}
-    <form onSubmit ={createNewBlogFunc}>
+    <form onSubmit ={visuallyAddNote}>
       {/* to be separated in different components */}
       <div>
         Title:

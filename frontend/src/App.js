@@ -77,30 +77,30 @@ const handleLogin = async (event) => {
 }
 
 // This function will handle the form of the new blog
-const addNewBlogToServer = async (event) => {
-  event.preventDefault()
-  try {
-    // This connects directly to the backend through the handler
-    const respFromServ = await blogService.create(newBlogInfo)
+const addNewBlogToServer = async (userObject) => {
+  // event.preventDefault()
+  // try {
+  //   // This connects directly to the backend through the handler
+  //   const respFromServ = await blogService.create(newBlogInfo)
     
-    // This sets the blog response from server
-    // As an extra info, the userID it's not yet populated
-    setBlogs(blogs.concat(respFromServ))
+  //   // This sets the blog response from server
+  //   // As an extra info, the userID it's not yet populated
+  //   setBlogs(blogs.concat(respFromServ))
     
-    const emptyNewBlogInfo = 
-      // This reduce function makes every property an empty String
-      Object.keys(newBlogInfo).reduce((property, value) => {
-        property[value] = ''; 
-        return property; 
-      }, {})
+  //   const emptyNewBlogInfo = 
+  //     // This reduce function makes every property an empty String
+  //     Object.keys(newBlogInfo).reduce((property, value) => {
+  //       property[value] = ''; 
+  //       return property; 
+  //     }, {})
 
-    createTemporalMessageFor5Secs("A new blog was created!", "positive")
-    // And it's just applied to the setFunction
-    setNewBlogInfo(emptyNewBlogInfo)
+  //   createTemporalMessageFor5Secs("A new blog was created!", "positive")
+  //   // And it's just applied to the setFunction
+  //   setNewBlogInfo(emptyNewBlogInfo)
     
-  } catch (exception) {
-    createTemporalMessageFor5Secs(exception, NOTIFICATION.NEGATIVE);
-  }
+  // } catch (exception) {
+  //   createTemporalMessageFor5Secs(exception, NOTIFICATION.NEGATIVE);
+  // }
 }
 
 
@@ -138,7 +138,7 @@ const createTemporalMessageFor5Secs = (message, status) => {
           <p className="username-permanent">{user.username} logged in</p>
           <button onClick={logOutFunction}>Log out</button>
           <Togglable buttonLabel="Create Blog">
-            <NewBlogForm createNewBlogFunc={addNewBlogToServer} 
+            <NewBlogForm createNewBlogServ={addNewBlogToServer} 
               messageAsTitle={"Create New Blog"}/>
           </Togglable>
         </div>
