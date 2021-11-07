@@ -19,8 +19,6 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
-  // TO DELETE
-  const [newBlogInfo, setNewBlogInfo] = useState({title:'', author:'', url:''})
   const [user, setUser] = useState(null)
   const [notificationMessage, setNotificationMessage] = useState(null)
 
@@ -76,31 +74,22 @@ const handleLogin = async (event) => {
   }
 }
 
-// This function will handle the form of the new blog
-const addNewBlogToServer = async (userObject) => {
-  // event.preventDefault()
-  // try {
-  //   // This connects directly to the backend through the handler
-  //   const respFromServ = await blogService.create(newBlogInfo)
-    
-  //   // This sets the blog response from server
-  //   // As an extra info, the userID it's not yet populated
-  //   setBlogs(blogs.concat(respFromServ))
-    
-  //   const emptyNewBlogInfo = 
-  //     // This reduce function makes every property an empty String
-  //     Object.keys(newBlogInfo).reduce((property, value) => {
-  //       property[value] = ''; 
-  //       return property; 
-  //     }, {})
+// This function will handle the the main app function 
+// and the connection to the backend service of the new blog
+const addNewBlogToServer = async (newBlogAddedByUser) => {
+  try {
+    // This connects directly to the backend through the handler
+    const respFromServ = await blogService.create(newBlogAddedByUser)
 
-  //   createTemporalMessageFor5Secs("A new blog was created!", "positive")
-  //   // And it's just applied to the setFunction
-  //   setNewBlogInfo(emptyNewBlogInfo)
-    
-  // } catch (exception) {
-  //   createTemporalMessageFor5Secs(exception, NOTIFICATION.NEGATIVE);
-  // }
+    // This sets the blog response from server
+    // As an extra info, the userID it's not yet populated
+    setBlogs(blogs.concat(respFromServ))
+
+    createTemporalMessageFor5Secs("A New blog was Created!", "positive")
+
+  } catch(exception) {
+    createTemporalMessageFor5Secs(exception, NOTIFICATION.NEGATIVE);
+  }
 }
 
 
