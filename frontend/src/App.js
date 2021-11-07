@@ -19,7 +19,7 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
-  // This creates a default new object
+  // TO DELETE
   const [newBlogInfo, setNewBlogInfo] = useState({title:'', author:'', url:''})
   const [user, setUser] = useState(null)
   const [notificationMessage, setNotificationMessage] = useState(null)
@@ -77,7 +77,7 @@ const handleLogin = async (event) => {
 }
 
 // This function will handle the form of the new blog
-const handleNewBlog = async (event) => {
+const addNewBlogToServer = async (event) => {
   event.preventDefault()
   try {
     // This connects directly to the backend through the handler
@@ -138,7 +138,7 @@ const createTemporalMessageFor5Secs = (message, status) => {
           <p className="username-permanent">{user.username} logged in</p>
           <button onClick={logOutFunction}>Log out</button>
           <Togglable buttonLabel="Create Blog">
-            <NewBlogForm createNewBlogFunc={handleNewBlog} 
+            <NewBlogForm createNewBlogFunc={addNewBlogToServer} 
               messageAsTitle={"Create New Blog"}/>
           </Togglable>
         </div>

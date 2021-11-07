@@ -17,6 +17,16 @@ const NewBlogForm = ({createNewBlogFunc, messageAsTitle}) => {
   }
   
   const visuallyAddNote = (event) => {
+    event.preventDefault()
+
+    const emptyNewBlogInfo = 
+      // This reduce function makes every property an empty String
+      Object.keys(newBlogInfo).reduce((property, value) => {
+        property[value] = ''; 
+        return property; 
+      }, {})
+
+    setNewBlogInfo(emptyNewBlogInfo)
 
   }
   
