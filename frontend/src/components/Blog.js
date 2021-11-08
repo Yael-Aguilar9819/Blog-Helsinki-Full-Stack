@@ -9,10 +9,14 @@ const Blog = ({ blog }) => (
   </div>
 );
 
+// This is a small validation because this project is not using typescript
 Blog.propTypes = {
-  blog: PropTypes.object,
-  // blog.title: PropTypes.string,
-  // blog.author: PropTypes.string
+  // ObjectOf instead of Object so it can be specified by property
+  blog: PropTypes.objectOf({
+    title: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+  }).isRequired,
+  //Required at the end, so the component need the blog name
 };
 
 export default Blog;
