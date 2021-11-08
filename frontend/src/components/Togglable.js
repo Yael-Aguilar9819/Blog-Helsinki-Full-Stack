@@ -1,18 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 // Children is received from the default props.children desconstrured
-const Togglable = ({buttonLabel, children}) => {
-  const [visible, setVisible] = useState(false)
+const Togglable = ({ buttonLabel, children }) => {
+  const [visible, setVisible] = useState(false);
 
   // This is the that will be shown depending of the visibility
-  const hideWhenVisible = { display: visible ? 'none' : '' }
-  const showWhenVisible = { display: visible ? '' : 'none' }
+  const hideWhenVisible = { display: visible ? 'none' : '' };
+  const showWhenVisible = { display: visible ? '' : 'none' };
 
   // Each time the button is pressed, the visible property
   // Will change from false -> true or true -> false
   const toggleVisibility = () => {
-    setVisible(!visible)
-  }
+    setVisible(!visible);
+  };
 
   return (
     <div>
@@ -25,7 +25,7 @@ const Togglable = ({buttonLabel, children}) => {
         <button onClick={toggleVisibility}>Cancel</button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Togglable
+export default Togglable;
