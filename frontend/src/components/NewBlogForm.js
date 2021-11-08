@@ -17,9 +17,9 @@ const NewBlogForm = ({ createNewBlogServ, messageAsTitle }) => {
   const visuallyAddNote = async event => {
     event.preventDefault();
 
-    const emptyNewBlogInfo =
-      // This reduce function makes every property an empty String
-      Object.keys(newBlogInfo).reduce((property, value) => {
+    const emptyNewBlogInfo = Object.keys(newBlogInfo)
+    // This reduce function makes every property an empty String
+      .reduce((property, value) => {
         property[value] = '';
         return property;
       }, {});

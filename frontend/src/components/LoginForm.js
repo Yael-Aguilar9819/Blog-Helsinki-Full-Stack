@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // login form is the main component of the login functions
 const LoginForm = ({
@@ -26,6 +27,15 @@ const LoginForm = ({
     </div>
     <button type="submit">login</button>
   </form>
-
 );
+
+// This is a small validation because this project is not using typescript
+LoginForm.propTypes = {
+  loginFunc: PropTypes.func.isRequired,
+  nameField: PropTypes.string.isRequired,
+  setNameFunc: PropTypes.func.isRequired,
+  passField: PropTypes.string.isRequired,
+  setPassFunc: PropTypes.func.isRequired,
+};
+
 export default LoginForm;
