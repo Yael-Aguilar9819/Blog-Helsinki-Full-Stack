@@ -31,5 +31,6 @@ module.exports = {
       'error',
       'windows',
     ],
-  },
+    //Only omitted to the jsx files
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]  },
 };

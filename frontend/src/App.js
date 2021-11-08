@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import ListOfBlogs from './components/ListOfBlogs.jsx';
-import NewBlogForm from './components/NewBlogForm.jsx';
-import LoginForm from './components/LoginForm.jsx';
-import Notification from './components/Notification.jsx';
+import ListOfBlogs from './components/ListOfBlogs';
+import NewBlogForm from './components/NewBlogForm';
+import LoginForm from './components/LoginForm';
+import Notification from './components/Notification';
+import Togglable from './components/Togglable';
 
 // Both of this services loosely couple the backend with the frontend
 import blogService from './services/blogs';
 import loginService from './services/login';
-import Togglable from './components/Togglable.jsx';
 
 const nameToStoreUserInfo = 'loggedBlogUser';
 const NOTIFICATION = {
