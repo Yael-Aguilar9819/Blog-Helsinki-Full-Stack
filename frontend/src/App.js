@@ -133,7 +133,7 @@ const App = () => {
                 {' '}
                 logged in
               </p>
-              <button onClick={logOutFunction}>Log out</button>
+              <button onClick={logOutFunction} type="submit">Log out</button>
               <Togglable buttonLabel="Create Blog">
                 <NewBlogForm
                   createNewBlogServ={addNewBlogToServer}
