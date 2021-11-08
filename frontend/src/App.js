@@ -27,8 +27,8 @@ const App = () => {
     // Because useEffect functions have to be synchronous
     // To avoid race conditions
     const fetchBlogs = async () => {
-      const blogs = await blogService.getAll();
-      setBlogs(blogs);
+      const remoteBlogs = await blogService.getAll();
+      setBlogs(remoteBlogs);
     };
     fetchBlogs();
   }, []);
@@ -38,9 +38,10 @@ const App = () => {
     // The user is the one who is controlled
     const loggedUserJSON = window.localStorage.getItem(nameToStoreUserInfo);
     if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON);
-      setUser(user);
-      blogService.setToken(user.token);
+      const userInfo = JSON.parse(loggedUserJSON);
+      setUser(userInfo);
+      console.log(userInfo)
+      blogService.setToken(userInfo.token);
     }
   }, []);
 
@@ -78,7 +79,7 @@ const App = () => {
   // and the connection to the backend service of the new blog
   const addNewBlogToServer = async newBlogAddedByUser => {
     try {
-    // This connects directly to the backend through the handler
+      // This connects directly to the backend through the handler
       const respFromServ = await blogService.create(newBlogAddedByUser);
 
       // This sets the blog response from server
