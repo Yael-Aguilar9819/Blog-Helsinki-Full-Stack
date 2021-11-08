@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import ListOfBlogs from './components/ListOfBlogs';
-import NewBlogForm from './components/NewBlogForm';
-import LoginForm from './components/LoginForm';
-import Notification from './components/Notification';
+import ListOfBlogs from './components/ListOfBlogs.jsx';
+import NewBlogForm from './components/NewBlogForm.jsx';
+import LoginForm from './components/LoginForm.jsx';
+import Notification from './components/Notification.jsx';
 
 // Both of this services loosely couple the backend with the frontend
 import blogService from './services/blogs';
 import loginService from './services/login';
-import Togglable from './components/Togglable';
+import Togglable from './components/Togglable.jsx';
 
 const nameToStoreUserInfo = 'loggedBlogUser';
 const NOTIFICATION = {
@@ -40,7 +40,6 @@ const App = () => {
     if (loggedUserJSON) {
       const userInfo = JSON.parse(loggedUserJSON);
       setUser(userInfo);
-      console.log(userInfo)
       blogService.setToken(userInfo.token);
     }
   }, []);
@@ -49,25 +48,25 @@ const App = () => {
   const handleLogin = async event => {
     event.preventDefault();
     try {
-      const user = await loginService.login({
+      const loggedUserInfo = await loginService.login({
         username, password,
       });
 
       window.localStorage.setItem(
-        'loggedNoteappUser', JSON.stringify(user),
+        'loggedNoteappUser', JSON.stringify(loggedUserInfo),
       );
       // This receives the token and cleans the usernames
-      blogService.setToken(user.token);
+      blogService.setToken(loggedUserInfo.token);
       // If the object returned has NOT a property called token
       // A verification error will be shown to the user
-      if (!user.token) {
+      if (!loggedUserInfo.token) {
         createTemporalMessageFor5Secs('Wrong credentials', NOTIFICATION.NEGATIVE);
         return;
       }
 
       createTemporalMessageFor5Secs('Succesfully logged!', 'positive');
-      window.localStorage.setItem(nameToStoreUserInfo, JSON.stringify(user));
-      setUser(user);
+      window.localStorage.setItem(nameToStoreUserInfo, JSON.stringify(loggedUserInfo));
+      setUser(loggedUserInfo);
       setUsername('');
       setPassword('');
     } catch (exception) {
