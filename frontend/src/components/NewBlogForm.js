@@ -5,8 +5,6 @@ const NewBlogForm = ({createNewBlogServ, messageAsTitle}) => {
     // This creates a default new object
   const [newBlogInfo, setNewBlogInfo] = useState({title:'', author:'', url:''})
 
-
-
   const handlePropertyOfNewBlog = (target, property) => {
     // Not really efficient, but only happens every keystroke
     // From the user
