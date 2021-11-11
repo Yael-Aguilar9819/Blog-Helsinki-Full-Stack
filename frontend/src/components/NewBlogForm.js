@@ -21,7 +21,11 @@ const NewBlogForm = ({ createNewBlogServ, messageAsTitle }) => {
     const emptyNewBlogInfo = Object.keys(newBlogInfo)
     // This reduce function makes every property an empty String
       .reduce((property, value) => {
+        // In this specific case, it's not bad because
+        // The object is an inner object
+        /* eslint-disable no-param-reassign */
         property[value] = '';
+        /* eslint-enable no-param-reassign */
         return property;
       }, {});
 
