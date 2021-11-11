@@ -1,18 +1,18 @@
 const baseUrl = '/api/blogs';
 
-let token = null;
+let tokenToAuthorize = null;
 
 const setToken = newToken => {
-  token = `bearer ${newToken}`;
+  tokenToAuthorize = `bearer ${newToken}`;
 };
 
-const methodToBackendReturnJson = async (url, method, body, token) => {
+const methodToBackendReturnJson = async (url, method, body, tokenFromUser) => {
   const response = await fetch(url, {
     method,
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: token,
+      Authorization: tokenFromUser,
     },
     body,
   });
@@ -24,9 +24,9 @@ const methodToBackendReturnJson = async (url, method, body, token) => {
   return response.json();
 };
 
-const create = newObject => methodToBackendReturnJson(baseUrl, 'POST', JSON.stringify(newObject), token);
+const create = newObject => methodToBackendReturnJson(baseUrl, 'POST', JSON.stringify(newObject), tokenToAuthorize);
 
-const update = (id, newObject) => methodToBackendReturnJson(`${baseUrl}/${id}`, 'PUT', JSON.stringify(newObject), token);
+const update = (id, newObject) => methodToBackendReturnJson(`${baseUrl}/${id}`, 'PUT', JSON.stringify(newObject), tokenToAuthorize);
 
 const getAll = async () => {
   const response = await fetch(baseUrl);

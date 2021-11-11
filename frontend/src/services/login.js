@@ -10,7 +10,8 @@ const login = async credentials => {
     },
     body: JSON.stringify(credentials),
   });
-  return await response.json();
+  // Removed await because of redundancy
+  return response.json();
 };
 
 const exportedFunc = {
