@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 // This style sheet was created specifically for this component
 import styles from './Notification.module.css';
 
@@ -26,4 +27,14 @@ const Notification = ({ messageInfo }) => {
     </div>
   );
 };
+
+Notification.propTypes = {
+  // ObjectOf instead of Object so it can be specified by property
+  messageInfo: PropTypes.objectOf({
+    message: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
+  }).isRequired,
+  // Required at the end, so the component need the blog name
+};
+
 export default Notification;

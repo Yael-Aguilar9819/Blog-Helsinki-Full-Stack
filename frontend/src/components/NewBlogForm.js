@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-
 // login form is the main component of the login functions
 const NewBlogForm = ({ createNewBlogServ, messageAsTitle }) => {
   // This creates a default new object
@@ -75,7 +74,7 @@ const NewBlogForm = ({ createNewBlogServ, messageAsTitle }) => {
 // This will add a small amount of type safety
 NewBlogForm.propTypes = {
   createNewBlogServ: PropTypes.func.isRequired,
-  messageAsTitle: PropTypes.string.isRequired
-}
+  messageAsTitle: PropTypes.string.isRequired,
+};
 
 export default NewBlogForm;
