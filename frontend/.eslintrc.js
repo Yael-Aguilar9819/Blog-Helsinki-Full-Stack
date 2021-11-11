@@ -31,11 +31,11 @@ module.exports = {
       'error',
       'windows',
     ],
-    //Only omitted to the jsx files
-    "react/jsx-filename-extension": [
-      1, { 
-        "extensions": [".js", ".jsx"] 
+    // Only omitted to the jsx files
+    'react/jsx-filename-extension': [
+      1, {
+        extensions: ['.js', '.jsx'],
       }],
-    "react/react-in-jsx-scope": "off",
-  }
+    'react/react-in-jsx-scope': 'off',
+  },
 };
