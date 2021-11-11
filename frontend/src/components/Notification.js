@@ -29,8 +29,9 @@ const Notification = ({ messageInfo }) => {
 };
 
 Notification.propTypes = {
-  // ObjectOf instead of Object so it can be specified by property
-  messageInfo: PropTypes.objectOf({
+  // shape instead of Object so it can be specified by property
+  // and Shape instead of objectOf because the categories are known before
+  messageInfo: PropTypes.shape({
     message: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
   }).isRequired,

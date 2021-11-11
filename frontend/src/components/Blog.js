@@ -11,8 +11,8 @@ const Blog = ({ blog }) => (
 
 // This is a small type validation because this project is not using typescript
 Blog.propTypes = {
-  // ObjectOf instead of Object so it can be specified by property
-  blog: PropTypes.objectOf({
+  // shape instead of objectOf because the categories are known before
+  blog: PropTypes.shape({
     title: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
   }).isRequired,
