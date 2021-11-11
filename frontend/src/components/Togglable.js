@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 // Children is received from the default props.children desconstrured
 const Togglable = ({ buttonLabel, children }) => {
@@ -22,10 +23,16 @@ const Togglable = ({ buttonLabel, children }) => {
       <div style={showWhenVisible}>
         {/* The children are the object given to the togglable component under it's tree */}
         {children}
-        <button type="reset" onClick={toggleVisibility}>Cancel</button>
+        <button type="button" onClick={toggleVisibility}>Cancel</button>
       </div>
     </div>
   );
+};
+
+// This is a small validation because this project is not using typescript
+Togglable.propTypes = {
+  buttonLabel: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default Togglable;
