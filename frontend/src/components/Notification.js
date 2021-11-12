@@ -33,9 +33,13 @@ Notification.propTypes = {
   // and Shape instead of objectOf because the categories are known before
   messageInfo: PropTypes.shape({
     message: PropTypes.string.isRequired,
-    status: PropTypes.string.isRequired,
-  }).isRequired,
-  // Required at the end, so the component need the blog name
+    status: PropTypes.oneOf(['positive', 'negative']),
+  }),
+};
+
+// Created default props so null can be accepted
+Notification.defaultProps = {
+  messageInfo: null,
 };
 
 export default Notification;
