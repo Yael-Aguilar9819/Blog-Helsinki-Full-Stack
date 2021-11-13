@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const Blog = ({ blog }) => (
-  <div>
-    {blog.title}
-    {' '}
-    {blog.author}
-  </div>
-);
+const Blog = ({ blog }) => {
+  const [detailsShown, setdetailsShown] = useState(false);
+
+  const blogVisibility = () => {
+  };
+
+  return (
+    <div>
+      {blog.title}
+      {' '}
+      {blog.author}
+      <button type="submit" onClick={blogVisibility}>View</button>
+    </div>
+  );
+};
 
 // This is a small type validation because this project is not using typescript
 Blog.propTypes = {
