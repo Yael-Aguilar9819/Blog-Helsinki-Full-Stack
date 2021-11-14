@@ -2,17 +2,21 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 const Blog = ({ blog }) => {
-  const [detailsShown, setdetailsShown] = useState(false);
+  const [detailsShown, setDetailsShown] = useState(false);
 
+  // This function inverses what is shown after each press of the button
   const blogVisibility = () => {
+    setDetailsShown(!detailsShown);
   };
 
   return (
     <div>
-      {blog.title}
-      {' '}
-      {blog.author}
-      <button type="submit" onClick={blogVisibility}>View</button>
+      <div>
+        {blog.title}
+        {' '}
+        {blog.author}
+        <button type="submit" onClick={blogVisibility}>View</button>
+      </div>
     </div>
   );
 };
