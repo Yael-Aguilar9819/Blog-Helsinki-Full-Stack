@@ -8,6 +8,7 @@ const Blog = ({ blog }) => {
   // This function inverses what is shown after each press of the button
   const blogVisibility = () => {
     setDetailsShown(!detailsShown);
+    console.log(blog)
   };
 
   // ternary with a placeholder - for now
@@ -19,7 +20,7 @@ const Blog = ({ blog }) => {
           <BlogSimplifiedView
             title={blog.title}
             author={blog.author}
-            visiblityFunction={blogVisibility}
+            visiblityFunc={blogVisibility}
           />
         )}
     </div>
