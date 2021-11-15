@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 const Blog = ({ blog }) => {
   const [detailsShown, setDetailsShown] = useState(false);
 
+  const hideDetails = { display: detailsShown ? 'none' : '' };
+  const showDetails = { display: detailsShown ? '' : 'none' };
+
   // This function inverses what is shown after each press of the button
   const blogVisibility = () => {
     setDetailsShown(!detailsShown);
