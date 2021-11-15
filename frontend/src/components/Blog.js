@@ -12,7 +12,7 @@ const Blog = ({ blog }) => {
     setDetailsShown(!detailsShown);
   };
 
-  const BlogHiddenDetails = ({ title, author }) => (
+  const BlogSimplifiedView = ({ title, author }) => (
     <div>
       {title}
       {' '}
@@ -24,7 +24,7 @@ const Blog = ({ blog }) => {
   return (
     <div>
       <div>
-        <BlogHiddenDetails title={blog.title} author={blog.author} />
+        <BlogSimplifiedView title={blog.title} author={blog.author} />
       </div>
     </div>
   );
@@ -37,7 +37,7 @@ Blog.propTypes = {
     title: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
   }).isRequired,
-  // Required at the end, so the component need the blog name
+  // Required at the end, so the component needs the blog name
 };
 
 export default Blog;
