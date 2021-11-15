@@ -5,24 +5,23 @@ import BlogSimplifiedView from './BlogSimplifiedView';
 const Blog = ({ blog }) => {
   const [detailsShown, setDetailsShown] = useState(false);
 
-  const hideDetails = { display: detailsShown ? 'none' : '' };
-  const showDetails = { display: detailsShown ? '' : 'none' };
-
   // This function inverses what is shown after each press of the button
   const blogVisibility = () => {
     setDetailsShown(!detailsShown);
   };
 
+  // ternary with a placeholder - for now
   return (
     <div>
-      
-      <div>
-        <BlogSimplifiedView
-          title={blog.title}
-          author={blog.author}
-          visiblityFunction={blogVisibility}
-        />
-      </div>
+      {detailsShown
+        ? <b>DetailedBlogInfo Placeholder</b>
+        : (
+          <BlogSimplifiedView
+            title={blog.title}
+            author={blog.author}
+            visiblityFunction={blogVisibility}
+          />
+        )}
     </div>
   );
 };
