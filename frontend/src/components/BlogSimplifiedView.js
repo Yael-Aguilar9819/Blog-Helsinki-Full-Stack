@@ -12,9 +12,9 @@ const BlogSimplifiedView = ({ title, author, visiblityFunction }) => (
 
 // It's pretty simple, but still required
 BlogSimplifiedView.propTypes = {
-    title: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
-    visiblityFunction: PropTypes.func.isRequired
+  title: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
+  visiblityFunction: PropTypes.func.isRequired,
 };
-  
+
 export default BlogSimplifiedView;

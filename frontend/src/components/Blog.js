@@ -15,6 +15,7 @@ const Blog = ({ blog }) => {
 
   return (
     <div>
+      
       <div>
         <BlogSimplifiedView
           title={blog.title}
