@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import BlogSimplifiedView from './BlogSimplifiedView';
 
 const Blog = ({ blog }) => {
   const [detailsShown, setDetailsShown] = useState(false);
@@ -12,19 +13,14 @@ const Blog = ({ blog }) => {
     setDetailsShown(!detailsShown);
   };
 
-  const BlogSimplifiedView = ({ title, author }) => (
-    <div>
-      {title}
-      {' '}
-      {author}
-      <button type="submit" onClick={blogVisibility}>View</button>
-    </div>
-  );
-
   return (
     <div>
       <div>
-        <BlogSimplifiedView title={blog.title} author={blog.author} />
+        <BlogSimplifiedView
+          title={blog.title}
+          author={blog.author}
+          visiblityFunction={blogVisibility}
+        />
       </div>
     </div>
   );
