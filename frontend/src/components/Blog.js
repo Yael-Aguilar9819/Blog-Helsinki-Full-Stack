@@ -12,13 +12,25 @@ const Blog = ({ blog }) => {
     setDetailsShown(!detailsShown);
   };
 
+  const BlogHiddenDetails = ({title, author}) =>{
+    return (
+      <div>
+        {title}
+        {' '}
+        {author}
+        <button type="submit" onClick={blogVisibility}>View</button>
+      </div>
+      );
+  }
+
   return (
     <div>
       <div>
-        {blog.title}
+        {/* {blog.title}
         {' '}
-        {blog.author}
-        <button type="submit" onClick={blogVisibility}>View</button>
+        {blog.author} */}
+        <BlogHiddenDetails title={blog.title} author ={blog.author}/>
+        {/* <button type="submit" onClick={blogVisibility}>View</button> */}
       </div>
     </div>
   );
