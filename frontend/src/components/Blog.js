@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import BlogSimplifiedView from './BlogSimplifiedView';
+import BlogDetailedView from './BlogDetailedView';
 
 const Blog = ({ blog }) => {
   const [detailsShown, setDetailsShown] = useState(false);
@@ -8,7 +9,6 @@ const Blog = ({ blog }) => {
   // This function inverses what is shown after each press of the button
   const blogVisibility = () => {
     setDetailsShown(!detailsShown);
-    console.log(blog)
   };
 
   // ternary with a placeholder - for now
