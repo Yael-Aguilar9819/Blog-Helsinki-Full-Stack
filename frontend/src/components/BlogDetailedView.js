@@ -6,7 +6,8 @@ const BlogDetailedView = ({ blogInfo, visiblityFunc }) => (
   <div />
 );
 
-// It's pretty simple, but still required
+
+// Every property of the blog we are going to use
 BlogDetailedView.propTypes = {
   blogInfo: PropTypes.shape({
     title: PropTypes.string.isRequired,
@@ -15,6 +16,9 @@ BlogDetailedView.propTypes = {
     likes: PropTypes.number.isRequired,
     user: PropTypes.string.isRequired,
   }).isRequired,
+
+  // This is the function that controls the render
+  visiblityFunc: PropTypes.func.isRequired,
 };
 
 export default BlogDetailedView;
