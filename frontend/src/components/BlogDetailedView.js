@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 
 // This jus separates the blog simplified view from the rest of the blog data
 const BlogDetailedView = ({ blogInfo, visiblityFunc }) => (
-  <div />
+  <div>
+    <button type="submit" onClick={visiblityFunc}>Hide</button>
+  </div>
 );
 
 

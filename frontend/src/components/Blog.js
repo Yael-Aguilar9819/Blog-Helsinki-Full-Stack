@@ -15,7 +15,8 @@ const Blog = ({ blog }) => {
   return (
     <div>
       {detailsShown
-        ? <b>DetailedBlogInfo Placeholder</b>
+        // ? <b>DetailedBlogInfo Placeholder</b>
+        ? <BlogDetailedView blogInfo={blog} visiblityFunc={blogVisibility}/>
         : (
           <BlogSimplifiedView
             title={blog.title}
