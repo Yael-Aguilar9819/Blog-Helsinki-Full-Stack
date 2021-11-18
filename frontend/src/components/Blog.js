@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import BlogSimplifiedView from './BlogSimplifiedView';
 import BlogDetailedView from './BlogDetailedView';
+import styles from './Blog.module.css';
+
 
 const Blog = ({ blog }) => {
   const [detailsShown, setDetailsShown] = useState(false);
@@ -13,7 +15,7 @@ const Blog = ({ blog }) => {
 
   // ternary with a placeholder - for now
   return (
-    <div>
+    <div className={styles.blogSeparator}>
       {detailsShown
         // ? <b>DetailedBlogInfo Placeholder</b>
         ? <BlogDetailedView blogInfo={blog} visiblityFunc={blogVisibility}/>
