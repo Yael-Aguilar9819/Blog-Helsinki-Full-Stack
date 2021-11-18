@@ -1,10 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// This jus separates the blog simplified view from the rest of the blog data
+
+const formatUserIDInBlogs = userID => JSON.stringify(userID).slice(1, -1);
+
+// This just separates the blog simplified view from the rest of the blog data
 const BlogDetailedView = ({ blogInfo, visiblityFunc }) => (
   <div>
+    {blogInfo.title}
+    {' '}
+    {blogInfo.user.name}
     <button type="submit" onClick={visiblityFunc}>Hide</button>
+    {blogInfo.url}
+    {blogInfo.likes}
+    {blogInfo.user.name}
   </div>
 );
 
@@ -16,7 +25,8 @@ BlogDetailedView.propTypes = {
     author: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
     likes: PropTypes.number.isRequired,
-    user: PropTypes.string.isRequired,
+    // All of the properties of user are made of strings
+    user: PropTypes.objectOf(PropTypes.string).isRequired,
   }).isRequired,
 
   // This is the function that controls the render
