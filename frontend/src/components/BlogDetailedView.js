@@ -9,10 +9,13 @@ const BlogDetailedView = ({ blogInfo, visiblityFunc }) => (
   <div>
     {blogInfo.title}
     {' '}
-    {blogInfo.user.name}
+    {blogInfo.author}
     <button type="submit" onClick={visiblityFunc}>Hide</button>
+    <br></br>
     {blogInfo.url}
-    {blogInfo.likes}
+    <br></br>
+    Likes {blogInfo.likes}
+    <br></br>
     {blogInfo.user.name}
   </div>
 );
