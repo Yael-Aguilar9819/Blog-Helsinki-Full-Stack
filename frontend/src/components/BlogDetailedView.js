@@ -15,6 +15,8 @@ const BlogDetailedView = ({ blogInfo, visiblityFunc }) => (
     {blogInfo.url}
     <br></br>
     Likes {blogInfo.likes}
+    {/* This button will add +1 to the like count */}
+    <button type="submit">Like</button>
     <br></br>
     {blogInfo.user.name}
   </div>
