@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import styles from './BlogDetailedView.module.css';
 
 const formatUserIDInBlogs = userID => JSON.stringify(userID).slice(1, -1);
 
@@ -10,13 +10,14 @@ const BlogDetailedView = ({ blogInfo, visiblityFunc }) => (
     {blogInfo.title}
     {' '}
     {blogInfo.author}
-    <button type="submit" onClick={visiblityFunc}>Hide</button>
+    <button type="submit" className={styles.buttonWithFunction}
+    onClick={visiblityFunc}>Hide</button>
     <br></br>
     {blogInfo.url}
     <br></br>
     Likes {blogInfo.likes}
     {/* This button will add +1 to the like count */}
-    <button type="submit">Like</button>
+    <button type="submit" className={styles.buttonWithFunction}>Like</button>
     <br></br>
     {blogInfo.user.name}
   </div>
