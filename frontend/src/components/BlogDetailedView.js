@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './BlogDetailedView.module.css';
 
-const formatUserIDInBlogs = userID => JSON.stringify(userID).slice(1, -1);
+// const formatUserIDInBlogs = userID => JSON.stringify(userID).slice(1, -1);
 
 // This just separates the blog simplified view from the rest of the blog data
 const BlogDetailedView = ({ blogInfo, visiblityFunc }) => (
@@ -10,19 +10,25 @@ const BlogDetailedView = ({ blogInfo, visiblityFunc }) => (
     {blogInfo.title}
     {' '}
     {blogInfo.author}
-    <button type="submit" className={styles.buttonWithFunction}
-    onClick={visiblityFunc}>Hide</button>
-    <br></br>
+    <button
+      type="submit"
+      className={styles.buttonWithFunction}
+      onClick={visiblityFunc}
+    >
+      Hide
+    </button>
+    <br />
     {blogInfo.url}
-    <br></br>
-    Likes {blogInfo.likes}
+    <br />
+    Likes
+    {' '}
+    {blogInfo.likes}
     {/* This button will add +1 to the like count */}
     <button type="submit" className={styles.buttonWithFunction}>Like</button>
-    <br></br>
+    <br />
     {blogInfo.user.name}
   </div>
 );
-
 
 // Every property of the blog we are going to use
 BlogDetailedView.propTypes = {

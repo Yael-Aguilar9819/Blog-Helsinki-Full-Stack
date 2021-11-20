@@ -4,7 +4,6 @@ import BlogSimplifiedView from './BlogSimplifiedView';
 import BlogDetailedView from './BlogDetailedView';
 import styles from './Blog.module.css';
 
-
 const Blog = ({ blog }) => {
   const [detailsShown, setDetailsShown] = useState(false);
 
@@ -18,7 +17,7 @@ const Blog = ({ blog }) => {
     <div className={styles.blogSeparator}>
       {detailsShown
         // ? <b>DetailedBlogInfo Placeholder</b>
-        ? <BlogDetailedView blogInfo={blog} visiblityFunc={blogVisibility}/>
+        ? <BlogDetailedView blogInfo={blog} visiblityFunc={blogVisibility} />
         : (
           <BlogSimplifiedView
             title={blog.title}
