@@ -79,6 +79,8 @@ const App = () => {
   // and the connection to the backend service of the new blog
   const addNewBlogToServer = async newBlogAddedByUser => {
     try {
+      // Because of useRef, now the visibility function can be controlled from the exterior
+      newBlogFormRef.current.toggleVisibility()
       // This connects directly to the backend through the handler
       const respFromServ = await blogService.create(newBlogAddedByUser);
 
@@ -135,7 +137,8 @@ const App = () => {
                 logged in
               </p>
               <button onClick={logOutFunction} type="submit">Log out</button>
-              <Togglable buttonLabel="Create Blog">
+              {/* ref is a default prop, always given, like children */}
+              <Togglable buttonLabel="Create Blog" ref={newBlogFormRef}>
                 <NewBlogForm
                   createNewBlogServ={addNewBlogToServer}
                   messageAsTitle="Create New Blog"

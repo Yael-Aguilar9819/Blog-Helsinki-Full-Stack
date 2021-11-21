@@ -2,7 +2,8 @@ import React, { useState, useImperativeHandle } from 'react';
 import PropTypes from 'prop-types';
 
 // Children is received from the default props.children desconstrured
-const Togglable = React.forwardRef(({ buttonLabel, children, ref }) => {
+// So is ref, but has to be separated because it's not part of props
+const Togglable = React.forwardRef(({ buttonLabel, children }, ref) => {
   const [visible, setVisible] = useState(false);
 
   // This is the that will be shown depending of the visibility
@@ -15,6 +16,8 @@ const Togglable = React.forwardRef(({ buttonLabel, children, ref }) => {
     setVisible(!visible);
   };
 
+  // This exposes the function to the main App
+  // So it can be controlled by the parent
   useImperativeHandle(ref, () => {
     return {
       toggleVisibility
