@@ -2,7 +2,7 @@ import React, { useState, useImperativeHandle } from 'react';
 import PropTypes from 'prop-types';
 
 // Children is received from the default props.children desconstrured
-const Togglable = ({ buttonLabel, children }) => {
+const Togglable = React.forwardRef(({ buttonLabel, children, ref }) => {
   const [visible, setVisible] = useState(false);
 
   // This is the that will be shown depending of the visibility
@@ -14,6 +14,12 @@ const Togglable = ({ buttonLabel, children }) => {
   const toggleVisibility = () => {
     setVisible(!visible);
   };
+
+  useImperativeHandle(ref, () => {
+    return {
+      toggleVisibility
+    }
+  })
 
   return (
     <div>
@@ -27,7 +33,7 @@ const Togglable = ({ buttonLabel, children }) => {
       </div>
     </div>
   );
-};
+});
 
 // This is a small validation because this project is not using typescript
 Togglable.propTypes = {
