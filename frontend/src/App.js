@@ -21,7 +21,7 @@ const App = () => {
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
   const [notificationMessage, setNotificationMessage] = useState(null);
-  const newBlogFormRef = useRef()
+  const newBlogFormRef = useRef();
 
   useEffect(() => {
     // It has to be an inner function
@@ -80,7 +80,7 @@ const App = () => {
   const addNewBlogToServer = async newBlogAddedByUser => {
     try {
       // Because of useRef, now the visibility function can be controlled from the exterior
-      newBlogFormRef.current.toggleVisibility()
+      newBlogFormRef.current.toggleVisibility();
       // This connects directly to the backend through the handler
       const respFromServ = await blogService.create(newBlogAddedByUser);
 
@@ -118,7 +118,6 @@ const App = () => {
     <div>
       <Notification messageInfo={notificationMessage} />
       {user === null
-      // this passes everything to the LoginForm function
         ? (
           <LoginForm
             loginFunc={handleLogin}

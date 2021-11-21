@@ -18,11 +18,9 @@ const Togglable = React.forwardRef(({ buttonLabel, children }, ref) => {
 
   // This exposes the function to the main App
   // So it can be controlled by the parent
-  useImperativeHandle(ref, () => {
-    return {
-      toggleVisibility
-    }
-  })
+  useImperativeHandle(ref, () => ({
+    toggleVisibility,
+  }));
 
   return (
     <div>
