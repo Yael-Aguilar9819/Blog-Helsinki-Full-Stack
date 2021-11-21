@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ListOfBlogs from './components/ListOfBlogs';
 import NewBlogForm from './components/NewBlogForm';
 import LoginForm from './components/LoginForm';
@@ -21,6 +21,7 @@ const App = () => {
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
   const [notificationMessage, setNotificationMessage] = useState(null);
+  const newBlogFormRef = useRef()
 
   useEffect(() => {
     // It has to be an inner function
