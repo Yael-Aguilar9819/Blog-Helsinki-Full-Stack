@@ -13,15 +13,19 @@ const Blog = ({ blog, likeFunction }) => {
   };
 
   const addALike = () => {
-    blog.like = blog.like + 1
-  }
+    blog.likes = blog.likes + 1
+    console.log(blog)
+  };
 
   // ternary
   return (
     <div className={styles.blogSeparator}>
       {detailsShown
         // ? <b>DetailedBlogInfo Placeholder</b>
-        ? <BlogDetailedView blogInfo={blog} visiblityFunc={blogVisibility} />
+        ? <BlogDetailedView 
+            blogInfo={blog} 
+            addLikeFunc={addALike}
+            visiblityFunc={blogVisibility} />
         : (
           <BlogSimplifiedView
             title={blog.title}

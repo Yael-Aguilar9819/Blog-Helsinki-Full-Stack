@@ -24,7 +24,14 @@ const BlogDetailedView = ({ blogInfo, visiblityFunc, addLikeFunc }) => (
     {' '}
     {blogInfo.likes}
     {/* This button will add +1 to the like count */}
-    <button type="submit" className={styles.buttonWithFunction}>Like</button>
+    <button 
+      type="submit" 
+      className={styles.buttonWithFunction}
+      onClick={addLikeFunc}
+      >
+        Like
+    </button>
+    
     <br />
     {blogInfo.user.name}
   </div>
