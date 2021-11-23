@@ -29,7 +29,7 @@ const NewBlogForm = ({ createNewBlogServ, messageAsTitle }) => {
         return property;
       }, {});
 
-    // This offloads everythign outside of this form to the main app
+    // This offloads everything outside of this form to the main app
     createNewBlogServ(newBlogInfo);
 
     setNewBlogInfo(emptyNewBlogInfo);

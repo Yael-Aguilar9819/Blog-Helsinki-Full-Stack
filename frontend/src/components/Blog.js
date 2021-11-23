@@ -4,7 +4,7 @@ import BlogSimplifiedView from './BlogSimplifiedView';
 import BlogDetailedView from './BlogDetailedView';
 import styles from './Blog.module.css';
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, likeFunction }) => {
   const [detailsShown, setDetailsShown] = useState(false);
 
   // This function inverses what is shown after each press of the button
@@ -12,7 +12,7 @@ const Blog = ({ blog }) => {
     setDetailsShown(!detailsShown);
   };
 
-  // ternary with a placeholder - for now
+  // ternary
   return (
     <div className={styles.blogSeparator}>
       {detailsShown
