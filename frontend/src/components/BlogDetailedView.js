@@ -5,7 +5,7 @@ import styles from './BlogDetailedView.module.css';
 // const formatUserIDInBlogs = userID => JSON.stringify(userID).slice(1, -1);
 
 // This just separates the blog simplified view from the rest of the blog data
-const BlogDetailedView = ({ blogInfo, visiblityFunc }) => (
+const BlogDetailedView = ({ blogInfo, visiblityFunc, addLikeFunc }) => (
   <div>
     {blogInfo.title}
     {' '}
