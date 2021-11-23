@@ -94,6 +94,11 @@ const App = () => {
     }
   };
 
+  // Uses a PUT request so it always needs the whole blog to be replaced
+  const addLikeToABlog = async blogToAddANewLike => {
+
+  }
+
   // This is the function that the logout button calls to
   // So everything concerning the user is now deleted
   const logOutFunction = () => {
