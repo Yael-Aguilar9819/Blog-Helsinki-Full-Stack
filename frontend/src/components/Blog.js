@@ -12,6 +12,10 @@ const Blog = ({ blog, likeFunction }) => {
     setDetailsShown(!detailsShown);
   };
 
+  const addALike = () => {
+    blog.like = blog.like + 1
+  }
+
   // ternary
   return (
     <div className={styles.blogSeparator}>
