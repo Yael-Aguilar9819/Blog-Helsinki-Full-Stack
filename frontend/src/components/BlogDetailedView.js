@@ -49,6 +49,9 @@ BlogDetailedView.propTypes = {
 
   // This is the function that controls the render
   visiblityFunc: PropTypes.func.isRequired,
+
+  // This function controls the button that adds a like
+  addLikeFunc: PropTypes.func.isRequired,
 };
 
 export default BlogDetailedView;

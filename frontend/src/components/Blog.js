@@ -17,6 +17,7 @@ const Blog = ({ blog, likeFunction }) => {
     likeFunction(blog);
   };
 
+  // This function will select what kind of blog to render if
   const RenderAccordingToVisibility = () => {
     if (detailsShown) {
       return (
@@ -52,6 +53,8 @@ Blog.propTypes = {
     author: PropTypes.string.isRequired,
   }).isRequired,
   // Required at the end, so the component needs the blog name
+
+  likeFunction: PropTypes.func.isRequired,
 };
 
 export default Blog;
