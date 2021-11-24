@@ -12,11 +12,6 @@ const Blog = ({ blog, likeFunction }) => {
     setDetailsShown(!detailsShown);
   };
 
-  const addALike = () => {
-    blog.likes = blog.likes + 1
-    console.log(blog)
-  };
-
   // ternary
   return (
     <div className={styles.blogSeparator}>
@@ -24,7 +19,7 @@ const Blog = ({ blog, likeFunction }) => {
         // ? <b>DetailedBlogInfo Placeholder</b>
         ? <BlogDetailedView 
             blogInfo={blog} 
-            addLikeFunc={addALike}
+            addLikeFunc={likeFunction}
             visiblityFunc={blogVisibility} />
         : (
           <BlogSimplifiedView
