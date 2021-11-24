@@ -14,31 +14,32 @@ const Blog = ({ blog, likeFunction }) => {
 
   // This composes a function that retrieves the blog info to the main app
   const composedLikeFunc = () => {
-    likeFunction(blog)
-  }
+    likeFunction(blog);
+  };
 
-  const RenderDetail = () => {
+  const RenderAccordingToVisibility = () => {
+    if (detailsShown) {
+      return (
+        <BlogDetailedView
+          blogInfo={blog}
+          addLikeFunc={composedLikeFunc}
+          visiblityFunc={blogVisibility}
+        />
+      );
+    }
     return (
-      <BlogDetailedView
-            blogInfo={blog}
-            addLikeFunc={composedLikeFunc}
-            visiblityFunc={blogVisibility}
-          />
-    )
-  }
+      <BlogSimplifiedView
+        title={blog.title}
+        author={blog.author}
+        visiblityFunc={blogVisibility}
+      />
+    );
+  };
 
   // ternary
   return (
     <div className={styles.blogSeparator}>
-      {detailsShown
-        ? <RenderDetail/>
-        : (
-          <BlogSimplifiedView
-            title={blog.title}
-            author={blog.author}
-            visiblityFunc={blogVisibility}
-          />
-        )}
+      <RenderAccordingToVisibility />
     </div>
   );
 };

@@ -96,9 +96,8 @@ const App = () => {
 
   // Uses a PUT request so it always needs the whole blog to be replaced
   const addLikeToABlog = async blogToAddANewLike => {
-    console.log(blogToAddANewLike)
+    console.log(blogToAddANewLike);
     createTemporalMessageFor5Secs('A new like was added to the blog!', 'positive');
-
   };
 
   // This is the function that the logout button calls to
@@ -151,7 +150,7 @@ const App = () => {
                 />
               </Togglable>
             </div>
-            <ListOfBlogs blogs={blogs} likeFunction={addLikeToABlog}/>
+            <ListOfBlogs blogs={blogs} likeFunction={addLikeToABlog} />
           </div>
         )}
     </div>
