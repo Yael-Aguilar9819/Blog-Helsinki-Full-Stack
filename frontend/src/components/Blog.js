@@ -12,18 +12,26 @@ const Blog = ({ blog, likeFunction }) => {
     setDetailsShown(!detailsShown);
   };
 
+  // This composes a function that retrieves the blog info to the main app
+  const composedLikeFunc = () => {
+    likeFunction(blog)
+  }
+
+  const RenderDetail = () => {
+    return (
+      <BlogDetailedView
+            blogInfo={blog}
+            addLikeFunc={composedLikeFunc}
+            visiblityFunc={blogVisibility}
+          />
+    )
+  }
+
   // ternary
   return (
     <div className={styles.blogSeparator}>
       {detailsShown
-        // ? <b>DetailedBlogInfo Placeholder</b>
-        ? (
-          <BlogDetailedView
-            blogInfo={blog}
-            addLikeFunc={likeFunction}
-            visiblityFunc={blogVisibility}
-          />
-        )
+        ? <RenderDetail/>
         : (
           <BlogSimplifiedView
             title={blog.title}

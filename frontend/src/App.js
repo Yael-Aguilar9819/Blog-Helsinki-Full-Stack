@@ -96,6 +96,8 @@ const App = () => {
 
   // Uses a PUT request so it always needs the whole blog to be replaced
   const addLikeToABlog = async blogToAddANewLike => {
+    console.log(blogToAddANewLike)
+    createTemporalMessageFor5Secs('A new like was added to the blog!', 'positive');
 
   };
 
@@ -149,7 +151,7 @@ const App = () => {
                 />
               </Togglable>
             </div>
-            <ListOfBlogs blogs={blogs} />
+            <ListOfBlogs blogs={blogs} likeFunction={addLikeToABlog}/>
           </div>
         )}
     </div>
