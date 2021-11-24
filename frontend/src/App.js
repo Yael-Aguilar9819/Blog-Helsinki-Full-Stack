@@ -94,12 +94,6 @@ const App = () => {
     }
   };
 
-  // Uses a PUT request so it always needs the whole blog to be replaced
-  const addLikeToABlog = async blogToAddANewLike => {
-    console.log(blogToAddANewLike);
-    createTemporalMessageFor5Secs('A new like was added to the blog!', 'positive');
-  };
-
   // This is the function that the logout button calls to
   // So everything concerning the user is now deleted
   const logOutFunction = () => {
@@ -107,6 +101,14 @@ const App = () => {
     blogService.setToken('null');
     createTemporalMessageFor5Secs('Logged out succesfully!', 'positive');
     setUser(null);
+  };
+
+  // Uses a PUT request so it always needs the whole blog to be replaced
+  const addLikeToABlog = async blogToAddANewLike => {
+    console.log(blogs[0].id);
+    // Going to use map + find
+    // Example: arr1.map(obj => arr2.find(o => o.id === obj.id) || obj);
+    createTemporalMessageFor5Secs('A new like was added to the blog!', 'positive');
   };
 
   // This creates a temporal error message to be shown to the user
