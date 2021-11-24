@@ -17,10 +17,13 @@ const Blog = ({ blog, likeFunction }) => {
     <div className={styles.blogSeparator}>
       {detailsShown
         // ? <b>DetailedBlogInfo Placeholder</b>
-        ? <BlogDetailedView 
-            blogInfo={blog} 
+        ? (
+          <BlogDetailedView
+            blogInfo={blog}
             addLikeFunc={likeFunction}
-            visiblityFunc={blogVisibility} />
+            visiblityFunc={blogVisibility}
+          />
+        )
         : (
           <BlogSimplifiedView
             title={blog.title}
