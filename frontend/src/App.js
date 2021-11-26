@@ -105,15 +105,15 @@ const App = () => {
 
   // Uses a PUT request so it always needs the whole blog to be replaced
   const addLikeToABlog = async blogToAddANewLike => {
-    const indexOfBlogToReplace = blogs.findIndex(
+    const blogIndex = blogs.findIndex(
       blog => blog.id == blogToAddANewLike.id,
     );
-    const firstPartOfArray = blogs.slice(0, indexOfBlogToReplace);
-    const secondPartOfArray = blogs.slice(indexOfBlogToReplace, -1);
 
-    console.log(firstPartOfArray);
+    // This creates a new array 
+    const blogsNowReplaced = blogs.slice(0, blogIndex).concat("dsd", 
+                            blogs.slice(blogIndex + 1))
 
-    console.log(indexOfBlogToReplace);
+    console.log(blogsNowReplaced);
     // Example: arr1.map(obj => arr2.find(o => o.id === obj.id) || obj);
     createTemporalMessageFor5Secs('A new like was added to the blog!', 'positive');
   };
