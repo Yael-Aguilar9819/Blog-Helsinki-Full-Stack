@@ -109,8 +109,16 @@ const App = () => {
       blog => blog.id == blogToAddANewLike.id,
     );
 
+    // The best way to modify an object in a immutable way
+    // Adds a 1 to the Like, and then simplified the user
+    //Because the backend expects an id, not an object in the user field
+    const blogToSend = ({...blogToAddANewLike, 
+                        likes: blogToAddANewLike.likes + 1,
+                        user:blogToAddANewLike.user.id})
+
+    const respFromServ = await blogService.update(blogToSend.id, blogToSend);
     // This creates a new array 
-    const blogsNowReplaced = blogs.slice(0, blogIndex).concat("dsd", 
+    const blogsNowReplaced = blogs.slice(0, blogIndex).concat(respFromServ, 
                             blogs.slice(blogIndex + 1))
 
     console.log(blogsNowReplaced);
