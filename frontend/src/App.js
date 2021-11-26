@@ -107,6 +107,10 @@ const App = () => {
   const addLikeToABlog = async blogToAddANewLike => {
     const indexOfBlogToReplace = blogs.findIndex(
       blog => blog.id == blogToAddANewLike.id)
+    const firstPartOfArray = blogs.slice(0, indexOfBlogToReplace)
+    const secondPartOfArray = blogs.slice(indexOfBlogToReplace, -1)
+
+    console.log(firstPartOfArray)
 
     console.log(indexOfBlogToReplace)
     // Example: arr1.map(obj => arr2.find(o => o.id === obj.id) || obj);
