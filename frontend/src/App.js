@@ -117,11 +117,10 @@ const App = () => {
                         user:blogToAddANewLike.user.id})
 
     const respFromServ = await blogService.update(blogToSend.id, blogToSend);
-    // This creates a new array 
+    // This creates a new array of the created
     const blogsNowReplaced = blogs.slice(0, blogIndex).concat(respFromServ, 
                             blogs.slice(blogIndex + 1))
 
-    console.log(blogsNowReplaced);
     // Example: arr1.map(obj => arr2.find(o => o.id === obj.id) || obj);
     createTemporalMessageFor5Secs('A new like was added to the blog!', 'positive');
   };

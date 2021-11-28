@@ -352,6 +352,8 @@ describe('The update endpoint works', () => {
     // It has to be cast to String, so it's the same type
     // As the one returned from the DB
     blogToUpdate.user = String(blogToUpdate.user);
+    // The user is now populated, so it should be simplifie din the test
+    updatedRemoteBlog.body.user = updatedRemoteBlog.body.user.id
     expect(updatedRemoteBlog.body).toEqual(blogToUpdate);
   });
 
