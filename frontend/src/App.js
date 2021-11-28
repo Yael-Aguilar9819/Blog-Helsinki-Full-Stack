@@ -65,7 +65,7 @@ const App = () => {
         return;
       }
 
-      createTemporalMessageFor5Secs('Succesfully logged!', 'positive');
+      createTemporalMessageFor5Secs('Succesfully logged!', NOTIFICATION.POSITIVE);
       window.localStorage.setItem(nameToStoreUserInfo, JSON.stringify(loggedUserInfo));
       setUser(loggedUserInfo);
       setUsername('');
@@ -88,7 +88,7 @@ const App = () => {
       // As an extra info, the userID it's not yet populated
       orderBlogsAndSetThem(blogs.concat(respFromServ));
 
-      createTemporalMessageFor5Secs('A New blog was Created!', 'positive');
+      createTemporalMessageFor5Secs('A New blog was Created!', NOTIFICATION.POSITIVE);
     } catch (exception) {
       createTemporalMessageFor5Secs(exception, NOTIFICATION.NEGATIVE);
     }
@@ -99,7 +99,7 @@ const App = () => {
   const logOutFunction = () => {
     window.localStorage.removeItem(nameToStoreUserInfo);
     blogService.setToken('null');
-    createTemporalMessageFor5Secs('Logged out succesfully!', 'positive');
+    createTemporalMessageFor5Secs('Logged out succesfully!', NOTIFICATION.POSITIVE);
     setUser(null);
   };
 
@@ -122,7 +122,7 @@ const App = () => {
       blogs.slice(blogIndex + 1));
 
     orderBlogsAndSetThem(blogsNowReplaced);
-    createTemporalMessageFor5Secs('A new like was added to the blog!', 'positive');
+    createTemporalMessageFor5Secs('A new like was added to the blog!', NOTIFICATION.POSITIVE);
   };
 
   // This creates a temporal error message to be shown to the user
@@ -138,14 +138,14 @@ const App = () => {
 
   // This is the function that will be used to order the blogs afters each change, sorted by like
   // Can be changed easily after some time
-  const orderBlogsAndSetThem = (arrayOfBlogs) => {
+  const orderBlogsAndSetThem = arrayOfBlogs => {
     const blogsOrdered = [...arrayOfBlogs].sort((actBlog, lastBlog) => {
       if (actBlog.likes > lastBlog.likes) { return -1; }
       if (lastBlog.likes > actBlog.likes) { return 1; }
       return 0;
     });
     setBlogs(blogsOrdered);
-  }
+  };
 
   return (
     <div>
