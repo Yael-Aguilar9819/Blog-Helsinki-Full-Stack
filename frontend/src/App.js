@@ -105,11 +105,6 @@ const App = () => {
 
   // Uses a PUT request so it always needs the whole blog to be replaced
   const addLikeToABlog = async blogToAddANewLike => {
-    const blogIndex = blogs.findIndex(
-      blog => blog.id === blogToAddANewLike.id,
-    );
-
-    // The best way to modify an object in a immutable way
     // Adds a 1 to the Like, and then simplified the user
     // Because the backend expects an id, not an object in the user field
     const blogToSend = ({
@@ -117,13 +112,16 @@ const App = () => {
       likes: blogToAddANewLike.likes + 1,
       user: blogToAddANewLike.user.id,
     });
-
     const respFromServ = await blogService.update(blogToSend.id, blogToSend);
-    // This creates a new array of the created
+    // Its going to be replaces in an immutable way
+    const blogIndex = blogs.findIndex(
+      blog => blog.id === blogToAddANewLike.id,
+    );
+    // This creates a new array wit the server response
     const blogsNowReplaced = blogs.slice(0, blogIndex).concat(respFromServ,
       blogs.slice(blogIndex + 1));
 
-    // Example: arr1.map(obj => arr2.find(o => o.id === obj.id) || obj);
+    setBlogs(blogsNowReplaced);
     createTemporalMessageFor5Secs('A new like was added to the blog!', 'positive');
   };
 
