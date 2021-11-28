@@ -29,7 +29,12 @@ const App = () => {
     // To avoid race conditions
     const fetchBlogs = async () => {
       const remoteBlogs = await blogService.getAll();
-      setBlogs(remoteBlogs);
+      const blogsOrdered = [...remoteBlogs].sort((actBlog, lastBlog) => {
+        if (actBlog.likes > lastBlog.likes) { return -1; }
+        if (lastBlog.likes > actBlog.likes) { return 1; }
+        return 0;
+      });
+      setBlogs(blogsOrdered);
     };
     fetchBlogs();
   }, []);
