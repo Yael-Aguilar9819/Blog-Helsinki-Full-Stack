@@ -141,6 +141,18 @@ const App = () => {
     }, 5000);
   };
 
+  // This is the function that will be used to order the blogs afters each change, sorted by like
+  // Can be changed easily after some time
+  const orderBlogsAndSetThem = (arrayOfBlogs) => {
+    const blogsOrdered = [...arrayOfBlogs].sort((actBlog, lastBlog) => {
+      if (actBlog.likes > lastBlog.likes) { return -1; }
+      if (lastBlog.likes > actBlog.likes) { return 1; }
+      return 0;
+    });
+    setBlogs(blogsOrdered);
+
+  }
+
   return (
     <div>
       <Notification messageInfo={notificationMessage} />
