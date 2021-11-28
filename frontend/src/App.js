@@ -29,12 +29,7 @@ const App = () => {
     // To avoid race conditions
     const fetchBlogs = async () => {
       const remoteBlogs = await blogService.getAll();
-      const blogsOrdered = [...remoteBlogs].sort((actBlog, lastBlog) => {
-        if (actBlog.likes > lastBlog.likes) { return -1; }
-        if (lastBlog.likes > actBlog.likes) { return 1; }
-        return 0;
-      });
-      setBlogs(blogsOrdered);
+      orderBlogsAndSetThem(remoteBlogs);
     };
     fetchBlogs();
   }, []);
@@ -91,7 +86,7 @@ const App = () => {
 
       // This sets the blog response from server
       // As an extra info, the userID it's not yet populated
-      setBlogs(blogs.concat(respFromServ));
+      orderBlogsAndSetThem(blogs.concat(respFromServ));
 
       createTemporalMessageFor5Secs('A New blog was Created!', 'positive');
     } catch (exception) {
@@ -126,7 +121,7 @@ const App = () => {
     const blogsNowReplaced = blogs.slice(0, blogIndex).concat(respFromServ,
       blogs.slice(blogIndex + 1));
 
-    setBlogs(blogsNowReplaced);
+    orderBlogsAndSetThem(blogsNowReplaced);
     createTemporalMessageFor5Secs('A new like was added to the blog!', 'positive');
   };
 
@@ -150,7 +145,6 @@ const App = () => {
       return 0;
     });
     setBlogs(blogsOrdered);
-
   }
 
   return (
