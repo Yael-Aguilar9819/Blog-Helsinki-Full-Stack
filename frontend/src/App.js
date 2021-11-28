@@ -107,7 +107,8 @@ const App = () => {
   const addLikeToABlog = async blogToAddANewLike => {
     // Adds a 1 to the Like, and then simplified the user
     // Because the backend expects an id, not an object in the user field
-    const blogToSend = ({
+    try {
+      const blogToSend = ({
       ...blogToAddANewLike,
       likes: blogToAddANewLike.likes + 1,
       user: blogToAddANewLike.user.id,
@@ -123,6 +124,9 @@ const App = () => {
 
     orderBlogsAndSetThem(blogsNowReplaced);
     createTemporalMessageFor5Secs('A new like was added to the blog!', NOTIFICATION.POSITIVE);
+    } catch (exception) {
+      createTemporalMessageFor5Secs(exception, NOTIFICATION.NEGATIVE);
+    }
   };
 
   // This creates a temporal error message to be shown to the user
