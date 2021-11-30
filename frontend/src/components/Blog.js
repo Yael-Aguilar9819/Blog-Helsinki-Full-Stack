@@ -25,6 +25,7 @@ const Blog = ({ blog, likeFunction, removeBlogFunc }) => {
           blogInfo={blog}
           addLikeFunc={composedLikeFunc}
           visiblityFunc={blogVisibility}
+          removeBlogFunc={removeBlogFunc}
         />
       );
     }

@@ -29,7 +29,7 @@ const App = () => {
     // To avoid race conditions
     const fetchBlogs = async () => {
       const remoteBlogs = await blogService.getAll();
-      orderBlogsAndSetThem(remoteBlogs);
+      sortBlogsAndSetThem(remoteBlogs);
     };
     fetchBlogs();
   }, []);
@@ -86,7 +86,7 @@ const App = () => {
 
       // This sets the blog response from server
       // As an extra info, the userID it's not yet populated
-      orderBlogsAndSetThem(blogs.concat(respFromServ));
+      sortBlogsAndSetThem(blogs.concat(respFromServ));
 
       createTemporalMessageFor5Secs('A New blog was Created!', NOTIFICATION.POSITIVE);
     } catch (exception) {
@@ -122,12 +122,14 @@ const App = () => {
     const blogsNowReplaced = blogs.slice(0, blogIndex).concat(respFromServ,
       blogs.slice(blogIndex + 1));
 
-    orderBlogsAndSetThem(blogsNowReplaced);
+    sortBlogsAndSetThem(blogsNowReplaced);
     createTemporalMessageFor5Secs('A new like was added to the blog!', NOTIFICATION.POSITIVE);
     } catch (exception) {
       createTemporalMessageFor5Secs(exception, NOTIFICATION.NEGATIVE);
     }
   };
+
+  // const replace
 
   // This creates a temporal error message to be shown to the user
   const createTemporalMessageFor5Secs = (message, status) => {
@@ -142,7 +144,7 @@ const App = () => {
 
   // This is the function that will be used to order the blogs afters each change, sorted by like
   // Can be changed easily after some time
-  const orderBlogsAndSetThem = arrayOfBlogs => {
+  const sortBlogsAndSetThem = arrayOfBlogs => {
     const blogsOrdered = [...arrayOfBlogs].sort((actBlog, lastBlog) => {
       if (actBlog.likes > lastBlog.likes) { return -1; }
       if (lastBlog.likes > actBlog.likes) { return 1; }
