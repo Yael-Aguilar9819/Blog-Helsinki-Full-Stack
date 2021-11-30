@@ -4,7 +4,7 @@ import BlogSimplifiedView from './BlogSimplifiedView';
 import BlogDetailedView from './BlogDetailedView';
 import styles from './Blog.module.css';
 
-const Blog = ({ blog, likeFunction }) => {
+const Blog = ({ blog, likeFunction, removeBlogFunc }) => {
   const [detailsShown, setDetailsShown] = useState(false);
 
   // This function inverses what is shown after each press of the button
