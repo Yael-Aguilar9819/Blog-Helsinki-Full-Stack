@@ -56,6 +56,7 @@ Blog.propTypes = {
   // Required at the end, so the component needs the blog name
 
   likeFunction: PropTypes.func.isRequired,
+  removeBlogFunc: PropTypes.func.isRequired,
 };
 
 export default Blog;

@@ -114,15 +114,8 @@ const App = () => {
         user: blogToAddANewLike.user.id,
       });
       const respFromServ = await blogService.update(blogToSend.id, blogToSend);
-      // Its going to be replaces in an immutable way
 
-      const blogsNowReplaced = replaceBlogWithSameIDInArray(respFromServ, blogs)
-      // const blogIndex = blogs.findIndex(
-      //   blog => blog.id === blogToAddANewLike.id,
-      // );
-      // // This creates a new array wit the server response
-      // const blogsNowReplaced = blogs.slice(0, blogIndex).concat(respFromServ,
-      //   blogs.slice(blogIndex + 1));
+      const blogsNowReplaced = replaceBlogWithSameIDInArray(respFromServ, blogs);
 
       sortBlogsAndSetThem(blogsNowReplaced);
       createTemporalMessageFor5Secs('A new like was added to the blog!', NOTIFICATION.POSITIVE);
@@ -131,6 +124,7 @@ const App = () => {
     }
   };
 
+  // This replaces the blog wanted in a immutable way
   const replaceBlogWithSameIDInArray = (blogToAdd, arrayOfBlogs) => {
     const blogIndex = arrayOfBlogs.findIndex(
       blog => blog.id === blogToAdd.id,

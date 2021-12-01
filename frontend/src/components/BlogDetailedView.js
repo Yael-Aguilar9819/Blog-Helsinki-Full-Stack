@@ -63,6 +63,7 @@ BlogDetailedView.propTypes = {
 
   // This function controls the button that adds a like
   addLikeFunc: PropTypes.func.isRequired,
+  removeBlogFunc: PropTypes.func.isRequired,
 };
 
 export default BlogDetailedView;
