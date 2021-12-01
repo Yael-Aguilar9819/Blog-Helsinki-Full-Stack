@@ -129,7 +129,16 @@ const App = () => {
     }
   };
 
-  // const replace
+  const replaceBlogWithSameIDInArray = (IDOfblogToAdd, arrayOfBlogs) => {
+    const blogIndex = arrayOfBlogs.findIndex(
+      blog => blog.id === IDOfblogToAdd.id,
+    );
+    // This creates a new array wit the server response
+    const blogsNowReplaced = arrayOfBlogs.slice(0, blogIndex).concat(IDOfblogToAdd,
+      arrayOfBlogs.slice(blogIndex + 1));
+
+    return blogsNowReplaced;
+  }
 
   // This creates a temporal error message to be shown to the user
   const createTemporalMessageFor5Secs = (message, status) => {
