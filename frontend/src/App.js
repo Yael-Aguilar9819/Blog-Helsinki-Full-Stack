@@ -115,12 +115,14 @@ const App = () => {
       });
       const respFromServ = await blogService.update(blogToSend.id, blogToSend);
       // Its going to be replaces in an immutable way
-      const blogIndex = blogs.findIndex(
-        blog => blog.id === blogToAddANewLike.id,
-      );
-      // This creates a new array wit the server response
-      const blogsNowReplaced = blogs.slice(0, blogIndex).concat(respFromServ,
-        blogs.slice(blogIndex + 1));
+
+      const blogsNowReplaced = replaceBlogWithSameIDInArray(respFromServ, blogs)
+      // const blogIndex = blogs.findIndex(
+      //   blog => blog.id === blogToAddANewLike.id,
+      // );
+      // // This creates a new array wit the server response
+      // const blogsNowReplaced = blogs.slice(0, blogIndex).concat(respFromServ,
+      //   blogs.slice(blogIndex + 1));
 
       sortBlogsAndSetThem(blogsNowReplaced);
       createTemporalMessageFor5Secs('A new like was added to the blog!', NOTIFICATION.POSITIVE);
@@ -129,12 +131,12 @@ const App = () => {
     }
   };
 
-  const replaceBlogWithSameIDInArray = (IDOfblogToAdd, arrayOfBlogs) => {
+  const replaceBlogWithSameIDInArray = (blogToAdd, arrayOfBlogs) => {
     const blogIndex = arrayOfBlogs.findIndex(
-      blog => blog.id === IDOfblogToAdd.id,
+      blog => blog.id === blogToAdd.id,
     );
     // This creates a new array wit the server response
-    const blogsNowReplaced = arrayOfBlogs.slice(0, blogIndex).concat(IDOfblogToAdd,
+    const blogsNowReplaced = arrayOfBlogs.slice(0, blogIndex).concat(blogToAdd,
       arrayOfBlogs.slice(blogIndex + 1));
 
     return blogsNowReplaced;
