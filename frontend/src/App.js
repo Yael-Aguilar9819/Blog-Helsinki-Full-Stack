@@ -109,21 +109,21 @@ const App = () => {
     // Because the backend expects an id, not an object in the user field
     try {
       const blogToSend = ({
-      ...blogToAddANewLike,
-      likes: blogToAddANewLike.likes + 1,
-      user: blogToAddANewLike.user.id,
-    });
-    const respFromServ = await blogService.update(blogToSend.id, blogToSend);
-    // Its going to be replaces in an immutable way
-    const blogIndex = blogs.findIndex(
-      blog => blog.id === blogToAddANewLike.id,
-    );
-    // This creates a new array wit the server response
-    const blogsNowReplaced = blogs.slice(0, blogIndex).concat(respFromServ,
-      blogs.slice(blogIndex + 1));
+        ...blogToAddANewLike,
+        likes: blogToAddANewLike.likes + 1,
+        user: blogToAddANewLike.user.id,
+      });
+      const respFromServ = await blogService.update(blogToSend.id, blogToSend);
+      // Its going to be replaces in an immutable way
+      const blogIndex = blogs.findIndex(
+        blog => blog.id === blogToAddANewLike.id,
+      );
+      // This creates a new array wit the server response
+      const blogsNowReplaced = blogs.slice(0, blogIndex).concat(respFromServ,
+        blogs.slice(blogIndex + 1));
 
-    sortBlogsAndSetThem(blogsNowReplaced);
-    createTemporalMessageFor5Secs('A new like was added to the blog!', NOTIFICATION.POSITIVE);
+      sortBlogsAndSetThem(blogsNowReplaced);
+      createTemporalMessageFor5Secs('A new like was added to the blog!', NOTIFICATION.POSITIVE);
     } catch (exception) {
       createTemporalMessageFor5Secs(exception, NOTIFICATION.NEGATIVE);
     }
@@ -138,7 +138,7 @@ const App = () => {
       arrayOfBlogs.slice(blogIndex + 1));
 
     return blogsNowReplaced;
-  }
+  };
 
   // This creates a temporal error message to be shown to the user
   const createTemporalMessageFor5Secs = (message, status) => {
