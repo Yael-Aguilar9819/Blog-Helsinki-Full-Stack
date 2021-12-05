@@ -124,6 +124,15 @@ const App = () => {
     }
   };
 
+  const removeBlog = async blogToRemove => {
+    console.log(blogToRemove)
+    try {
+      const respFromServ = await blogService.update(blogToSend.id, blogToSend);
+
+  } catch (exception) {
+    createTemporalMessageFor5Secs(exception, NOTIFICATION.NEGATIVE);
+  }
+
   // This replaces the blog wanted in a immutable way
   const replaceBlogWithSameIDInArray = (blogToAdd, arrayOfBlogs) => {
     const blogIndex = arrayOfBlogs.findIndex(
@@ -135,7 +144,7 @@ const App = () => {
 
     return blogsNowReplaced;
   };
-
+}
   // This creates a temporal error message to be shown to the user
   const createTemporalMessageFor5Secs = (message, status) => {
     setNotificationMessage({
@@ -188,7 +197,7 @@ const App = () => {
                 />
               </Togglable>
             </div>
-            <ListOfBlogs blogs={blogs} likeFunction={addLikeToABlog} />
+            <ListOfBlogs blogs={blogs} likeFunction={addLikeToABlog} removeBlogFunction={removeBlog}/>
           </div>
         )}
     </div>

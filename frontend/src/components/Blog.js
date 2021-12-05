@@ -12,9 +12,13 @@ const Blog = ({ blog, likeFunction, removeBlogFunc }) => {
     setDetailsShown(!detailsShown);
   };
 
-  // This composes a function that retrieves the blog info to the main app
+  // This composes functions that retrieves the blog info to the main app
   const composedLikeFunc = () => {
     likeFunction(blog);
+  };
+
+  const composedRemoveFunc = () => {
+    removeBlogFunc(blog);
   };
 
   // This function will select what kind of blog to render if
@@ -25,7 +29,7 @@ const Blog = ({ blog, likeFunction, removeBlogFunc }) => {
           blogInfo={blog}
           addLikeFunc={composedLikeFunc}
           visiblityFunc={blogVisibility}
-          removeBlogFunc={removeBlogFunc}
+          removeBlogFunc={composedRemoveFunc}
         />
       );
     }
