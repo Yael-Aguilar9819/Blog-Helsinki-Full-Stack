@@ -28,6 +28,8 @@ const create = newObject => methodToBackendReturnJson(baseUrl, 'POST', JSON.stri
 
 const update = (id, newObject) => methodToBackendReturnJson(`${baseUrl}/${id}`, 'PUT', JSON.stringify(newObject), tokenToAuthorize);
 
+const deleteBlog = id => methodToBackendReturnJson(`${baseUrl}/${id}`, 'DELETE', '', tokenToAuthorize);
+
 const getAll = async () => {
   const response = await fetch(baseUrl);
   return response.json();
@@ -38,6 +40,7 @@ const exportedObject = {
   create,
   update,
   setToken,
+  deleteBlog
 };
 
 export default exportedObject;
