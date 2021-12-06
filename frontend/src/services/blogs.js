@@ -21,7 +21,8 @@ const methodToBackendReturnJson = async (url, method, body, tokenFromUser) => {
   if (response.status < 200 || response.status > 299) {
     throw new Error(`cannot fetch data with error code: ${response.status}`);
   } else if (response.status === 204) {
-    return "Blog deleted succesfully";
+    // the 204 shouldn't have a json return, so this is necessary
+    return 'Blog deleted succesfully';
   }
 
   return response.json();
@@ -43,7 +44,7 @@ const exportedObject = {
   create,
   update,
   setToken,
-  deleteBlog
+  deleteBlog,
 };
 
 export default exportedObject;

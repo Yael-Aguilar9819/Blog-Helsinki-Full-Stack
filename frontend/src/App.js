@@ -90,7 +90,7 @@ const App = () => {
 
       createTemporalMessageFor5Secs('A New blog was Created!', NOTIFICATION.POSITIVE);
     } catch (exception) {
-      createTemporalMessageFor5Secs("An error ocurred", NOTIFICATION.NEGATIVE);
+      createTemporalMessageFor5Secs('An error ocurred', NOTIFICATION.NEGATIVE);
     }
   };
 
@@ -114,28 +114,27 @@ const App = () => {
         user: blogToAddANewLike.user.id,
       });
       const respFromServ = await blogService.update(blogToSend.id, blogToSend);
-      console.log(respFromServ)
 
       const blogsNowReplaced = replaceBlogWithSameIDInArray(respFromServ, blogs);
 
       sortBlogsAndSetThem(blogsNowReplaced);
       createTemporalMessageFor5Secs('A new like was added to the blog!', NOTIFICATION.POSITIVE);
     } catch (exception) {
-      createTemporalMessageFor5Secs("An error happened", NOTIFICATION.NEGATIVE);
+      createTemporalMessageFor5Secs('An error happened', NOTIFICATION.NEGATIVE);
     }
   };
 
   const removeBlog = async blogToRemove => {
     try {
       await blogService.deleteBlog(blogToRemove.id);
-      const removedFromBlogs = blogs.filter(blog => blog.id !== blogToRemove.id)
+      // This removes the blog visually too
+      const removedFromBlogs = blogs.filter(blog => blog.id !== blogToRemove.id);
       sortBlogsAndSetThem(removedFromBlogs);
-      console.log(blogToRemove)
-      createTemporalMessageFor5Secs(blogToRemove.title + " was removed.",
-                                    NOTIFICATION.POSITIVE);
 
+      createTemporalMessageFor5Secs(`${blogToRemove.title} was removed.`,
+        NOTIFICATION.POSITIVE);
     } catch (exception) {
-      createTemporalMessageFor5Secs("An error happened", NOTIFICATION.NEGATIVE);
+      createTemporalMessageFor5Secs('An error happened', NOTIFICATION.NEGATIVE);
     }
   };
 
