@@ -127,10 +127,15 @@ const App = () => {
 
   const removeBlog = async blogToRemove => {
     try {
-      const respFromServ = await blogService.deleteBlog(blogToRemove.id);
-      console.log(respFromServ)
+      await blogService.deleteBlog(blogToRemove.id);
+      const removedFromBlogs = blogs.filter(blog => blog.id !== blogToRemove.id)
+      sortBlogsAndSetThem(removedFromBlogs);
+      console.log(blogToRemove)
+      createTemporalMessageFor5Secs(blogToRemove.title + " was removed.",
+                                    NOTIFICATION.POSITIVE);
+
     } catch (exception) {
-      createTemporalMessageFor5Secs("An error Happened", NOTIFICATION.NEGATIVE);
+      createTemporalMessageFor5Secs("An error happened", NOTIFICATION.NEGATIVE);
     }
   };
 
