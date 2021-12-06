@@ -327,6 +327,10 @@ describe('Delete/:id endpoint of blogs works properly', () => {
       .set('Authorization', `bearer ${userToken}`)
       .expect(204);
   });
+
+  test('After deleting a blog, the reference in the portion blog of the user is deleted as well', async () => {
+    
+  })
 });
 
 describe('The update endpoint works', () => {
