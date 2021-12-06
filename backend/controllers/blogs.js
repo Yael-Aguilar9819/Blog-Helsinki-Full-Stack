@@ -13,18 +13,21 @@ blogRouter.post('/', async (request, response, next) => {
   try {
     // The user is obtained from the middleware that pre-processed request
     const { user } = request;
-
     // The body is directly modified to add the user ID
     request.body.user = user._id;
+    
     const blog = new Blog(request.body);
 
     // The server response it's the same blog with the id
-    const blogResponseFromServer = await blog.save();
+    const blogSaved = await blog.save();
+    //Another request to get the user populated automatically
+    const blogFromServ = await Blog.findById(blogSaved)
+                          .populate('user', { username: 1, name: 1 });
 
     // The user is modified automatically, it's not necessary to do it manually
-    await saveBlogIDinUserCollection(request.user, blogResponseFromServer);
+    await saveBlogIDinUserCollection(request.user, blogFromServ);
     // Then it's converted to json and returned to whatever method called POST
-    response.status(201).json(blogResponseFromServer);
+    response.status(201).json(blogFromServ);
   } catch (exception) {
     next(exception);
   }
@@ -59,7 +62,7 @@ blogRouter.put('/:id', async (request, response, next) => {
     // With new : true, it returns the updated object, the default will return the old object
     // and .populate asks the DB to query the ID and return a full user
     const resp = await Blog.findByIdAndUpdate(request.params.id, request.body, { new: true })
-                  .populate('user', { username: 1, name: 1 });;
+                  .populate('user', { username: 1, name: 1 });
     response.status(200).json(resp);
   } catch (exception) {
     next(exception);
@@ -71,7 +74,6 @@ const saveBlogIDinUserCollection = async (userObj, blogToSave) => {
   // then it's added to the current blogs in the user blogs
   userObj.blogs = userObj.blogs.concat(blogToSave._id);
 
-  // This just saves it to the DB
   // The response it's not necessary
   await userObj.save();
 };
