@@ -126,7 +126,6 @@ const App = () => {
   };
 
   const removeBlog = async blogToRemove => {
-    console.log(blogToRemove);
     try {
       const respFromServ = await blogService.deleteBlog(blogToRemove.id);
       console.log(respFromServ)

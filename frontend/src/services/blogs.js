@@ -16,9 +16,12 @@ const methodToBackendReturnJson = async (url, method, body, tokenFromUser) => {
     },
     body,
   });
+
   // now it passes if it's just a satisfactory response
   if (response.status < 200 || response.status > 299) {
     throw new Error(`cannot fetch data with error code: ${response.status}`);
+  } else if (response.status === 204) {
+    return "Blog deleted succesfully";
   }
 
   return response.json();

@@ -18,7 +18,6 @@ blogRouter.post('/', async (request, response, next) => {
     
     const blog = new Blog(request.body);
 
-    // The server response it's the same blog with the id
     const blogSaved = await blog.save();
     //Another request to get the user populated automatically
     const blogFromServ = await Blog.findById(blogSaved)
@@ -48,6 +47,7 @@ blogRouter.delete('/:id', async (request, response, next) => {
     if (!IsTheSameUser) {
       return response.status(401).json({ error: 'Only the creator can delete its own blogs' });
     }
+
     // With this function, it goes, removes it, and returns back that deleted object
     await Blog.findByIdAndRemove(request.params.id);
     response.status(204).end();
