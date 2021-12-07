@@ -330,6 +330,17 @@ describe('Delete/:id endpoint of blogs works properly', () => {
 
   test('After deleting a blog, the reference in the portion blog of the user is deleted as well', async () => {
     
+    // This will get the ID of the first blog of the selected user
+    // So it can be deleted later
+    const resp = await api.get('/api/users/');
+    const creatorOfBlogs = resp.body.filter(userObj => userObj.id === userID)[0];
+    const idOfFirstBlog = creatorOfBlogs.blogs[0].id;
+
+    // Now It's neccesary to send a token to delete ANY blog
+    await api
+      .delete(`/api/blogs/${idOfFirstBlog}`)
+      .set('Authorization', `bearer ${userToken}`)
+      .expect(204);
   })
 });
 
