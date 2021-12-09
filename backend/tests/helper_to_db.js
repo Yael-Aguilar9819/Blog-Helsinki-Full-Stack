@@ -199,4 +199,5 @@ module.exports = {
   userWithoutPasswordParameter,
   getArrayOfInitialBlogPromises,
   addBlogsToUser,
+  findblogInUserPortionByID,
 };

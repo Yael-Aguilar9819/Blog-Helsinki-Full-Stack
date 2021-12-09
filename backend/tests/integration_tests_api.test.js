@@ -329,7 +329,6 @@ describe('Delete/:id endpoint of blogs works properly', () => {
   });
 
   test('After deleting a blog, the reference in the portion blog of the user is deleted as well', async () => {
-    
     // This will get the ID of the first blog of the selected user
     // So it can be deleted later
     const resp = await api.get('/api/users/');
@@ -341,11 +340,11 @@ describe('Delete/:id endpoint of blogs works properly', () => {
       .delete(`/api/blogs/${idOfFirstBlog}`)
       .set('Authorization', `bearer ${userToken}`)
       .expect(204);
-  
-  const userResp = await api.get('/api/users/');
-  const creatorOfBlogsDeleted = userResp.body.filter(userObj => userObj.id === userID)[0];
-  
-  })
+
+    const userResp = await api.get('/api/users/');
+    const creatorOfDeletedBlog = userResp.body.filter(userObj => userObj.id === userID)[0];
+    helperToDB.findblogInUserPortionByID(idOfFirstBlog, creatorOfDeletedBlog);
+  });
 });
 
 describe('The update endpoint works', () => {
@@ -372,7 +371,7 @@ describe('The update endpoint works', () => {
     // As the one returned from the DB
     blogToUpdate.user = String(blogToUpdate.user);
     // The user is now populated, so it should be simplifie din the test
-    updatedRemoteBlog.body.user = updatedRemoteBlog.body.user.id
+    updatedRemoteBlog.body.user = updatedRemoteBlog.body.user.id;
     expect(updatedRemoteBlog.body).toEqual(blogToUpdate);
   });
 

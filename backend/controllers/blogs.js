@@ -15,13 +15,13 @@ blogRouter.post('/', async (request, response, next) => {
     const { user } = request;
     // The body is directly modified to add the user ID
     request.body.user = user._id;
-    
+
     const blog = new Blog(request.body);
 
     const blogSaved = await blog.save();
-    //Another request to get the user populated automatically
+    // Another request to get the user populated automatically
     const blogFromServ = await Blog.findById(blogSaved)
-                          .populate('user', { username: 1, name: 1 });
+      .populate('user', { username: 1, name: 1 });
 
     // The user is modified automatically, it's not necessary to do it manually
     await saveBlogIDinUserCollection(request.user, blogFromServ);
@@ -62,7 +62,7 @@ blogRouter.put('/:id', async (request, response, next) => {
     // With new : true, it returns the updated object, the default will return the old object
     // and .populate asks the DB to query the ID and return a full user
     const resp = await Blog.findByIdAndUpdate(request.params.id, request.body, { new: true })
-                  .populate('user', { username: 1, name: 1 });
+      .populate('user', { username: 1, name: 1 });
     response.status(200).json(resp);
   } catch (exception) {
     next(exception);
