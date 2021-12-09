@@ -176,6 +176,10 @@ const addBlogsToUser = async (userID, arrayOfBlogsReturned) => {
   await user.save();
 };
 
+const findblogInUserPortionByID = (blogID, userInfo) => {
+
+};
+
 module.exports = {
   listOfBlogsToDB,
   blogWithAllProperties,

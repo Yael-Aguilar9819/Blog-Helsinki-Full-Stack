@@ -344,6 +344,7 @@ describe('Delete/:id endpoint of blogs works properly', () => {
   
   const userResp = await api.get('/api/users/');
   const creatorOfBlogsDeleted = userResp.body.filter(userObj => userObj.id === userID)[0];
+  
   })
 });
 
