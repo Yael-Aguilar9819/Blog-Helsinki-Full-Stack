@@ -176,8 +176,12 @@ const addBlogsToUser = async (userID, arrayOfBlogsReturned) => {
   await user.save();
 };
 
-const findblogInUserPortionByID = (blogID, userInfo) => {
-
+// This will find the blog if it's in the userInfo
+const findBlogInUserPortionByID = (blogID, userInfo) => {
+  const result = userInfo.blogs.some(blog => {
+    if (blog.id === blogID){ return blog}
+  });
+  return result;
 };
 
 module.exports = {
@@ -199,5 +203,5 @@ module.exports = {
   userWithoutPasswordParameter,
   getArrayOfInitialBlogPromises,
   addBlogsToUser,
-  findblogInUserPortionByID,
+  findBlogInUserPortionByID,
 };

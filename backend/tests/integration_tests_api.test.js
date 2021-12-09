@@ -334,6 +334,9 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     const resp = await api.get('/api/users/');
     const creatorOfBlogs = resp.body.filter(userObj => userObj.id === userID)[0];
     const idOfFirstBlog = creatorOfBlogs.blogs[0].id;
+    const blogInUser = helperToDB.findBlogInUserPortionByID(idOfFirstBlog, creatorOfBlogs);
+    expect(blogInUser).toEqual(true);
+
 
     // Now It's necessary to send a token to delete ANY blog
     await api
@@ -341,9 +344,11 @@ describe('Delete/:id endpoint of blogs works properly', () => {
       .set('Authorization', `bearer ${userToken}`)
       .expect(204);
 
+    // After deleting the blog, it shouldn't appear anymore in the user array of blogs
     const userResp = await api.get('/api/users/');
     const creatorOfDeletedBlog = userResp.body.filter(userObj => userObj.id === userID)[0];
-    helperToDB.findblogInUserPortionByID(idOfFirstBlog, creatorOfDeletedBlog);
+    const blogDeleted = helperToDB.findBlogInUserPortionByID(idOfFirstBlog, creatorOfDeletedBlog);
+    expect(blogDeleted).toEqual(false);
   });
 });
 
