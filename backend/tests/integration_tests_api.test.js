@@ -410,7 +410,6 @@ describe('user portion in Blogs works appropriately', () => {
   test('After creating a new blog, a valid blog with a valid userID is returned', async () => {
     const newBlogWithUserID = JSON.parse(JSON.stringify(helperToDB.blogWithAllProperties));
 
-    // This line sends the new blog,
     const resp = await api
       .post('/api/blogs')
       .send(newBlogWithUserID)
@@ -419,7 +418,7 @@ describe('user portion in Blogs works appropriately', () => {
 
     const blogFromServ = resp.body;
     // This will get the user ID returned
-    const userIdReturnedObject = await User.findById(blogFromServ.user);
+    const userIdReturnedObject = await User.findById(blogFromServ.user.id);
     // Just asking for a true value, instead of a null if it doesn't exist
     expect(!!userIdReturnedObject).toEqual(true);
   });
