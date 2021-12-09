@@ -321,7 +321,7 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     const creatorOfBlogs = resp.body.filter(userObj => userObj.id === userID)[0];
     const idOfFirstBlog = creatorOfBlogs.blogs[0].id;
 
-    // Now It's neccesary to send a token to delete ANY blog
+    // Now It's necessary to send a token to delete ANY blog
     await api
       .delete(`/api/blogs/${idOfFirstBlog}`)
       .set('Authorization', `bearer ${userToken}`)
@@ -336,11 +336,14 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     const creatorOfBlogs = resp.body.filter(userObj => userObj.id === userID)[0];
     const idOfFirstBlog = creatorOfBlogs.blogs[0].id;
 
-    // Now It's neccesary to send a token to delete ANY blog
+    // Now It's necessary to send a token to delete ANY blog
     await api
       .delete(`/api/blogs/${idOfFirstBlog}`)
       .set('Authorization', `bearer ${userToken}`)
       .expect(204);
+  
+  const userResp = await api.get('/api/users/');
+  const creatorOfBlogsDeleted = userResp.body.filter(userObj => userObj.id === userID)[0];
   })
 });
 
