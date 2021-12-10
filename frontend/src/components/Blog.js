@@ -18,7 +18,12 @@ const Blog = ({ blog, likeFunction, removeBlogFunc }) => {
   };
 
   const composedRemoveFunc = () => {
-    removeBlogFunc(blog);
+    // This will execute if the user accepts the windows prompt 
+    if (window.confirm("Remove blog " + blog.title + " by " + blog.author)) {
+      removeBlogFunc(blog);
+    }
+    // otherwise, it doesnt do anything
+
   };
 
   // This function will select what kind of blog to render if
