@@ -337,7 +337,6 @@ describe('Delete/:id endpoint of blogs works properly', () => {
     const blogInUser = helperToDB.findBlogInUserPortionByID(idOfFirstBlog, creatorOfBlogs);
     expect(blogInUser).toEqual(true);
 
-
     // Now It's necessary to send a token to delete ANY blog
     await api
       .delete(`/api/blogs/${idOfFirstBlog}`)

@@ -179,7 +179,7 @@ const addBlogsToUser = async (userID, arrayOfBlogsReturned) => {
 // This will find the blog if it's in the userInfo
 const findBlogInUserPortionByID = (blogID, userInfo) => {
   const result = userInfo.blogs.some(blog => {
-    if (blog.id === blogID){ return blog}
+    if (blog.id === blogID) { return blog; }
   });
   return result;
 };
