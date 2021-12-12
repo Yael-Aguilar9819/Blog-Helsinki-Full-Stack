@@ -1,17 +1,24 @@
 /* eslint-disable no-console */
-const info = (...params) => {
-  if (process.env.NODE_ENV !== 'test') {
-    console.log(...params);
-  }
+var info = function () {
+    var params = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        params[_i] = arguments[_i];
+    }
+    if (process.env.NODE_ENV !== 'test') {
+        console.log.apply(console, params);
+    }
 };
-
-const error = (...params) => {
-  if (process.env.NODE_ENV !== 'test') {
-    console.log(...params);
-  }
+var error = function () {
+    var params = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        params[_i] = arguments[_i];
+    }
+    if (process.env.NODE_ENV !== 'test') {
+        console.log.apply(console, params);
+    }
 };
 /* eslint-enable no-console */
-
 module.exports = {
-  info, error,
+    info: info,
+    error: error
 };
