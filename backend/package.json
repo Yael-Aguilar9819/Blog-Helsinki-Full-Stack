@@ -8,7 +8,8 @@
     "dev": "NODE_ENV=development node_modules/.bin/nodemon index.js",
     "test": "NODE_ENV=test jest --verbose --runInBand",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix --ext .js,.jsx ."
+    "lint:fix": "eslint --fix --ext .js,.jsx .",
+    "build:ui": "rm -rf build && cd ../frontend/ && npm run build --prod && cp -r build ../backend"
   },
   "author": "",
   "license": "ISC",
