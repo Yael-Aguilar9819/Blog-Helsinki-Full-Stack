@@ -4,7 +4,7 @@ const User = require('../models/user');
 
 const minimumPasswordLength = 3;
 
-userRouter.get('/', async (request, response) => {
+userRouter.get('/', async (_request, response) => {
   const allUsers = await User.find({}).populate('blogs', {
     url: 1, title: 1, author: 1, id: 1,
   });
@@ -44,7 +44,7 @@ userRouter.post('/', async (request, response, next) => {
   }
 });
 
-const checkPasswordLength = (possiblePass, minimumLength) => {
+const checkPasswordLength = (possiblePass: string, minimumLength: number) => {
   try {
     // Using the ternary operator, we check if it's the minimum length
     const result = possiblePass.length >= minimumLength;
@@ -54,6 +54,8 @@ const checkPasswordLength = (possiblePass, minimumLength) => {
     return false;
   }
 };
+
+type basicRequest = {body: object}
 
 // This exposes the module to the main app
 module.exports = userRouter;
