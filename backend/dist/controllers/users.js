@@ -12,7 +12,7 @@ const bcrypt = require('bcrypt');
 const userRouter = require('express').Router();
 const User = require('../models/user');
 const minimumPasswordLength = 3;
-userRouter.get('/', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+userRouter.get('/', (_request, response) => __awaiter(void 0, void 0, void 0, function* () {
     const allUsers = yield User.find({}).populate('blogs', {
         url: 1, title: 1, author: 1, id: 1,
     });
