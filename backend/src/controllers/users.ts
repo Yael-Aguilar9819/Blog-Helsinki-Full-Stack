@@ -4,14 +4,14 @@ const User = require('../models/user');
 
 const minimumPasswordLength = 3;
 
-userRouter.get('/', async (_request, response) => {
+userRouter.get('/', async (_request: basicRequest, response: basicResponse) => {
   const allUsers = await User.find({}).populate('blogs', {
     url: 1, title: 1, author: 1, id: 1,
   });
   response.json(allUsers);
 });
 
-userRouter.post('/', async (request, response, next) => {
+userRouter.post('/', async (request: basicRequest, response: basicResponse, next) => {
   const { body } = request;
 
   // This hash the password with the number of salt rounds
@@ -56,6 +56,7 @@ const checkPasswordLength = (possiblePass: string, minimumLength: number) => {
 };
 
 type basicRequest = {body: object}
+type basicResponse = {json: Function, status: Function}
 
 // This exposes the module to the main app
 module.exports = userRouter;
