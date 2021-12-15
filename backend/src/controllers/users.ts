@@ -55,8 +55,5 @@ const checkPasswordLength = (possiblePass: string, minimumLength: number) => {
   }
 };
 
-type basicRequest = {body: object}
-type basicResponse = {json: Function, status: Function}
-
 // This exposes the module to the main app
 module.exports = userRouter;
