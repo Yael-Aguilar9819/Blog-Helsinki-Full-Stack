@@ -5,12 +5,12 @@ const app = express();
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-const blogRouter = require('./dist/controllers/blogs');
-const usersRouter = require('./dist/controllers/users');
-const loginRouter = require('./dist/controllers/login');
+const blogRouter = require('./controllers/blogs');
+const usersRouter = require('./controllers/users');
+const loginRouter = require('./controllers/login');
 
-const config = require('./dist/utils/config');
-const middleware = require('./dist/utils/middleware');
+const config = require('./utils/config');
+const middleware = require('./utils/middleware');
 
 const mongoUrl = config.MONGODB_URI;
 
@@ -30,7 +30,7 @@ app.use(middleware.tokenExtractor);
 
 // The user extractor uses the tokenExtractor to pre-process the user
 // Extracted so now can be used for specific routes instead of every single one
-const { userExtractor } = require('./dist/utils/middleware');
+const { userExtractor } = require('./utils/middleware');
 
 // Being a router means that every endpoint + the blogs URL will be redirected here
 app.use('/api/blogs', userExtractor, blogRouter);
