@@ -5,12 +5,12 @@ const app = express();
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-const blogRouter = require('./controllers/blogs');
-const usersRouter = require('./controllers/users');
-const loginRouter = require('./controllers/login');
+const blogRouter = require('./controllers/blogs.ts');
+const usersRouter = require('./controllers/users.ts');
+const loginRouter = require('./controllers/login.ts');
 
-const config = require('./utils/config');
-const middleware = require('./utils/middleware');
+const config = require('./utils/config.ts');
+const middleware = require('./utils/middleware.ts');
 
 const mongoUrl = config.MONGODB_URI;
 
