@@ -4,14 +4,14 @@ const User = require('../models/user');
 
 const minimumPasswordLength = 3;
 
-userRouter.get('/', async (_request: basicRequest, response: basicResponse) => {
+userRouter.get('/', async (request, response) => {
   const allUsers = await User.find({}).populate('blogs', {
     url: 1, title: 1, author: 1, id: 1,
   });
   response.json(allUsers);
 });
 
-userRouter.post('/', async (request: basicRequest, response: basicResponse, next) => {
+userRouter.post('/', async (request, response, next) => {
   const { body } = request;
 
   // This hash the password with the number of salt rounds
