@@ -8,9 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 const jwt = require('jsonwebtoken');
 const logger = require('./logger');
-const User = require('../models/user'); // Needed to populate the user object
+// const User = require('../models/user'); // Needed to populate the user object
+const user_1 = __importDefault(require("../models/user"));
 const requestLogger = (request, response, next) => {
     logger.info('Method: ', request.method);
     logger.info('Path:  ', request.path);
@@ -57,7 +62,7 @@ const userExtractor = (request, response, next) => __awaiter(void 0, void 0, voi
                 next();
             }
             // Return the user from the decoded token
-            const user = yield User.findById(decodedToken.id);
+            const user = yield user_1.default.findById(decodedToken.id);
             request.user = user;
         }
     }

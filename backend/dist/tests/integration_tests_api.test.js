@@ -8,10 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 const supertest = require('supertest');
 const mongoose = require('mongoose');
-const Blog = require('../models/blog'); // With '..' go back 1 dir
-const User = require('../models/user'); // With '..' go back 1 dir
+// const Blog = require('../models/blog'); // With '..' go back 1 dir
+const blog_1 = __importDefault(require("../models/blog"));
+// const User = require('../models/user'); // With '..' go back 1 dir
+const user_1 = __importDefault(require("../models/user"));
 const helperToDB = require('./helper_to_db');
 const app = require('../app');
 const api = supertest(app);
@@ -23,10 +29,10 @@ const selectedUser = 0;
 let userID = 0;
 // This will run before every single test
 beforeEach(() => __awaiter(void 0, void 0, void 0, function* () {
-    yield User.deleteMany({});
+    yield user_1.default.deleteMany({});
     const usersWithoutHash = helperToDB.listOfUsersToDB;
     const preparedUsers = yield helperToDB.hashListOfUsers(usersWithoutHash);
-    const usersToAdd = preparedUsers.map(user => new User(user));
+    const usersToAdd = preparedUsers.map(user => new user_1.default(user));
     const promiseArrayOfUsers = usersToAdd.map(user => user.save());
     // This will wait for all the users to be saved to the DB
     const resp = yield Promise.all(promiseArrayOfUsers);
@@ -41,7 +47,7 @@ beforeEach(() => __awaiter(void 0, void 0, void 0, function* () {
     userToken = userLogin.body.token;
     // Gets the blogs array from helper_to_db.js to create an array of blogs
     // then an array of promises, an finally with Promise.all it's run in parallel
-    yield Blog.deleteMany({});
+    yield blog_1.default.deleteMany({});
     const promiseArrayOfBlogs = helperToDB.getArrayOfInitialBlogPromises(userID);
     numberOfBlogsAdded = promiseArrayOfBlogs.length;
     const blogsAddedToDB = yield Promise.all(promiseArrayOfBlogs);
@@ -345,7 +351,7 @@ describe('user portion in Blogs works appropriately', () => {
             .expect(201);
         const blogFromServ = resp.body;
         // This will get the user ID returned
-        const userIdReturnedObject = yield User.findById(blogFromServ.user.id);
+        const userIdReturnedObject = yield user_1.default.findById(blogFromServ.user.id);
         // Just asking for a true value, instead of a null if it doesn't exist
         expect(!!userIdReturnedObject).toEqual(true);
     }));

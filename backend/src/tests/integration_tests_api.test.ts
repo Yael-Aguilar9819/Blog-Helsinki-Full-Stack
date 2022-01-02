@@ -1,7 +1,9 @@
 const supertest = require('supertest');
 const mongoose = require('mongoose');
-const Blog = require('../models/blog'); // With '..' go back 1 dir
-const User = require('../models/user'); // With '..' go back 1 dir
+// const Blog = require('../models/blog'); // With '..' go back 1 dir
+import Blog from '../models/blog'
+// const User = require('../models/user'); // With '..' go back 1 dir
+import User from '../models/user'
 const helperToDB = require('./helper_to_db');
 const app = require('../app');
 

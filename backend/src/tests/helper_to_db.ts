@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
-const Blog = require('../models/blog');
-const User = require('../models/user');
+// const Blog = require('../models/blog');
+// const User = require('../models/user');
+import Blog from '../models/blog'
+import User from '../models/user'
 
 const listOfBlogsToDB = [
   {

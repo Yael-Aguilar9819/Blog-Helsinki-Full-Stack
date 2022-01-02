@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const logger = require('./logger');
-const User = require('../models/user'); // Needed to populate the user object
+// const User = require('../models/user'); // Needed to populate the user object
+import User from '../models/user'
 
 const requestLogger = (request, response, next) => {
   logger.info('Method: ', request.method);

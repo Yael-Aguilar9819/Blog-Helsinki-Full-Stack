@@ -8,9 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 const bcrypt = require('bcrypt');
-const Blog = require('../models/blog');
-const User = require('../models/user');
+// const Blog = require('../models/blog');
+// const User = require('../models/user');
+const blog_1 = __importDefault(require("../models/blog"));
+const user_1 = __importDefault(require("../models/user"));
 const listOfBlogsToDB = [
     {
         title: 'Typescript patterns',
@@ -60,7 +66,7 @@ const blogWithoutTitle = {
 };
 // So it's less cumebrsome to access all of the blogs currently in the remote DB
 const blogsInRemoteDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const blogs = yield Blog.find({});
+    const blogs = yield blog_1.default.find({});
     // Returns an array of blogs
     return blogs.map(blog => blog.toJSON());
 });
@@ -84,7 +90,7 @@ const ObjectsHaveDifferentValuesOrCats = (baseObject, objectToCompare) => {
     return isThereADifference;
 };
 const usersInRemoteDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const users = yield User.find({});
+    const users = yield user_1.default.find({});
     // Returns an array of users with all it's characteristics
     return users.map(user => user.toJSON());
 });
@@ -151,7 +157,7 @@ const getArrayOfInitialBlogPromises = userID => {
         blog.user = userID;
         return blog;
     });
-    const blogsToAdd = blogWithUserAdded.map(blog => new Blog(blog));
+    const blogsToAdd = blogWithUserAdded.map(blog => new blog_1.default(blog));
     const promiseArrayOfBlogs = blogsToAdd.map(blog => blog.save());
     return promiseArrayOfBlogs;
 };
@@ -159,7 +165,7 @@ const getArrayOfInitialBlogPromises = userID => {
 // this time it's necessary to make it async
 // Because it modifies the same parameter each time
 const addBlogsToUser = (userID, arrayOfBlogsReturned) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield User.findById(userID);
+    const user = yield user_1.default.findById(userID);
     user.blogs = user.blogs.concat(arrayOfBlogsReturned.map(blog => blog._id));
     yield user.save();
 });
