@@ -25,4 +25,7 @@ blogSchema.set('toJSON', {
 /* eslint-enable no-param-reassign */
 
 // This makes the module available to the rest of the app
-module.exports = mongoose.model('Blog', blogSchema); // The first argument defines how the collection is going to be named
+// module.exports = mongoose.model('Blog', blogSchema); // The first argument defines how the collection is going to be named
+const Blog = mongoose.model('Blog', blogSchema);
+
+export default Blog;

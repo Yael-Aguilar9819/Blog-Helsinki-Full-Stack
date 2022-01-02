@@ -1,7 +1,8 @@
 // const mongoose = require('mongoose');
 import mongoose from 'mongoose';
 // Installed with 'npm install mongoose-unique-validator'
-const uniqueValidator = require('mongoose-unique-validator');
+// const uniqueValidator = require('mongoose-unique-validator');
+import {mongoose-unique-validator} from 'mongoose-unique-validator';
 
 const userSchema = new mongoose.Schema({
   username: {

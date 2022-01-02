@@ -8,13 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 const blogRouter = require('express').Router();
-const Blog = require('../models/blog'); // With '..' go back 1 dir
+// const Blog = require('../models/blog'); // With '..' go back 1 dir
+const blog_1 = __importDefault(require("../models/blog"));
 // This are the main routes of the blog file
 // Now it's refactored into an async/await functions
 blogRouter.get('/', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     // populate fills the user target with it's id, username, and name
-    const allBlogs = yield Blog.find({}).populate('user', { username: 1, name: 1 });
+    const allBlogs = yield blog_1.default.find({}).populate('user', { username: 1, name: 1 });
     response.json(allBlogs);
 }));
 blogRouter.post('/', (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -23,10 +28,10 @@ blogRouter.post('/', (request, response, next) => __awaiter(void 0, void 0, void
         const { user } = request;
         // The body is directly modified to add the user ID
         request.body.user = user._id;
-        const blog = new Blog(request.body);
+        const blog = new blog_1.default(request.body);
         const blogSaved = yield blog.save();
         // Another request to get the user populated automatically
-        const blogFromServ = yield Blog.findById(blogSaved)
+        const blogFromServ = yield blog_1.default.findById(blogSaved)
             .populate('user', { username: 1, name: 1 });
         // The user is modified automatically, it's not necessary to do it manually
         yield saveBlogIDinUserCollection(request.user, blogFromServ);
@@ -41,7 +46,7 @@ blogRouter.delete('/:id', (request, response, next) => __awaiter(void 0, void 0,
     try {
         // The token is correct and exists, but it's not known
         // if the user deleting the blog Its the same as the one who created it
-        const blogToDelete = yield Blog.findById(request.params.id);
+        const blogToDelete = yield blog_1.default.findById(request.params.id);
         if (!blogToDelete) {
             return response.status(404).json({ error: 'Blog was not found' });
         }
@@ -52,7 +57,7 @@ blogRouter.delete('/:id', (request, response, next) => __awaiter(void 0, void 0,
             return response.status(401).json({ error: 'Only the creator can delete its own blogs' });
         }
         // With this function, it goes, removes it, and returns back that deleted object
-        yield Blog.findByIdAndRemove(request.params.id);
+        yield blog_1.default.findByIdAndRemove(request.params.id);
         response.status(204).end();
     }
     catch (exception) {
@@ -64,7 +69,7 @@ blogRouter.put('/:id', (request, response, next) => __awaiter(void 0, void 0, vo
         // request.params is an object made of the arguments in the URL
         // With new : true, it returns the updated object, the default will return the old object
         // and .populate asks the DB to query the ID and return a full user
-        const resp = yield Blog.findByIdAndUpdate(request.params.id, request.body, { new: true })
+        const resp = yield blog_1.default.findByIdAndUpdate(request.params.id, request.body, { new: true })
             .populate('user', { username: 1, name: 1 });
         response.status(200).json(resp);
     }

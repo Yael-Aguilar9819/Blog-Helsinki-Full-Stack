@@ -18,11 +18,10 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 // const Response = require('express').Response();
 // const bcrypt = require('bcrypt');
 const bcrypt_1 = __importDefault(require("bcrypt"));
-// const loginRouter = require('express').Router();
-const express_1 = require("express");
+const loginRouter = require('express').Router();
 // const User = require('../models/user');
 const user_1 = __importDefault(require("../models/user"));
-express_1.Router.post('/', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+loginRouter.post('/', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     // to simplify usage, added the body variable
     const { body } = request;
     const user = yield user_1.default.findOne({ username: body.username });
@@ -53,4 +52,4 @@ express_1.Router.post('/', (request, response) => __awaiter(void 0, void 0, void
         .status(200)
         .send({ token, username: user.username, name: user.name });
 }));
-module.exports = express_1.Router;
+module.exports = loginRouter;

@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // const mongoose = require('mongoose');
 const mongoose_1 = __importDefault(require("mongoose"));
-// Installed with 'npm install mongoose-unique-validator'
-const uniqueValidator = require('mongoose-unique-validator');
+from;
+'mongoose-unique-validator';
 const userSchema = new mongoose_1.default.Schema({
     username: {
         type: String,
@@ -41,5 +41,5 @@ userSchema.set('toJSON', {
 userSchema.plugin(uniqueValidator);
 // This is what makes it a valid model to mongoose
 const User = mongoose_1.default.model('User', userSchema);
-// module.exports = User;  
+// module.exports = User;
 exports.default = User;
