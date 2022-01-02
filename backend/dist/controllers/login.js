@@ -8,14 +8,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const loginRouter = require('express').Router();
-const User = require('../models/user');
-loginRouter.post('/', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+// const jwt = require('jsonwebtoken');
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+// import express from 'express';
+// const Response = require('express').Response();
+// const bcrypt = require('bcrypt');
+const bcrypt_1 = __importDefault(require("bcrypt"));
+// const loginRouter = require('express').Router();
+const express_1 = require("express");
+// const User = require('../models/user');
+const user_1 = __importDefault(require("../models/user"));
+express_1.Router.post('/', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     // to simplify usage, added the body variable
     const { body } = request;
-    const user = yield User.findOne({ username: body.username });
+    const user = yield user_1.default.findOne({ username: body.username });
     if (!body.password) {
         return response.status(401).json({
             error: 'password was not given',
@@ -24,7 +34,7 @@ loginRouter.post('/', (request, response) => __awaiter(void 0, void 0, void 0, f
     const passwordCorrect = user === null
         ? false
         // this will compare the password given with the hash using bcrypt
-        : yield bcrypt.compare(body.password, user.passwordHash);
+        : yield bcrypt_1.default.compare(body.password, user.passwordHash);
     // if it fails, it's going to return this
     if (!(user && passwordCorrect)) {
         return response.status(401).json({
@@ -37,10 +47,10 @@ loginRouter.post('/', (request, response) => __awaiter(void 0, void 0, void 0, f
         username: user.username,
         id: user._id,
     };
-    const token = jwt.sign(userForToken, process.env.SECRET);
+    const token = jsonwebtoken_1.default.sign(userForToken, process.env.SECRET);
     // Then it's send back to the user
     return response
         .status(200)
         .send({ token, username: user.username, name: user.name });
 }));
-module.exports = loginRouter;
+module.exports = express_1.Router;

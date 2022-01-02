@@ -1,13 +1,13 @@
 // const jwt = require('jsonwebtoken');
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 // import express from 'express';
 // const Response = require('express').Response();
 // const bcrypt = require('bcrypt');
 import bcrypt from 'bcrypt';
 // const loginRouter = require('express').Router();
-import {Request, Response, Router as loginRouter} from 'express'
+import { Request, Response, Router as loginRouter } from 'express';
 // const User = require('../models/user');
-import User from '../models/user'
+import User from '../models/user';
 
 loginRouter.post('/', async (request: Request, response: Response) => {
   // to simplify usage, added the body variable

@@ -1,8 +1,13 @@
 "use strict";
-const mongoose = require('mongoose');
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+// const mongoose = require('mongoose');
+const mongoose_1 = __importDefault(require("mongoose"));
 // Installed with 'npm install mongoose-unique-validator'
 const uniqueValidator = require('mongoose-unique-validator');
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose_1.default.Schema({
     username: {
         type: String,
         required: true,
@@ -15,7 +20,7 @@ const userSchema = new mongoose.Schema({
     // This is a reference to the Blog model in another file
     blogs: [
         {
-            type: mongoose.Schema.Types.ObjectId,
+            type: mongoose_1.default.Schema.Types.ObjectId,
             ref: 'Blog',
         },
     ],
@@ -23,7 +28,7 @@ const userSchema = new mongoose.Schema({
 // It's necessary to reassign params in this case, because otherwise it would return a lint error
 /* eslint-disable no-param-reassign */
 userSchema.set('toJSON', {
-    transform: (document, returnedObject) => {
+    transform: (_document, returnedObject) => {
         returnedObject.id = returnedObject._id.toString();
         delete returnedObject._id;
         delete returnedObject.__v;
@@ -35,5 +40,6 @@ userSchema.set('toJSON', {
 // This is what 'unifies' the unique-validator with the userSchema
 userSchema.plugin(uniqueValidator);
 // This is what makes it a valid model to mongoose
-const User = mongoose.model('User', userSchema);
-module.exports = User;
+const User = mongoose_1.default.model('User', userSchema);
+// module.exports = User;  
+exports.default = User;
