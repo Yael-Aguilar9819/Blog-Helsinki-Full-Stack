@@ -8,12 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const bcrypt = require('bcrypt');
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+// const bcrypt = require('bcrypt');
+const bcrypt_1 = __importDefault(require("bcrypt"));
 const userRouter = require('express').Router();
-const User = require('../models/user');
+// const User = require('../models/user');
+const user_1 = __importDefault(require("../models/user"));
 const minimumPasswordLength = 3;
 userRouter.get('/', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
-    const allUsers = yield User.find({}).populate('blogs', {
+    const allUsers = yield user_1.default.find({}).populate('blogs', {
         url: 1, title: 1, author: 1, id: 1,
     });
     response.json(allUsers);
@@ -26,7 +32,7 @@ userRouter.post('/', (request, response, next) => __awaiter(void 0, void 0, void
     // otherwise, it stays undefined, so the mongoose validators can catch it
     const saltRounds = 10;
     const passwordHash = body.password
-        ? yield bcrypt.hash(body.password, saltRounds)
+        ? yield bcrypt_1.default.hash(body.password, saltRounds)
         : undefined;
     // If it's false, it going to terminate the route early
     if (!checkPasswordLength(body.password, minimumPasswordLength)) {
@@ -35,7 +41,7 @@ userRouter.post('/', (request, response, next) => __awaiter(void 0, void 0, void
     // This could fail due to how the model is implemented, so try/except is used
     try {
         // This what creates a new user
-        const user = new User({
+        const user = new user_1.default({
             username: body.username,
             name: body.name,
             passwordHash,

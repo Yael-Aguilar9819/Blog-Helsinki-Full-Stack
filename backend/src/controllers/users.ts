@@ -1,6 +1,8 @@
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt'
 const userRouter = require('express').Router();
-const User = require('../models/user');
+// const User = require('../models/user');
+import User from '../models/user'
 
 const minimumPasswordLength = 3;
 
